@@ -1,4 +1,8 @@
 <?php
+/**
+ * Author: Bozhidar Slaveykov
+ */
+
 require_once 'src/TranslateManager.php';
 
 $translate = new TranslateManager();
