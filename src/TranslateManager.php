@@ -29,6 +29,15 @@ class TranslateManager
 
             if (isset($params['url'])) {
 
+                $segments = mw()->url_manager->segments();
+
+                if (isset($segments[0])) {
+                    $langSegment = $segments[0];
+                    $_COOKIE['lang'] = $langSegment;
+                }
+
+                return $params;
+
                 $filter = array();
                 $filter['single'] = 1;
                 $filter['rel_type'] = 'content';
@@ -38,11 +47,10 @@ class TranslateManager
                 $findTranslate = db_get('translations', $filter);
 
                 if ($findTranslate) {
+
                     $new_params = array();
                     $new_params['id'] = $findTranslate['rel_id'];
                     $new_params['single'] = 1;
-
-                    mw()->lang_helper->set_current_lang($findTranslate['locale']);
 
                     return $new_params;
 
