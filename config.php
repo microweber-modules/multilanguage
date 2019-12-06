@@ -16,5 +16,10 @@ $config['tables'] = array(
         'field_name' => 'string',
         'field_value' => 'text',
         'locale' => 'string',
+    ),
+    'supported_locales' => array(
+        'id' => 'integer',
+        'locale' => 'string',
+        'language' => 'string'
     )
 );

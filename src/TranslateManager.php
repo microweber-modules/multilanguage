@@ -46,7 +46,7 @@ class TranslateManager
                 $filter['rel_type'] = 'content';
                 $filter['field_name'] = 'url';
                 $filter['field_value'] = $targetUrl;
-                
+
                 $findTranslate = db_get('translations', $filter);
 
                 if ($findTranslate) {

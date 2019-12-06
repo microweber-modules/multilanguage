@@ -1,1 +1,90 @@
-<?php only_admin_access(); ?>
+<?php
+only_admin_access();
+/**
+ * Dev: Bozhidar Slaveykov
+ * Emai: bobi@microweber.com
+ * Date: 11/18/2019
+ * Time: 10:26 AM
+ */
+?>
+
+<?php if (isset($params['backend'])): ?>
+    <module type="admin/modules/info"/>
+<?php endif; ?>
+
+<?php
+$langs = mw()->lang_helper->get_all_lang_codes();
+?>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+
+        add_language_key = false;
+        add_language_value = false;
+
+        $('.js-add-language').on('click', function () {
+
+            if (add_language_key == false || add_language_value == false) {
+                mw.notification.error('<?php _e('Please, select language.'); ?>');
+                return;
+            }
+
+            $.post(mw.settings.api_url + "add_language", { locale: add_language_key, language: add_language_value })
+                .done(function(data) {
+                    mw.reload_module_everywhere('multilanguage/list_supported_languages');
+                });
+        });
+
+
+        $('#add_language_ul li').on('click', function () {
+
+            var key = $(this).data('key');
+            var value = $(this).data('value');
+
+            add_language_key = key;
+            add_language_value = value;
+
+            $('.js-dropdown-text-language').html('<span class="flag-icon flag-icon-'+key+' m-r-10" style=""></span>' + value);
+
+        });
+    });
+</script>
+
+<script>
+    mw.lib.require('flag_icons');
+</script>
+
+<div id="mw-admin-content" class="admin-side-content">
+    <div class="mw_edit_page_default" id="mw_edit_page_left">
+        <div class="mw-ui-box mw-ui-box-content" data-view="" style="margin-top: 15px;">
+
+            <style>
+                .js-dropdown-text-language{
+                    justify-content: start;
+                }
+            </style>
+
+            <div style="max-height: 300px;">
+                <label class="mw-ui-label"><?php _e('Add new language');?></label>
+                <?php if($langs) : ?>
+                    <div class="mw-dropdown mw-dropdown-default" style="width:300px;">
+                        <span class="mw-dropdown-value mw-ui-btn mw-ui-btn-normal mw-dropdown-val js-dropdown-text-language">
+                            <span class=""></span> <?php _e('Select Language...'); ?>
+                        </span>
+                        <div class="mw-dropdown-content">
+                            <ul id="add_language_ul" style="max-height: 300px;">
+                                <?php foreach($langs as $key=>$lang): ?>
+                                    <li data-key="<?php print $key ?>" data-value="<?php print $lang ?>" style="color:#000;"><span class="flag-icon flag-icon-<?php echo get_flag_icon($key); ?> m-r-10"></span><?php print $lang ?></li>
+                                <?php endforeach; ?>
+                            </ul>
+                        </div>
+                    </div>
+                <?php endif; ?>
+                <button class="mw-ui-btn mw-ui-btn-normal mw-ui-btn-notification js-add-language"><span class="mw-icon-plus"></span> &nbsp; <?php _e('Add');?></button>
+            </div>
+
+            <module type="multilanguage/list_supported_languages" />
+
+        </div>
+    </div>
+</div>

@@ -32,6 +32,30 @@ function change_language_by_locale($locale) {
     return mw()->lang_helper->set_current_lang($locale);
 }
 
+api_expose('add_language', function () {
+    if (isset($_POST['locale']) && isset($_POST['language'])) {
+
+        $locale = $_POST['locale'];
+        $language = $_POST['language'];
+
+        $get = array();
+        $get['locale'] = $locale;
+        $get['single'] = true;
+        $get['no_cache'] = true;
+        $find = db_get('supported_locales', $get);
+
+        if (!$find) {
+            $save = array();
+            $save['locale'] = $locale;
+            $save['language'] = $language;
+            return db_save('supported_locales', $save);
+        }
+
+        return $find['id'];
+    }
+    return false;
+});
+
 api_expose('change_language', function () {
     if (isset($_POST['locale'])) {
         return change_language_by_locale($_POST['locale']);
