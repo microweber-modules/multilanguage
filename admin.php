@@ -31,7 +31,8 @@ $langs = mw()->lang_helper->get_all_lang_codes();
 
             $.post(mw.settings.api_url + "add_language", { locale: add_language_key, language: add_language_value })
                 .done(function(data) {
-                    mw.reload_module_everywhere('multilanguage/list_supported_languages');
+                    mw.reload_module_everywhere('multilanguage/list');
+                   // mw.reload_module('multilanguage/change_language');
                 });
         });
 
@@ -83,7 +84,7 @@ $langs = mw()->lang_helper->get_all_lang_codes();
                 <button class="mw-ui-btn mw-ui-btn-normal mw-ui-btn-notification js-add-language"><span class="mw-icon-plus"></span> &nbsp; <?php _e('Add');?></button>
             </div>
 
-            <module type="multilanguage/list_supported_languages" />
+            <module type="multilanguage/list" />
 
         </div>
     </div>
