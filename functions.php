@@ -10,13 +10,14 @@ $translate->run();
 
 function get_flag_icon($locale)
 {
-    if ($locale == 'en') {
-        $icon_key = 'us';
-    } else {
-        $icon_key = $locale;
+
+    if(strlen($locale) == 2) {
+        return $locale;
     }
 
-    return $icon_key;
+    $exp = explode("_", $locale);
+
+    return strtolower($exp[1]);
 }
 
 function change_language_by_locale($locale) {
@@ -41,7 +42,7 @@ api_expose('delete_language', function () {
         $get['no_cache'] = true;
 
         $find = db_get('supported_locales', $get);
-        
+
         if ($find) {
             return db_delete('supported_locales', $find['id']);
         }

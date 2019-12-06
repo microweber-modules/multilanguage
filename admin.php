@@ -13,7 +13,7 @@ only_admin_access();
 <?php endif; ?>
 
 <?php
-$langs = mw()->lang_helper->get_all_lang_codes();
+$langs = mw()->lang_helper->get_all_locales();
 ?>
 
 <script type="text/javascript">
@@ -76,6 +76,7 @@ $langs = mw()->lang_helper->get_all_lang_codes();
             <div style="max-height: 300px;">
                 <label class="mw-ui-label"><?php _e('Add new language');?></label>
                 <?php if($langs) : ?>
+
                     <div class="mw-dropdown mw-dropdown-default" style="width:300px;">
                         <span class="mw-dropdown-value mw-ui-btn mw-ui-btn-normal mw-dropdown-val js-dropdown-text-language">
                             <span class=""></span> <?php _e('Select Language...'); ?>
