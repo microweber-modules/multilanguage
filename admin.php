@@ -49,6 +49,14 @@ $langs = mw()->lang_helper->get_all_lang_codes();
 
         });
     });
+
+    function deleteSuportedLanguage(language_key) {
+        $.post(mw.settings.api_url + "delete_language", { locale: language_key })
+            .done(function(data) {
+                mw.reload_module_everywhere('multilanguage/list');
+                // mw.reload_module('multilanguage/change_language');
+            });
+    }
 </script>
 
 <script>

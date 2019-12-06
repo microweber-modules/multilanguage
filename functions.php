@@ -32,6 +32,22 @@ function change_language_by_locale($locale) {
     return mw()->lang_helper->set_current_lang($locale);
 }
 
+api_expose('delete_language', function () {
+    if (isset($_POST['locale'])) {
+
+        $get = array();
+        $get['locale'] = $_POST['locale'];
+        $get['single'] = true;
+        $get['no_cache'] = true;
+
+        $find = db_get('supported_locales', $get);
+        
+        if ($find) {
+            return db_delete('supported_locales', $find['id']);
+        }
+    }
+});
+
 api_expose('add_language', function () {
     if (isset($_POST['locale']) && isset($_POST['language'])) {
 
