@@ -22,42 +22,63 @@ class TranslateManager
 
     public function run()
     {
-
-
         //if ($currentLocale != $defaultLocale) {
-        event_bind('content.get_by_url.not_found', function ($params)  {
+        event_bind('content.get_by_url', function ($url)  {
 
-            if (isset($params['url'])) {
+            if (!empty($url)) {
 
-                $segments = mw()->url_manager->segments();
-
-                if (isset($segments[0])) {
-                    $langSegment = $segments[0];
-                    $_COOKIE['lang'] = $langSegment;
+                $targetUrl = $url;
+                $targetLang = false;
+                $segments = explode('/', $url);
+                if (count($segments) == 2) {
+                    $targetLang = $segments[0];
+                    $targetUrl = $segments[1];
                 }
 
-                return $params;
+                if (!$targetLang) {
+                    return;
+                }
+
+                change_language_by_locale($targetLang);
 
                 $filter = array();
                 $filter['single'] = 1;
                 $filter['rel_type'] = 'content';
                 $filter['field_name'] = 'url';
-                $filter['field_value'] = $params['url'];
-
+                $filter['field_value'] = $targetUrl;
+                
                 $findTranslate = db_get('translations', $filter);
 
                 if ($findTranslate) {
 
-                    $new_params = array();
-                    $new_params['id'] = $findTranslate['rel_id'];
-                    $new_params['single'] = 1;
+                    $get = array();
+                    $get['id'] = $findTranslate['rel_id'];
+                    $get['single'] = true;
+                    $content = mw()->content_manager->get($get);
 
-                    return $new_params;
+                    if ($content['url'] == $findTranslate['field_value']) {
+                        return $content;
+                    } else {
+                        // Redirect to target lang & finded content url
+                        header('Cache-Control: no-store, no-cache, must-revalidate, post-check=0, pre-check=0');
+                        header('Expires: Sat, 26 Jul 1997 05:00:00 GMT');
+                        header('HTTP/1.1 301');
+                        header('Location: ' . site_url() . $targetLang .'/' . $content['url']);
+                        exit;
+                    }
+                } else {
+                    $get = array();
+                    $get['url'] = $targetUrl;
+                    $get['single'] = true;
 
+                    $content = mw()->content_manager->get($get);
+                    if ($content) {
+                        return $content;
+                    }
                 }
-
-
             }
+
+            return;
         });
 
         $currentLocale = mw()->lang_helper->current_lang();

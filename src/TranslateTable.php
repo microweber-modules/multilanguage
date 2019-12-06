@@ -84,6 +84,8 @@ class TranslateTable {
                 $data[$column] = $translate['field_value'];
             }
 
+            $data['item_lang'] = $filter['locale'];
+
         }
 
         return $data;
