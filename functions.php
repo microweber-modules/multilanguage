@@ -36,7 +36,7 @@ function change_language_by_locale($locale) {
         return false;
     }
 
-    setcookie('lang', $locale_first);
+    $_COOKIE['lang'] = $locale_first;
 
     mw()->lang_helper->set_current_lang($locale_first);
 
