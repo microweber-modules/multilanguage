@@ -27,7 +27,7 @@ function change_language_by_locale($locale) {
         $locale_first = $locale;
     } else {
         $exp = explode("_", $locale);
-        $locale_first = strtolower($exp[1]);
+        $locale_first = strtolower($exp[0]);
     }
 
     $langs = mw()->lang_helper->get_all_lang_codes();
@@ -38,7 +38,9 @@ function change_language_by_locale($locale) {
 
     setcookie('lang', $locale_first);
 
-    return mw()->lang_helper->set_current_lang($locale_first);
+    mw()->lang_helper->set_current_lang($locale_first);
+
+    return true;
 }
 
 api_expose('delete_language', function () {
