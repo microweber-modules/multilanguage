@@ -102,11 +102,13 @@ event_bind('menu.after.get_item', function ($menu) {
 
     if (isset($menu['url']) && !empty($menu['url']) && $menu['url'] !== site_url()) {
 
+        $default_lang = get_option('language', 'website');
         $current_lang = mw()->lang_helper->current_lang();
 
-        $new_url = str_replace(site_url(), site_url() . $current_lang . '/', $menu['url']);
-
-        $menu['url'] = $new_url;
+        if ($default_lang !== $current_lang) {
+            $new_url = str_replace(site_url(), site_url() . $current_lang . '/', $menu['url']);
+            $menu['url'] = $new_url;
+        }
     }
 
     return $menu;
