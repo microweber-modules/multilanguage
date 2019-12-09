@@ -22,65 +22,6 @@ class TranslateManager
 
     public function run()
     {
-        //if ($currentLocale != $defaultLocale) {
-        event_bind('content.get_by_url', function ($url)  {
-
-            if (!empty($url)) {
-
-                $targetUrl = $url;
-                $targetLang = false;
-                $segments = explode('/', $url);
-                if (count($segments) == 2) {
-                    $targetLang = $segments[0];
-                    $targetUrl = $segments[1];
-                }
-
-                if (!$targetLang) {
-                    return;
-                }
-
-                change_language_by_locale($targetLang);
-
-                $filter = array();
-                $filter['single'] = 1;
-                $filter['rel_type'] = 'content';
-                $filter['field_name'] = 'url';
-                $filter['field_value'] = $targetUrl;
-
-                $findTranslate = db_get('translations', $filter);
-
-                if ($findTranslate) {
-
-                    $get = array();
-                    $get['id'] = $findTranslate['rel_id'];
-                    $get['single'] = true;
-                    $content = mw()->content_manager->get($get);
-
-                    if ($content['url'] == $findTranslate['field_value']) {
-                        return $content;
-                    } else {
-                        // Redirect to target lang & finded content url
-                        header('Cache-Control: no-store, no-cache, must-revalidate, post-check=0, pre-check=0');
-                        header('Expires: Sat, 26 Jul 1997 05:00:00 GMT');
-                        header('HTTP/1.1 301');
-                        header('Location: ' . site_url() . $targetLang .'/' . $content['url']);
-                        exit;
-                    }
-                } else {
-                    $get = array();
-                    $get['url'] = $targetUrl;
-                    $get['single'] = true;
-
-                    $content = mw()->content_manager->get($get);
-                    if ($content) {
-                        return $content;
-                    }
-                }
-            }
-
-            return;
-        });
-
         $currentLocale = mw()->lang_helper->current_lang();
         $defaultLocale = mw()->lang_helper->default_lang();
 
