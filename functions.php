@@ -22,15 +22,23 @@ function get_flag_icon($locale)
 
 function change_language_by_locale($locale) {
 
+    $locale_first = false;
+    if(strlen($locale) == 2) {
+        $locale_first = $locale;
+    } else {
+        $exp = explode("_", $locale);
+        $locale_first = strtolower($exp[1]);
+    }
+
     $langs = mw()->lang_helper->get_all_lang_codes();
 
-    if (!is_string($locale) || !array_key_exists($locale, $langs)) {
+    if (!is_string($locale_first) || !array_key_exists($locale_first, $langs)) {
         return false;
     }
 
-    $_COOKIE['lang'] = $locale;
+    setcookie('lang', $locale_first);
 
-    return mw()->lang_helper->set_current_lang($locale);
+    return mw()->lang_helper->set_current_lang($locale_first);
 }
 
 api_expose('delete_language', function () {

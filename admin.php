@@ -12,6 +12,12 @@ only_admin_access();
     <module type="admin/modules/info"/>
 <?php endif; ?>
 
+<style>
+    .js-dropdown-text-language{
+        justify-content: start;
+    }
+</style>
+
 <?php
 $langs = mw()->lang_helper->get_all_locales();
 ?>
@@ -66,13 +72,6 @@ $langs = mw()->lang_helper->get_all_locales();
 <div id="mw-admin-content" class="admin-side-content">
     <div class="mw_edit_page_default" id="mw_edit_page_left">
         <div class="mw-ui-box mw-ui-box-content" data-view="" style="margin-top: 15px;">
-
-            <style>
-                .js-dropdown-text-language{
-                    justify-content: start;
-                }
-            </style>
-
             <div style="max-height: 300px;">
                 <label class="mw-ui-label"><?php _e('Add new language');?></label>
                 <?php if($langs) : ?>
@@ -92,9 +91,7 @@ $langs = mw()->lang_helper->get_all_locales();
                 <?php endif; ?>
                 <button class="mw-ui-btn mw-ui-btn-normal mw-ui-btn-notification js-add-language"><span class="mw-icon-plus"></span> &nbsp; <?php _e('Add');?></button>
             </div>
-
             <module type="multilanguage/list" />
-
         </div>
     </div>
 </div>
