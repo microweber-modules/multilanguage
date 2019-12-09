@@ -8,9 +8,19 @@ require_once 'src/TranslateManager.php';
 $translate = new TranslateManager();
 $translate->run();
 
+function get_short_abr($locale) {
+
+    if(strlen($locale) == 2) {
+        return $locale;
+    }
+
+    $exp = explode("_", $locale);
+
+    return strtolower($exp[0]);
+}
+
 function get_flag_icon($locale)
 {
-
     if(strlen($locale) == 2) {
         return $locale;
     }
@@ -22,25 +32,24 @@ function get_flag_icon($locale)
 
 function change_language_by_locale($locale) {
 
-    $locale_first = false;
-    if(strlen($locale) == 2) {
-        $locale_first = $locale;
-    } else {
-        $exp = explode("_", $locale);
-        $locale_first = strtolower($exp[0]);
-    }
+    $locale = get_short_abr($locale);
 
     $langs = mw()->lang_helper->get_all_lang_codes();
 
-    if (!is_string($locale_first) || !array_key_exists($locale_first, $langs)) {
+    if (!is_string($locale) || !array_key_exists($locale, $langs)) {
         return false;
     }
 
-    $_COOKIE['lang'] = $locale_first;
+    $_COOKIE['lang'] = $locale;
 
-    mw()->lang_helper->set_current_lang($locale_first);
+    $option = array();
+    $option['option_value'] = $locale;
+    $option['option_key'] = 'language';
+    $option['option_group'] = 'website';
 
-    return true;
+    save_option($option);
+
+    return mw()->lang_helper->set_current_lang($locale);
 }
 
 api_expose('delete_language', function () {

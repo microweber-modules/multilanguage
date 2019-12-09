@@ -19,7 +19,7 @@ only_admin_access();
 </style>
 
 <?php
-$langs = mw()->lang_helper->get_all_locales();
+$langs = mw()->lang_helper->get_all_lang_codes();
 ?>
 
 <script type="text/javascript">
