@@ -9,9 +9,10 @@ require_once 'src/TranslateManager.php';
 $translate = new TranslateManager();
 $translate->run();
 
-function get_short_abr($locale) {
+function get_short_abr($locale)
+{
 
-    if(strlen($locale) == 2) {
+    if (strlen($locale) == 2) {
         return $locale;
     }
 
@@ -22,7 +23,7 @@ function get_short_abr($locale) {
 
 function get_flag_icon($locale)
 {
-    if(strlen($locale) == 2) {
+    if (strlen($locale) == 2) {
         return $locale;
     }
 
@@ -31,7 +32,8 @@ function get_flag_icon($locale)
     return strtolower($exp[1]);
 }
 
-function change_language_by_locale($locale) {
+function change_language_by_locale($locale)
+{
 
     // $locale = get_short_abr($locale);
 
@@ -81,16 +83,40 @@ api_expose('add_language', function () {
 });
 
 api_expose('change_language', function () {
-    if (isset($_POST['locale'])) {
-        return change_language_by_locale($_POST['locale']);
+
+    $json = array();
+    $locale = $_POST['locale'];
+
+    if (!is_lang_correct($locale)) {
+        return array('error' => _e('Locale is not supported'));
     }
-    return false;
+
+    change_language_by_locale($locale);
+
+    if (isset($_POST['is_admin']) && $_POST['is_admin'] == 1) {
+        $json['refresh'] = true;
+    } else {
+        $targetUrl = mw()->url_manager->string(true);
+        $detect = detect_lang_from_url($targetUrl);
+
+        $json['refresh'] = true;
+        if ($detect['target_url']) {
+            $json['location'] = site_url($locale . '/' . $detect['target_url']);
+        }
+
+    }
+
+    return $json;
 });
 
 event_bind('mw.admin.header.toolbar', function () {
     echo '<div class="mw-ui-col pull-right">
          <module type="multilanguage/change_language"></module>
     </div>';
+});
+
+event_bind('live_edit_toolbar_action_buttons', function () {
+    echo '<module type="multilanguage/change_language"></module>';
 });
 
 event_bind('content.link.after', function ($link) {
@@ -125,7 +151,18 @@ event_bind('content.link.after', function ($link) {
 
 });*/
 
-function detect_lang_from_url($url) {
+function is_lang_correct($lang)
+{
+    $correct = false;
+    $langs = mw()->lang_helper->get_all_lang_codes();
+    if (is_string($lang) && array_key_exists($lang, $langs)) {
+        $correct = true;
+    }
+    return $correct;
+}
+
+function detect_lang_from_url($url)
+{
 
     $targetUrl = false;
     $targetLang = false;
@@ -135,15 +172,14 @@ function detect_lang_from_url($url) {
         $targetUrl = $segments[1];
     }
 
-    $langs = mw()->lang_helper->get_all_lang_codes();
-    if (!is_string($targetLang) || !array_key_exists($targetLang, $langs)) {
+    if (!is_lang_correct($targetLang)) {
         $targetLang = false;
     }
 
-    return array('target_lang'=>$targetLang, 'target_url'=>$targetUrl);
+    return array('target_lang' => $targetLang, 'target_url' => $targetUrl);
 }
 
-event_bind('mw.controller.index', function ()  {
+event_bind('mw.controller.index', function () {
 
     $targetUrl = mw()->url_manager->string();
     $detect = detect_lang_from_url($targetUrl);
@@ -154,9 +190,9 @@ event_bind('mw.controller.index', function ()  {
 
 });
 
-event_bind('mw.front.content_data', function ($content)  {
+event_bind('mw.front.content_data', function ($content) {
 
-    $redirect =  mw_var('should_redirect');
+    $redirect = mw_var('should_redirect');
     if ($redirect) {
         $content['original_link'] = $redirect;
     }
@@ -164,7 +200,7 @@ event_bind('mw.front.content_data', function ($content)  {
     return $content;
 });
 
-event_bind('content.get_by_url', function ($url)  {
+event_bind('content.get_by_url', function ($url) {
 
     if (!empty($url)) {
 
@@ -192,7 +228,7 @@ event_bind('content.get_by_url', function ($url)  {
             if ($content['url'] == $findTranslate['field_value']) {
                 return $content;
             } else {
-                mw_var('should_redirect',site_url() . $targetLang .'/' . $content['url']);
+                mw_var('should_redirect', site_url() . $targetLang . '/' . $content['url']);
                 return;
             }
         } else {
@@ -203,7 +239,7 @@ event_bind('content.get_by_url', function ($url)  {
             $content = mw()->content_manager->get($get);
             if ($content) {
                 if ($content['url'] !== $targetUrl) {
-                    mw_var('should_redirect',site_url() . $targetLang .'/' . $content['url']);
+                    mw_var('should_redirect', site_url() . $targetLang . '/' . $content['url']);
                     return;
                 }
                 return $content;

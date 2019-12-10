@@ -8,11 +8,19 @@ $currentLanguage = get_short_abr($currentLanguage);
     $(document).ready(function () {
         $('#switch_language_ul li').on('click', function () {
             var selected = $(this).data('value');
-            $.post(mw.settings.api_url + "change_language", { locale: selected })
+            var is_admin = <?php if (defined('MW_FRONTEND')) { echo 0; } else { echo 1; } ?>;
+            $.post(mw.settings.api_url + "change_language", { locale: selected, is_admin: is_admin })
                 .done(function(data) {
-                    location.reload();
+                    if (data.refresh) {
+                        if (data.location) {
+                            window.location.href = data.location;
+                        } else {
+                            location.reload();
+                        }
+                    }
                 });
         });
+        mw.dropdown();
     });
 </script>
 
