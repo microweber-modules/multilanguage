@@ -16,6 +16,10 @@ only_admin_access();
     .js-dropdown-text-language{
         justify-content: start;
     }
+    .mw-module-language-settings .mw-ui-btn,
+    .mw-module-language-settings .mw-dropdown{
+        vertical-align: top;
+    }
 </style>
 
 <?php
@@ -43,7 +47,7 @@ $langs = mw()->lang_helper->get_all_lang_codes();
         });
 
 
-        $('#add_language_ul li').on('click', function () {
+      /*  $('#add_language_ul li').on('click', function () {
 
             var key = $(this).data('key');
             var value = $(this).data('value');
@@ -53,7 +57,7 @@ $langs = mw()->lang_helper->get_all_lang_codes();
 
             $('.js-dropdown-text-language').html('<span class="flag-icon flag-icon-'+key+' m-r-10" style=""></span>' + value);
 
-        });
+        });*/
     });
 
     function deleteSuportedLanguage(language_key) {
@@ -70,15 +74,15 @@ $langs = mw()->lang_helper->get_all_lang_codes();
 </script>
 
 <div id="mw-admin-content" class="admin-side-content">
-    <div class="mw_edit_page_default" id="mw_edit_page_left">
-        <div class="mw-ui-box mw-ui-box-content" data-view="" style="margin-top: 15px;">
-            <div style="max-height: 300px;">
+    <div class="mw-module-language-settings">
+        <div class="mw-ui-box mw-ui-box-content">
+            <div>
                 <label class="mw-ui-label"><?php _e('Add new language');?></label>
                 <?php if($langs) : ?>
 
                     <div class="mw-dropdown mw-dropdown-default" style="width:300px;">
                         <span class="mw-dropdown-value mw-ui-btn mw-ui-btn-normal mw-dropdown-val js-dropdown-text-language">
-                            <span class=""></span> <?php _e('Select Language...'); ?>
+                            <?php _e('Select Language...'); ?>
                         </span>
                         <div class="mw-dropdown-content">
                             <ul id="add_language_ul" style="max-height: 300px;">

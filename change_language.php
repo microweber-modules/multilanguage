@@ -3,6 +3,14 @@ $supportedLanguages = db_get('supported_locales', array());
 $currentLanguage = mw()->lang_helper->current_lang();
 $currentLanguage = get_short_abr($currentLanguage);
 ?>
+<style>
+    .module-multilanguage-change-language .flag-icon{
+        margin-right: 7px;
+    }
+    .module-multilanguage-change-language{
+        display: inline-block;
+    }
+</style>
 <?php if (!empty($supportedLanguages)): ?>
 <script type="text/javascript">
     $(document).ready(function () {
@@ -29,7 +37,7 @@ $currentLanguage = get_short_abr($currentLanguage);
 </script>
 
 <div class="mw-dropdown mw-dropdown-default">
-    <span class="mw-dropdown-value mw-ui-btn mw-ui-btn-info mw-dropdown-val">
+    <span class="mw-dropdown-value mw-ui-btn mw-ui-btn-medium mw-ui-btn-info mw-dropdown-val">
         <span class="flag-icon flag-icon-<?php echo get_flag_icon($currentLanguage); ?> m-r-10"></span> <?php _e('Select Language...'); ?>
     </span>
     <div class="mw-dropdown-content">
