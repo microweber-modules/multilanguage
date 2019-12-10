@@ -41,6 +41,7 @@ class TranslateManager
                             $item = $providerInstance->getTranslate($item);
                         }
                     }
+
                     return $get;
                 });
 
@@ -61,8 +62,10 @@ class TranslateManager
                                     continue;
                                 }
 
-                                if (isset($saveData[$column])) {
-                                    unset($saveData[$column]);
+                                if (intval($saveData['id']) !== 0) {
+                                    if (isset($saveData[$column])) {
+                                        unset($saveData[$column]);
+                                    }
                                 }
                             }
 
@@ -70,6 +73,7 @@ class TranslateManager
                                 $providerInstance->saveOrUpdate($dataForTranslate);
                             }
                         }
+
                     }
 
                     return $saveData;

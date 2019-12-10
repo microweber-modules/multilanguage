@@ -9,6 +9,8 @@ class TranslateContent extends TranslateTable {
         'title',
         'url',
         'description',
+        'content',
+        'content_body',
         'content_meta_title',
         'content_meta_keywords'
     ];
