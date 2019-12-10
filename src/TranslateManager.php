@@ -5,6 +5,8 @@ require_once __DIR__ . '/TranslateTables/TranslateOption.php';
 require_once __DIR__ . '/TranslateTables/TranslateCategory.php';
 require_once __DIR__ . '/TranslateTables/TranslateContent.php';
 require_once __DIR__ . '/TranslateTables/TranslateContentFields.php';
+require_once __DIR__ . '/TranslateTables/TranslateCustomFields.php';
+require_once __DIR__ . '/TranslateTables/TranslateCustomFieldsValues.php';
 require_once __DIR__ . '/TranslateTables/TranslateTestimonials.php';
 
 class TranslateManager
@@ -16,6 +18,8 @@ class TranslateManager
         'TranslateCategory',
         'TranslateContent',
         'TranslateContentFields',
+        'TranslateCustomFields',
+        'TranslateCustomFieldsValues',
         'TranslateTestimonials'
     ];
 
