@@ -3,6 +3,7 @@
  * Author: Bozhidar Slaveykov
  */
 
+
 require_once 'src/TranslateManager.php';
 
 $translate = new TranslateManager();
@@ -32,15 +33,9 @@ function get_flag_icon($locale)
 
 function change_language_by_locale($locale) {
 
-    $locale = get_short_abr($locale);
+    // $locale = get_short_abr($locale);
 
-    $langs = mw()->lang_helper->get_all_lang_codes();
-
-    if (!is_string($locale) || !array_key_exists($locale, $langs)) {
-        return false;
-    }
-
-    $_COOKIE['lang'] = $locale;
+    setcookie('lang', $locale, time() + (86400 * 30), "/");
 
     return mw()->lang_helper->set_current_lang($locale);
 }
@@ -98,7 +93,22 @@ event_bind('mw.admin.header.toolbar', function () {
     </div>';
 });
 
-event_bind('menu.after.get_item', function ($menu) {
+event_bind('content.link.after', function ($link) {
+
+    if (defined('MW_FRONTEND')) {
+        $default_lang = get_option('language', 'website');
+        $current_lang = mw()->lang_helper->current_lang();
+
+        if ($default_lang !== $current_lang) {
+            $new_url = str_replace(site_url(), site_url() . $current_lang . '/', $link);
+            $link = $new_url;
+        }
+    }
+
+    return $link;
+});
+
+/*event_bind('menu.after.get_item', function ($menu) {
 
     if (isset($menu['url']) && !empty($menu['url']) && $menu['url'] !== site_url()) {
 
@@ -113,30 +123,58 @@ event_bind('menu.after.get_item', function ($menu) {
 
     return $menu;
 
+});*/
+
+function detect_lang_from_url($url) {
+
+    $targetUrl = false;
+    $targetLang = false;
+    $segments = explode('/', $url);
+    if (count($segments) == 2) {
+        $targetLang = $segments[0];
+        $targetUrl = $segments[1];
+    }
+
+    $langs = mw()->lang_helper->get_all_lang_codes();
+    if (!is_string($targetLang) || !array_key_exists($targetLang, $langs)) {
+        $targetLang = false;
+    }
+
+    return array('target_lang'=>$targetLang, 'target_url'=>$targetUrl);
+}
+
+event_bind('mw.controller.index', function ()  {
+
+    $targetUrl = mw()->url_manager->string();
+    $detect = detect_lang_from_url($targetUrl);
+
+    if ($detect['target_lang']) {
+        change_language_by_locale($detect['target_lang']);
+    }
+
 });
 
-event_bind('content.get_posts', function ($posts)  {
+event_bind('mw.front.content_data', function ($content)  {
 
-    return $posts;
+    $redirect =  mw_var('should_redirect');
+    if ($redirect) {
+        $content['original_link'] = $redirect;
+    }
+
+    return $content;
 });
 
 event_bind('content.get_by_url', function ($url)  {
 
     if (!empty($url)) {
 
-        $targetUrl = $url;
-        $targetLang = false;
-        $segments = explode('/', $url);
-        if (count($segments) == 2) {
-            $targetLang = $segments[0];
-            $targetUrl = $segments[1];
-        }
+        $detect = detect_lang_from_url($url);
+        $targetUrl = $detect['target_url'];
+        $targetLang = $detect['target_lang'];
 
-        if (!$targetLang) {
+        if (!$targetUrl || !$targetLang) {
             return;
         }
-
-        change_language_by_locale($targetLang);
 
         $filter = array();
         $filter['single'] = 1;
@@ -154,12 +192,8 @@ event_bind('content.get_by_url', function ($url)  {
             if ($content['url'] == $findTranslate['field_value']) {
                 return $content;
             } else {
-                // Redirect to target lang & finded content url
-                header('Cache-Control: no-store, no-cache, must-revalidate, post-check=0, pre-check=0');
-                header('Expires: Sat, 26 Jul 1997 05:00:00 GMT');
-                header('HTTP/1.1 301');
-                header('Location: ' . site_url() . $targetLang .'/' . $content['url']);
-                exit;
+                mw_var('should_redirect',site_url() . $targetLang .'/' . $content['url']);
+                return;
             }
         } else {
             $get = array();
@@ -168,16 +202,10 @@ event_bind('content.get_by_url', function ($url)  {
 
             $content = mw()->content_manager->get($get);
             if ($content) {
-
                 if ($content['url'] !== $targetUrl) {
-                    // Redirect to finded content url
-                    header('Cache-Control: no-store, no-cache, must-revalidate, post-check=0, pre-check=0');
-                    header('Expires: Sat, 26 Jul 1997 05:00:00 GMT');
-                    header('HTTP/1.1 301');
-                    header('Location: ' . site_url() . $targetLang .'/' . $content['url']);
-                    exit;
+                    mw_var('should_redirect',site_url() . $targetLang .'/' . $content['url']);
+                    return;
                 }
-
                 return $content;
             }
         }

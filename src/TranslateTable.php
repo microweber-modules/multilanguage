@@ -69,6 +69,10 @@ class TranslateTable {
 
     public function getTranslate($data) {
 
+        if (!isset($data[$this->relId])) {
+            return $data;
+        }
+
         foreach ($this->columns as $column) {
 
             $filter = array();
@@ -77,6 +81,8 @@ class TranslateTable {
             $filter['rel_type'] = $this->relType;
             $filter['rel_id'] = $data[$this->relId];
             $filter['field_name'] = $column;
+            $filter['enable_trigers'] = false;
+            $filter['no_cache'] = true;
 
             $translate = db_get('translations', $filter);
 

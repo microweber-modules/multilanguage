@@ -48,6 +48,7 @@ class TranslateManager
                 event_bind('mw.database.' . $providerTable . '.save.params', function ($saveData) use ($currentLocale, $defaultLocale, $providerInstance) {
                     if ($currentLocale != $defaultLocale) {
 
+                        // Exclude for language option
                         if (isset($saveData['option_key']) && $saveData['option_key'] == 'language') {
                             return false;
                         }
