@@ -33,7 +33,7 @@ function get_flag_icon($locale)
 
 function change_language_by_locale($locale) {
 
-    // $locale = get_short_abr($locale);
+    // $locale = get_short_abr($locale);  
 
     setcookie('lang', $locale, time() + (86400 * 30), "/");
 

@@ -32,7 +32,7 @@ class TranslateManager
                 $providerTable = $providerInstance->getRelType();
 
                 // BIND GET TABLES
-                event_bind('mw.database.' . $providerTable . '.get', function ($get) use ($currentLocale, $defaultLocale, $providerInstance) {
+                event_bind('mw.database.' . $providerTable . '.get', function ($get) use ($providerTable, $currentLocale, $defaultLocale, $providerInstance) {
                     if (is_array($get) && !empty($get)) {
                         foreach ($get as &$item) {
                             if (isset($item['option_key']) && $item['option_key'] == 'language') {

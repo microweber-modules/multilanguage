@@ -10,7 +10,6 @@ $currentLanguage = get_short_abr($currentLanguage);
             var selected = $(this).data('value');
             $.post(mw.settings.api_url + "change_language", { locale: selected })
                 .done(function(data) {
-                    mw.cookie.set('lang', selected);
                     location.reload();
                 });
         });
