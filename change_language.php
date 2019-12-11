@@ -36,19 +36,18 @@ $currentLanguage = get_short_abr($currentLanguage);
     mw.lib.require('flag_icons');
 </script>
 
-<div class="mw-dropdown mw-dropdown-default" style="width: 100px;">
+<div class="mw-dropdown mw-dropdown-default">
     <span class="mw-dropdown-value mw-ui-btn mw-ui-btn-medium mw-ui-btn-info mw-dropdown-val">
         <span class="flag-icon flag-icon-<?php echo get_flag_icon($currentLanguage); ?> m-r-10"></span> <?php echo strtoupper($currentLanguage); ?>
     </span>
     <div class="mw-dropdown-content">
-        <ul id="switch_language_ul" style="width: 98px;">
+        <ul id="switch_language_ul">
             <?php foreach($supportedLanguages as $language): ?>
                 <li <?php if ($currentLanguage == get_short_abr($language['locale'])): ?> selected="" <?php endif; ?> data-value="<?php print $language['locale'] ?>" style="color:#000;">
 				<span class="flag-icon flag-icon-<?php echo get_flag_icon($language['locale']); ?> m-r-10"></span> <?php echo strtoupper($language['locale']) ?>
 				</li>
             <?php endforeach; ?>
-            <li style="color:#000;" onclick="window.location.href = '<?php echo admin_url() ?>view:modules/load_module:multilanguage';">
-                <span class="mw-icon-web-settings m-r-10"></span>
+            <li style="color:#000;text-align: center;" onclick="window.location.href = '<?php echo admin_url() ?>view:modules/load_module:multilanguage';">
                 <?php _e('Settings'); ?>
             </li>
         </ul>
