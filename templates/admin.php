@@ -46,7 +46,7 @@ description: MW Default
             <ul id="switch_language_ul">
                 <?php foreach($supported_languages as $language): ?>
                     <li <?php if ($current_language['locale'] == get_short_abr($language['locale'])): ?> selected="" <?php endif; ?> data-value="<?php print $language['locale'] ?>" style="color:#000;">
-                        <span class="flag-icon flag-icon-<?php echo get_flag_icon($language['locale']); ?> m-r-10"></span> <?php echo strtoupper($language['locale']) ?>
+                        <span class="flag-icon flag-icon-<?php echo $language['icon']; ?> m-r-10"></span> <?php echo strtoupper($language['locale']) ?>
                     </li>
                 <?php endforeach; ?>
                 <?php if (isset($params['show_settings_link']) && $params['show_settings_link'] == true): ?>
