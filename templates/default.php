@@ -40,7 +40,7 @@ description: MW Default
 
     <div class="mw-dropdown mw-dropdown-default">
     <span class="mw-dropdown-value mw-ui-btn mw-ui-btn-medium mw-ui-btn-info mw-dropdown-val">
-        <span class="flag-icon flag-icon-<?php echo get_flag_icon($current_language); ?> m-r-10"></span> <?php echo strtoupper($current_language); ?>
+        <span class="flag-icon flag-icon-<?php echo $current_language['icon']; ?> m-r-10"></span> <?php echo strtoupper($current_language['locale']); ?>
     </span>
         <div class="mw-dropdown-content">
             <ul id="switch_language_ul">
