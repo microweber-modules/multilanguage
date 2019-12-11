@@ -44,6 +44,8 @@ $langs = mw()->lang_helper->get_all_lang_codes();
                     mw.reload_module_everywhere('multilanguage/list');
                    // mw.reload_module('multilanguage/change_language');
 				   $('.js-dropdown-text-language').html("<?php _e('Select Language...'); ?>");
+                    add_language_key = false;
+                    add_language_value = false;
                 });
         });
 
