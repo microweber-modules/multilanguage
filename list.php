@@ -22,7 +22,7 @@
         <?php endforeach; ?>
     <?php else: ?>
         <tr>
-            <td colspan="5"><?php e_('No supported languages found.'); ?></td>
+            <td colspan="5"><?php _e('No supported languages found.'); ?></td>
         </tr>
     <?php endif; ?>
 
