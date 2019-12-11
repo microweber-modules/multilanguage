@@ -1,7 +1,7 @@
 <table class="mw-ui-table mw-full-width mw-ui-table-basic" style="margin-top: 30px;">
     <thead>
     <tr>
-        <th style="width: 200px;"><?php echo _e('Locale');?></th>
+        <th style="width: 10%;"><?php echo _e('Locale');?></th>
         <th><?php echo _e('Language');?></th>
         <th style="width:100px;"></th>
     </tr>
