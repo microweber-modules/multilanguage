@@ -47,7 +47,7 @@ $langs = mw()->lang_helper->get_all_lang_codes();
         });
 
 
-      /*  $('#add_language_ul li').on('click', function () {
+      $('#add_language_ul li').on('click', function () {
 
             var key = $(this).data('key');
             var value = $(this).data('value');
@@ -57,7 +57,7 @@ $langs = mw()->lang_helper->get_all_lang_codes();
 
             $('.js-dropdown-text-language').html('<span class="flag-icon flag-icon-'+key+' m-r-10" style=""></span>' + value);
 
-        });*/
+        });
     });
 
     function deleteSuportedLanguage(language_key) {
