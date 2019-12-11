@@ -84,6 +84,10 @@ api_expose('add_language', function () {
 
 api_expose('change_language', function () {
 
+    if (!isset($_POST['locale'])) {
+        return;
+    }
+
     $json = array();
     $locale = $_POST['locale'];
 

@@ -43,6 +43,7 @@ $langs = mw()->lang_helper->get_all_lang_codes();
                 .done(function(data) {
                     mw.reload_module_everywhere('multilanguage/list');
                    // mw.reload_module('multilanguage/change_language');
+				   $('.js-dropdown-text-language').html("<?php _e('Select Language...'); ?>");
                 });
         });
 
@@ -61,11 +62,13 @@ $langs = mw()->lang_helper->get_all_lang_codes();
     });
 
     function deleteSuportedLanguage(language_key) {
-        $.post(mw.settings.api_url + "delete_language", { locale: language_key })
-            .done(function(data) {
-                mw.reload_module_everywhere('multilanguage/list');
-                // mw.reload_module('multilanguage/change_language');
-            });
+        mw.tools.confirm('<?php _e('Are you sure you want to delete?'); ?>', function () {
+            $.post(mw.settings.api_url + "delete_language", { locale: language_key })
+                .done(function(data) {
+                    mw.reload_module_everywhere('multilanguage/list');
+                    // mw.reload_module('multilanguage/change_language');
+                });
+        });
     }
 </script>
 
@@ -87,12 +90,14 @@ $langs = mw()->lang_helper->get_all_lang_codes();
                         <div class="mw-dropdown-content">
                             <ul id="add_language_ul" style="max-height: 300px;">
                                 <?php foreach($langs as $key=>$lang): ?>
-                                    <li data-key="<?php print $key ?>" data-value="<?php print $lang ?>" style="color:#000;"><span class="flag-icon flag-icon-<?php echo get_flag_icon($key); ?> m-r-10"></span><?php print $lang ?></li>
+                                    <li data-key="<?php print $key ?>" data-value="<?php print $lang ?>" style="color:#000;">
+									<span class="flag-icon flag-icon-<?php echo get_flag_icon($key); ?> m-r-10"></span> <?php echo $lang; ?>
+									</li>
                                 <?php endforeach; ?>
                             </ul>
                         </div>
                     </div>
-                <?php endif; ?>
+                <?php endif; ?> 
                 <button class="mw-ui-btn mw-ui-btn-normal mw-ui-btn-notification js-add-language"><span class="mw-icon-plus"></span> &nbsp; <?php _e('Add');?></button>
             </div>
             <module type="multilanguage/list" />
