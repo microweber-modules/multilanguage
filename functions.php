@@ -72,10 +72,10 @@ function insert_default_language() {
 }
 
 api_expose('delete_language', function () {
-    if (isset($_POST['locale'])) {
+    if (isset($_POST['id'])) {
 
         $get = array();
-        $get['locale'] = $_POST['locale'];
+        $get['id'] = intval($_POST['id']);
         $get['single'] = true;
         $get['no_cache'] = true;
 
@@ -84,6 +84,32 @@ api_expose('delete_language', function () {
         if ($find) {
             return db_delete('supported_locales', $find['id']);
         }
+    }
+});
+
+api_expose('sort_language', function () {
+    if (isset($_POST['id'])) {
+
+        $get = array();
+        $get['id'] = intval($_POST['id']);
+        $get['single'] = true;
+        $get['no_cache'] = true;
+
+        $find = db_get('supported_locales', $get);
+
+        if ($find) {
+            $save = array();
+            $save['id'] = $find['id'];
+
+            if (isset($_POST['sort']) && $_POST['sort'] == 'up') {
+                $save['sort'] = $find['sort'] + 1;
+            } else {
+                $save['sort'] = $find['sort'] - 1;
+            }
+
+            return db_save('supported_locales', $save);
+        }
+
     }
 });
 

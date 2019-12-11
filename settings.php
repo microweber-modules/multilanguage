@@ -58,14 +58,22 @@ $langs = mw()->lang_helper->get_all_lang_codes();
         });
     });
 
-    function deleteSuportedLanguage(language_key) {
+    function deleteSuportedLanguage(language_id) {
         mw.tools.confirm('<?php _e('Are you sure you want to delete?'); ?>', function () {
-            $.post(mw.settings.api_url + "delete_language", { locale: language_key })
+            $.post(mw.settings.api_url + "delete_language", { id:language_id })
                 .done(function(data) {
                     mw.reload_module_everywhere('multilanguage/list');
                     // mw.reload_module('multilanguage/change_language');
                 });
         });
+    }
+
+    function sortSuportedLanguage(language_id, sort) {
+        $.post(mw.settings.api_url + "sort_language", { id:language_id, sort: sort })
+            .done(function(data) {
+                mw.reload_module_everywhere('multilanguage/list');
+                // mw.reload_module('multilanguage/change_language');
+            });
     }
 </script>
 
