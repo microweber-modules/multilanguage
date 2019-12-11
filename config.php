@@ -20,6 +20,7 @@ $config['tables'] = array(
     'supported_locales' => array(
         'id' => 'integer',
         'locale' => 'string',
-        'language' => 'string'
+        'language' => 'string',
+        'sort'=> 'integer'
     )
 );

@@ -23,13 +23,27 @@ function get_short_abr($locale)
 
 function get_flag_icon($locale)
 {
-    if (strlen($locale) == 2) {
-        return $locale;
+    if ($locale == 'el') {
+        return 'gr';
     }
 
-    $exp = explode("_", $locale);
+    if ($locale == 'da') {
+        return 'dk';
+    }
 
-    return strtolower($exp[1]);
+    if ($locale == 'en') {
+        return 'us';
+    }
+    if ($locale == 'en_uk') {
+        return 'gb';
+    }
+
+    if (strpos($locale, "_")) {
+        $exp = explode("_", $locale);
+        return strtolower($exp[1]);
+    } else {
+        return $locale;
+    }
 }
 
 function change_language_by_locale($locale)
@@ -40,6 +54,21 @@ function change_language_by_locale($locale)
     setcookie('lang', $locale, time() + (86400 * 30), "/");
 
     return mw()->lang_helper->set_current_lang($locale);
+}
+
+function insert_default_language() {
+
+    $defaultLang = mw()->lang_helper->default_lang();
+    $langs = mw()->lang_helper->get_all_lang_codes();
+
+    if (isset($langs[$defaultLang])) {
+        $save = array();
+        $save['locale'] = $defaultLang;
+        $save['language'] = $langs[$defaultLang];
+        return db_save('supported_locales', $save);
+    }
+
+    return false;
 }
 
 api_expose('delete_language', function () {
