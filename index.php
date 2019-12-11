@@ -3,6 +3,9 @@ $supportedLanguages = db_get('supported_locales', array());
 $currentLanguage = mw()->lang_helper->current_lang();
 $currentLanguage = get_short_abr($currentLanguage);
 
+$current_language = $currentLanguage;
+$supported_languages = $supportedLanguages;
+
 $moduleTemplate = get_option('data-template', $params['id']);
 
 if ($moduleTemplate == false and isset($params['template'])) {

@@ -13,7 +13,7 @@ description: MW Default
         display: inline-block;
     }
 </style>
-<?php if (!empty($supportedLanguages)): ?>
+<?php if (!empty($supported_languages)): ?>
     <script type="text/javascript">
         $(document).ready(function () {
             $('#switch_language_ul li').on('click', function () {
@@ -40,18 +40,20 @@ description: MW Default
 
     <div class="mw-dropdown mw-dropdown-default">
     <span class="mw-dropdown-value mw-ui-btn mw-ui-btn-medium mw-ui-btn-info mw-dropdown-val">
-        <span class="flag-icon flag-icon-<?php echo get_flag_icon($currentLanguage); ?> m-r-10"></span> <?php echo strtoupper($currentLanguage); ?>
+        <span class="flag-icon flag-icon-<?php echo get_flag_icon($current_language); ?> m-r-10"></span> <?php echo strtoupper($current_language); ?>
     </span>
         <div class="mw-dropdown-content">
             <ul id="switch_language_ul">
-                <?php foreach($supportedLanguages as $language): ?>
-                    <li <?php if ($currentLanguage == get_short_abr($language['locale'])): ?> selected="" <?php endif; ?> data-value="<?php print $language['locale'] ?>" style="color:#000;">
+                <?php foreach($supported_languages as $language): ?>
+                    <li <?php if ($supported_languages == get_short_abr($language['locale'])): ?> selected="" <?php endif; ?> data-value="<?php print $language['locale'] ?>" style="color:#000;">
                         <span class="flag-icon flag-icon-<?php echo get_flag_icon($language['locale']); ?> m-r-10"></span> <?php echo strtoupper($language['locale']) ?>
                     </li>
                 <?php endforeach; ?>
+                <?php if (isset($params['show_settings_link']) && $params['show_settings_link'] == true): ?>
                 <li style="color:#000;text-align: center;" onclick="window.location.href = '<?php echo admin_url() ?>view:modules/load_module:multilanguage';">
                     <?php _e('Settings'); ?>
                 </li>
+                <?php endif; ?>
             </ul>
         </div>
     </div>
