@@ -134,11 +134,13 @@ function get_supported_languages()
         $locales = array();
         foreach ($languages as &$language) {
             $language['icon'] = get_flag_icon($language['locale']);
-            $locales[] = $language['locale'];
+            $locales[] = strtolower($language['locale']);
         }
 
         // Check default language exists on supported locales
         $default_lang = mw()->lang_helper->default_lang();
+        $default_lang = strtolower($default_lang);
+
         if (!in_array($default_lang, $locales)) {
             insert_default_language();
             return get_supported_languages();
