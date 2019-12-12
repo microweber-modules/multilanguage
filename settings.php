@@ -51,6 +51,9 @@ $langs = mw()->lang_helper->get_all_lang_codes();
                     add_language_key = false;
                     add_language_value = false;
                 });
+
+            getInitialOrder('.js-tbody-supported-locales tr');
+            reorderItems('.js-tbody-supported-locales tr', '.js-tbody-supported-locales');
         });
 
 

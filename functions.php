@@ -70,7 +70,15 @@ function add_supported_language($locale, $language) {
     $find = db_get('supported_locales', $get);
 
     if (!$find) {
+
+        $position = 1;
+        $last_language = db_get('supported_locales', 'no_cache=true&order_by=position desc&single=1');
+        if ($last_language) {
+            $position = $last_language['position'] + 1;
+        }
+
         $save = array();
+        $save['position'] = $position;
         $save['locale'] = $locale;
         $save['language'] = $language;
         return db_save('supported_locales', $save);
