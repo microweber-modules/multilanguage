@@ -66,16 +66,16 @@ class MultilanguageTest extends \Microweber\tests\TestCase
 
     public function testTranslateNewOption()
     {
-        $this->_addNewMultilanguageOption('person', 'Health', 'Здраве');
-        $this->_addNewMultilanguageOption('fruit', 'Apple', 'Ябълка');
-        $this->_addNewMultilanguageOption('person', 'Car', 'Кола');
-        $this->_addNewMultilanguageOption('person', 'Rich', 'Богат');
-        $this->_addNewMultilanguageOption('person', 'Bozhidar', 'Божидар');
-        $this->_addNewMultilanguageOption('person', 'Slaveykov', 'Славейков');
-        $this->_addNewMultilanguageOption('life', 'Love', 'Любов');
+        $this->_addNewMultilanguageOption('bozhidar', 'Bozhidar', 'Божидар');
+        $this->_addNewMultilanguageOption('slaveykov', 'Slaveykov', 'Славейков');
+        $this->_addNewMultilanguageOption('health', 'Health', 'Здраве');
+        $this->_addNewMultilanguageOption('love', 'Love', 'Любов');
+        $this->_addNewMultilanguageOption('apple', 'Apple', 'Ябълка');
+        $this->_addNewMultilanguageOption('car', 'Car', 'Кола');
+        $this->_addNewMultilanguageOption('rich', 'Rich', 'Богат');
     }
 
-    private function _addNewMultilanguageOption($optionKey, $enOptionValue, $bgOptionValue) {
+    private function _addNewMultilanguageOption($option_key, $en_option_value, $bg_option_value) {
 
         // Switch to english language
         mw()->lang_helper->set_current_lang('en');
@@ -85,45 +85,48 @@ class MultilanguageTest extends \Microweber\tests\TestCase
 
         // Add new english option
         $option = array();
-        $option['option_value'] = $enOptionValue;
-        $option['option_key'] = $optionKey;
+        $option['option_value'] = $en_option_value;
+        $option['option_key'] = $option_key;
         $option['option_group'] = $option_group;
         save_option($option);
-
         // Get option
-        $fruit = get_option('fruit', $option_group);
-        $this->assertEquals($enOptionValue, $fruit);
+        $this->assertEquals($en_option_value, get_option($option_key, $option_group));
 
-        // Switch to bulgarian language
+        /**
+         * TEST BULGARIAN LANGUAGE
+         * Switch to bulgarian language
+         */
         mw()->lang_helper->set_current_lang('bg');
         $this->assertEquals('bg', mw()->lang_helper->current_lang());
 
         // Update english option
         $option = array();
-        $option['option_value'] = $bgOptionValue;
-        $option['option_key'] = 'fruit';
+        $option['option_value'] = $bg_option_value;
+        $option['option_key'] = $option_key;
         $option['option_group'] = $option_group;
         save_option($option);
-
         // Get bg option
-        $fruit = get_option('fruit', $option_group);
-        $this->assertEquals($bgOptionValue, $fruit);
+        $this->assertEquals($bg_option_value, get_option($option_key, $option_group));
 
-        // Switch to english language
+
+        /**
+         * TEST ENGLISH LANGUAGE
+         * Switch to english language
+         */
         mw()->lang_helper->set_current_lang('en');
         $this->assertEquals('en', mw()->lang_helper->current_lang());
-
         // Get en option
-        $fruit = get_option('fruit', $option_group);
-        $this->assertEquals($enOptionValue, $fruit);
+        $this->assertEquals($en_option_value, get_option($option_key, $option_group));
 
-        // Switch to bulgarian language
+
+        /**
+         * TEST BULGARIAN LANGUAGE
+         * Switch to bulgarian language
+         */
         mw()->lang_helper->set_current_lang('bg');
         $this->assertEquals('bg', mw()->lang_helper->current_lang());
-
         // Get bg option
-        $fruit = get_option('fruit', $option_group);
-        $this->assertEquals($bgOptionValue, $fruit);
+        $this->assertEquals($bg_option_value, get_option($option_key, $option_group));
 
     }
 }
