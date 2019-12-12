@@ -57,11 +57,65 @@ class MultilanguageTest extends \Microweber\tests\TestCase
 
     }
 
-    public function testTranslateNewPost()
+    public function testSwitchLanguage()
     {
-        // Add new english post
 
-        
+        mw()->lang_helper->set_current_lang('bg');
+
+        var_dump(mw()->lang_helper->current_lang());
+        die();
+    }
+
+    public function testTranslateNewOption()
+    {
+        // Switch to english language
+        mw()->lang_helper->set_current_lang('en');
+
+        $option_group = 'new_option_test';
+
+        // Add new english option
+        $option = array();
+        $option['option_value'] = 'Apple';
+        $option['option_key'] = 'fruit';
+        $option['option_group'] = $option_group;
+        save_option($option);
+
+        // Get option
+        $fruit = get_option('fruit', $option_group);
+        $this->assertEquals('Apple', $fruit);
+
+        // Switch to bulgarian language
+        mw()->lang_helper->set_current_lang('bg');
+
+        // Update english option
+        $option = array();
+        $option['option_value'] = 'Ябълка';
+        $option['option_key'] = 'fruit';
+        $option['option_group'] = $option_group;
+        save_option($option);
+
+
+        var_dump(db_get('translations', array()));
+
+        die();
+        // Get option
+        $fruit = get_option('fruit', $option_group);
+        $this->assertEquals('Ябълка', $fruit);
+
+        // Switch to english language
+        mw()->lang_helper->set_current_lang('en');
+
+        // Get option
+        $fruit = get_option('fruit', $option_group);
+
+        var_dump($fruit);
+        die();
+        $this->assertEquals('Apple', $fruit);
+
+
+       // var_dump(mw()->lang_helper->default_lang());
+        //var_dump(mw()->lang_helper->current_lang());
+        var_dump($fruit);
 
     }
 
