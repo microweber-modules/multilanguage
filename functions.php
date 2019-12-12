@@ -128,7 +128,8 @@ function detect_lang_from_url($url)
 
 function get_supported_languages()
 {
-    $languages = db_get('supported_locales', 'no_cache=true&order_by=position asc');
+    $get_filter = 'no_cache=true&order_by=position asc';
+    $languages = db_get('supported_locales', $get_filter);
 
     if ($languages) {
         $locales = array();
@@ -143,11 +144,11 @@ function get_supported_languages()
 
         if (!in_array($default_lang, $locales)) {
             insert_default_language();
-            return get_supported_languages();
+            $languages = db_get('supported_locales', $get_filter);
         }
     } else {
         insert_default_language();
-        return get_supported_languages();
+        $languages = db_get('supported_locales', $get_filter);
     }
 
     return $languages;
