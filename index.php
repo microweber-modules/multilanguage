@@ -1,10 +1,5 @@
 <?php
-$supported_languages = db_get('supported_locales', array());
-
-if (empty($supported_languages)) {
-    insert_default_language();
-    $supported_languages = db_get('supported_locales', 'no_cache=true');
-}
+$supported_languages = get_supported_languages();
 
 $current_language = array();
 
@@ -22,10 +17,6 @@ $current_language['icon'] = get_flag_icon($current_language_abr);
 $langs = mw()->lang_helper->get_all_lang_codes();
 if (isset($langs[$current_language_abr])) {
     $current_language['language'] = $langs[$current_language_abr];
-}
-
-foreach ($supported_languages as &$supported_language) {
-    $supported_language['icon'] = get_flag_icon($supported_language['locale']);
 }
 
 $module_template = get_option('data-template', $params['id']);

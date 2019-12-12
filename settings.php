@@ -68,7 +68,7 @@ $langs = mw()->lang_helper->get_all_lang_codes();
 
        $('.js-tbody-supported-locales').sortable({
            distance: 40,
-           onDrop: function(item) {
+           update: function(item) {
                $(item).removeClass("dragged").removeAttr("style");
                $("body").removeClass("dragging");
                getInitialOrder('.js-tbody-supported-locales tr');
@@ -85,6 +85,7 @@ $langs = mw()->lang_helper->get_all_lang_codes();
             reorderItems('.js-tbody-supported-locales tr', '.js-tbody-supported-locales');
         }).keyup(function(){
             updateAllNumbers($(this), '.js-tbody-supported-locales input');
+            reorderItems('.js-tbody-supported-locales tr', '.js-tbody-supported-locales');
         });
 
     });
@@ -129,6 +130,7 @@ $langs = mw()->lang_helper->get_all_lang_codes();
             num++;
         });
         $(obj).find('input[type="number"]').attr('max', $(obj).length); //give it an html5 max attr based on num of objects
+        $(obj).find('input[type="number"]').last().trigger('change');
     }
 
     function updateAllNumbers(currObj, targets){

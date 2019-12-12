@@ -11,13 +11,7 @@
     <tbody class="js-tbody-supported-locales">
     <?php
     $defaultLang = mw()->lang_helper->default_lang();
-    $supportedLanguages = db_get('supported_locales', 'no_cache=true&order_by=position asc');
-
-    if (empty($supportedLanguages)) {
-        insert_default_language();
-        $supportedLanguages = db_get('supported_locales', 'no_cache=true&order_by=position asc');
-    }
-
+    $supportedLanguages = get_supported_languages();
     if (!empty($supportedLanguages)):
         $isl=1;
         foreach($supportedLanguages as $language):
@@ -28,7 +22,7 @@
                 <td>
                     <span class="flag-icon flag-icon-<?php echo get_flag_icon($language['locale']); ?> m-r-10"></span> <?php echo $language['language']; ?>
 
-                    <?php if ($defaultLang == $language['locale']): ?>
+                    <?php if (strtolower($defaultLang) == strtolower($language['locale'])): ?>
                     (<?php _e('Default'); ?>)
                     <?php endif; ?>
                 </td>
