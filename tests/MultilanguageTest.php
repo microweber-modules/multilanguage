@@ -94,7 +94,7 @@ class MultilanguageTest extends \Microweber\tests\TestCase
         $option['option_group'] = $option_group;
         save_option($option);
 
-        // Get option
+        // Get bg option
         $fruit = get_option('fruit', $option_group);
         $this->assertEquals('Ябълка', $fruit);
 
@@ -102,10 +102,18 @@ class MultilanguageTest extends \Microweber\tests\TestCase
         mw()->lang_helper->set_current_lang('en');
         $this->assertEquals('en', mw()->lang_helper->current_lang());
 
-        // Get option
+        // Get en option
         $fruit = get_option('fruit', $option_group);
         $this->assertEquals('Apple', $fruit);
         
+        // Switch to bulgarian language
+        mw()->lang_helper->set_current_lang('bg');
+        $this->assertEquals('bg', mw()->lang_helper->current_lang());
+
+        // Get bg option
+        $fruit = get_option('fruit', $option_group);
+        $this->assertEquals('Ябълка', $fruit);
+
     }
 
 }
