@@ -13,6 +13,7 @@ class MultilanguageTest extends \Microweber\tests\TestCase
         save_option($option);
 
         mw()->lang_helper->set_current_lang($lang);
+        $this->assertEquals($lang, mw()->lang_helper->current_lang());
 
         $languages = get_supported_languages();
 
@@ -59,17 +60,15 @@ class MultilanguageTest extends \Microweber\tests\TestCase
 
     public function testSwitchLanguage()
     {
-
         mw()->lang_helper->set_current_lang('bg');
-
-        var_dump(mw()->lang_helper->current_lang());
-        die();
+        $this->assertEquals('bg', mw()->lang_helper->current_lang());
     }
 
     public function testTranslateNewOption()
     {
         // Switch to english language
         mw()->lang_helper->set_current_lang('en');
+        $this->assertEquals('en', mw()->lang_helper->current_lang());
 
         $option_group = 'new_option_test';
 
@@ -86,6 +85,7 @@ class MultilanguageTest extends \Microweber\tests\TestCase
 
         // Switch to bulgarian language
         mw()->lang_helper->set_current_lang('bg');
+        $this->assertEquals('bg', mw()->lang_helper->current_lang());
 
         // Update english option
         $option = array();
@@ -94,29 +94,18 @@ class MultilanguageTest extends \Microweber\tests\TestCase
         $option['option_group'] = $option_group;
         save_option($option);
 
-
-        var_dump(db_get('translations', array()));
-
-        die();
         // Get option
         $fruit = get_option('fruit', $option_group);
         $this->assertEquals('Ябълка', $fruit);
 
         // Switch to english language
         mw()->lang_helper->set_current_lang('en');
+        $this->assertEquals('en', mw()->lang_helper->current_lang());
 
         // Get option
         $fruit = get_option('fruit', $option_group);
-
-        var_dump($fruit);
-        die();
         $this->assertEquals('Apple', $fruit);
-
-
-       // var_dump(mw()->lang_helper->default_lang());
-        //var_dump(mw()->lang_helper->current_lang());
-        var_dump($fruit);
-
+        
     }
 
 }

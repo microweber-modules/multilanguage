@@ -23,12 +23,8 @@ class TranslateManager
         'TranslateTestimonials'
     ];
 
-
     public function run()
     {
-        $currentLocale = mw()->lang_helper->current_lang();
-        $defaultLocale = mw()->lang_helper->default_lang();
-
         if (!empty($this->translateProviders)) {
             foreach ($this->translateProviders as $provider) {
 
@@ -36,7 +32,7 @@ class TranslateManager
                 $providerTable = $providerInstance->getRelType();
 
                 // BIND GET TABLES
-                event_bind('mw.database.' . $providerTable . '.get', function ($get) use ($providerTable, $currentLocale, $defaultLocale, $providerInstance) {
+                event_bind('mw.database.' . $providerTable . '.get', function ($get) use ($providerTable, $providerInstance) {
                     if (is_array($get) && !empty($get)) {
                         foreach ($get as &$item) {
                             if (isset($item['option_key']) && $item['option_key'] == 'language') {
@@ -50,7 +46,11 @@ class TranslateManager
                 });
 
                 // BIND SAVE TABLES
-                event_bind('mw.database.' . $providerTable . '.save.params', function ($saveData) use ($currentLocale, $defaultLocale, $providerInstance) {
+                event_bind('mw.database.' . $providerTable . '.save.params', function ($saveData) use ($providerInstance) {
+
+                    $currentLocale = mw()->lang_helper->current_lang();
+                    $defaultLocale = mw()->lang_helper->default_lang();
+
                     if ($currentLocale != $defaultLocale) {
 
                         // Exclude for language option
