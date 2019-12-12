@@ -34,6 +34,11 @@ function get_flag_icon($locale)
     if ($locale == 'en') {
         return 'us';
     }
+
+    if ($locale == 'ar') {
+        return 'sa';
+    }
+
     if ($locale == 'en_uk') {
         return 'gb';
     }
@@ -88,28 +93,17 @@ api_expose('delete_language', function () {
 });
 
 api_expose('sort_language', function () {
-    if (isset($_POST['id'])) {
-
-        $get = array();
-        $get['id'] = intval($_POST['id']);
-        $get['single'] = true;
-        $get['no_cache'] = true;
-
-        $find = db_get('supported_locales', $get);
-
-        if ($find) {
-            $save = array();
-            $save['id'] = $find['id'];
-
-            if (isset($_POST['sort']) && $_POST['sort'] == 'up') {
-                $save['sort'] = $find['sort'] + 1;
-            } else {
-                $save['sort'] = $find['sort'] - 1;
+    if (isset($_POST['ids'])) {
+        if (is_array($_POST['ids']) && !empty($_POST['ids'])) {
+            foreach ($_POST['ids'] as $id) {
+                if (isset($id['id']) && isset($id['position']) && !empty($id['id']) && !empty($id['position'])) {
+                    $save = array();
+                    $save['id'] = $id['id'];
+                    $save['position'] = $id['position'];
+                    $saved = db_save('supported_locales', $save);
+                }
             }
-
-            return db_save('supported_locales', $save);
         }
-
     }
 });
 

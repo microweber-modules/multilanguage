@@ -1,28 +1,29 @@
 <table class="mw-ui-table mw-full-width mw-ui-table-basic" style="margin-top: 30px;">
     <thead>
     <tr>
+        <th style="width: 3%;"></th>
         <th style="width: 10%;"><?php echo _e('Locale');?></th>
         <th><?php echo _e('Language');?></th>
-
-        <th style="width:42px;"></th>
-        <th style="width:42px;"></th>
-        <th style="width:100px;"></th>
+        <th style="width: 7%;"></th>
+        <th style="width: 10%;"></th>
     </tr>
     </thead>
-    <tbody>
+    <tbody class="js-tbody-supported-locales">
     <?php
     $defaultLang = mw()->lang_helper->default_lang();
-    $supportedLanguages = db_get('supported_locales', 'no_cache=true&order_by=sort asc');
+    $supportedLanguages = db_get('supported_locales', 'no_cache=true&order_by=position asc');
 
     if (empty($supportedLanguages)) {
         insert_default_language();
-        $supportedLanguages = db_get('supported_locales', 'no_cache=true&order_by=sort asc');
+        $supportedLanguages = db_get('supported_locales', 'no_cache=true&order_by=position asc');
     }
 
     if (!empty($supportedLanguages)):
+        $isl=1;
         foreach($supportedLanguages as $language):
             ?>
-            <tr class="js-browser-redirect-tr-<?php echo $language['locale']; ?>">
+            <tr style="background: #fff;" class="js-browser-redirect-tr-<?php echo $language['locale']; ?>">
+                <td><span class="mw-icon-drag show-on-hover"></span></td>
                 <td><?php echo strtoupper($language['locale']); ?></td>
                 <td>
                     <span class="flag-icon flag-icon-<?php echo get_flag_icon($language['locale']); ?> m-r-10"></span> <?php echo $language['language']; ?>
@@ -32,14 +33,9 @@
                     <?php endif; ?>
                 </td>
                 <td>
-                    <a href="javascript:;" onClick="sortSuportedLanguage('<?php echo $language['id']; ?>', 'up')" class="mw-ui-btn mw-ui-btn-medium show-on-hover">
-                        <span class="mw-icon-arrow-up-b"></span>
-                    </a>
-                </td>
-                <td>
-                    <a href="javascript:;" onClick="sortSuportedLanguage('<?php echo $language['id']; ?>', 'down')" class="mw-ui-btn mw-ui-btn-medium show-on-hover">
-                        <span class="mw-icon-arrow-down-b"></span>
-                    </a>
+                    <input class="js-supported-language-order-numbers js-supported-language-order-number-<?php echo $language['id']; ?>" name="<?php echo $language['id']; ?>" value="<?php echo $isl; ?>" type="number" style="display:none;font-size:22px;border: 0px;width: 35px;" min="1">
+                    <a href="#" class="show-on-hover" onclick="updateOrderNumber(<?php echo $language['id']; ?>, 'down')"><span class="mw-icon-arrow-up-a js-update-order-number"></span></a>
+                    <a href="#" class="show-on-hover" onclick="updateOrderNumber(<?php echo $language['id']; ?>, 'up')"><span class="mw-icon-arrow-down-a js-update-order-number"></span></a>
                 </td>
                 <td>
                     <?php
@@ -51,7 +47,7 @@
                     <?php endif; ?>
                 </td>
             </tr>
-        <?php endforeach; ?>
+        <?php $isl++; endforeach; ?>
     <?php else: ?>
         <tr>
             <td colspan="5"><?php _e('No supported languages found.'); ?></td>

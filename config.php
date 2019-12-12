@@ -21,6 +21,6 @@ $config['tables'] = array(
         'id' => 'integer',
         'locale' => 'string',
         'language' => 'string',
-        'sort'=> 'integer'
+        'position'=> 'integer'
     )
 );
