@@ -129,4 +129,42 @@ class MultilanguageTest extends \Microweber\tests\TestCase
         $this->assertEquals($bg_option_value, get_option($option_key, $option_group));
 
     }
+
+    public function testTranslateNewMenu() {
+
+        // Switch to english language
+        mw()->lang_helper->set_current_lang('en');
+        $this->assertEquals('en', mw()->lang_helper->current_lang());
+
+        $menu = array();
+        $menu['title'] = 'Richest people in the world';
+        $menu['url'] = 'richest-people-in-the-world';
+        mw()->menu_manager->menu_create($menu);
+
+        $get_menu = mw()->menu_manager->get_menu('url=richest-people-in-the-world&single=1');
+
+        $this->assertEquals($get_menu['title'], $menu['title']);
+        $this->assertEquals($get_menu['url'], $menu['url']);
+
+
+        /**
+         * TEST BULGARIAN LANGUAGE
+         * Switch to bulgarian language
+         */
+        mw()->lang_helper->set_current_lang('bg');
+        $this->assertEquals('bg', mw()->lang_helper->current_lang());
+
+        $update = array();
+        $update['menu_id'] = $get_menu['id'];
+        $update['title'] = 'Най-богатите хора в света';
+        $update['url'] = 'nai-bogatite-xora-v-sveta';
+
+        mw()->menu_manager->menu_create($update);
+
+        $get_menu = mw()->menu_manager->get_menu('id='.$get_menu['id'].'&single=1');
+
+        $this->assertEquals($get_menu['title'], $update['title']);
+        $this->assertEquals($get_menu['url'], $update['url']);
+
+    }
 }
