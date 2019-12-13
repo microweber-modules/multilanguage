@@ -6,75 +6,30 @@
  * Time: 1:52 PM
  */
 
-api_expose_admin('multilanguage/delete_language', function () {
-    if (isset($_POST['id'])) {
+api_expose_admin('multilanguage/delete_language', function ($params) {
 
-        $get = array();
-        $get['id'] = intval($_POST['id']);
-        $get['single'] = true;
-        $get['no_cache'] = true;
+    $api = new MultilanguageApi();
+    return $api->deleteLanguage($params);
 
-        $find = db_get('multilanguage_supported_locales', $get);
-
-        if ($find) {
-            return db_delete('multilanguage_supported_locales', $find['id']);
-        }
-    }
 });
 
-api_expose_admin('multilanguage/sort_language', function () {
-    if (isset($_POST['ids'])) {
-        if (is_array($_POST['ids']) && !empty($_POST['ids'])) {
-            foreach ($_POST['ids'] as $id) {
-                if (isset($id['id']) && isset($id['position']) && !empty($id['id']) && !empty($id['position'])) {
-                    $save = array();
-                    $save['id'] = $id['id'];
-                    $save['position'] = $id['position'];
-                    $saved = db_save('multilanguage_supported_locales', $save);
-                }
-            }
-        }
-    }
+api_expose_admin('multilanguage/sort_language', function ($params) {
+
+    $api = new MultilanguageApi();
+    return $api->sortLanguage($params);
+
 });
 
-api_expose_admin('multilanguage/add_language', function () {
-    if (isset($_POST['locale']) && isset($_POST['language'])) {
+api_expose_admin('multilanguage/add_language', function ($params) {
 
-        $locale = $_POST['locale'];
-        $language = $_POST['language'];
+    $api = new MultilanguageApi();
+    return $api->addLanguage($params);
 
-        return add_supported_language($locale, $language);
-    }
-    return false;
 });
 
-api_expose('multilanguage/change_language', function () {
+api_expose('multilanguage/change_language', function ($params) {
 
-    if (!isset($_POST['locale'])) {
-        return;
-    }
+    $api = new MultilanguageApi();
+    return $api->changeLanguage($params);
 
-    $json = array();
-    $locale = $_POST['locale'];
-
-    if (!is_lang_correct($locale)) {
-        return array('error' => _e('Locale is not supported'));
-    }
-
-    change_language_by_locale($locale);
-
-    if (isset($_POST['is_admin']) && $_POST['is_admin'] == 1) {
-        $json['refresh'] = true;
-    } else {
-        $targetUrl = mw()->url_manager->string(true);
-        $detect = detect_lang_from_url($targetUrl);
-
-        $json['refresh'] = true;
-        if ($detect['target_url']) {
-            $json['location'] = site_url($locale . '/' . $detect['target_url']);
-        }
-
-    }
-
-    return $json;
 });

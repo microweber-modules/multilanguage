@@ -33,6 +33,8 @@ $langs = mw()->lang_helper->get_all_lang_codes();
 <script type="text/javascript">
     $(document).ready(function () {
 
+        mw.dropdown();
+
         add_language_key = false;
         add_language_value = false;
 
@@ -45,15 +47,23 @@ $langs = mw()->lang_helper->get_all_lang_codes();
 
             $.post(mw.settings.api_url + "multilanguage/add_language", { locale: add_language_key, language: add_language_value })
                 .done(function(data) {
-                    mw.reload_module_everywhere('multilanguage/list');
-                    // mw.reload_module('multilanguage/change_language');
-                    $('.js-dropdown-text-language').html("<?php _e('Select Language...'); ?>");
-                    add_language_key = false;
-                    add_language_value = false;
+                    mw.reload_module_everywhere('multilanguage/settings', function () {
+/*
+
+                        $('.js-dropdown-text-language').html("<?php _e('Select Language...'); ?>");
+
+                        add_language_key = false;
+                        add_language_value = false;
+
+                        makeSortable();
+
+                        getInitialOrder('.js-tbody-supported-locales tr');
+                        reorderItems('.js-tbody-supported-locales tr', '.js-tbody-supported-locales');
+*/
+
+                    });
                 });
 
-            getInitialOrder('.js-tbody-supported-locales tr');
-            reorderItems('.js-tbody-supported-locales tr', '.js-tbody-supported-locales');
         });
 
 
@@ -69,14 +79,7 @@ $langs = mw()->lang_helper->get_all_lang_codes();
 
         });
 
-       $('.js-tbody-supported-locales').sortable({
-           distance: 40,
-           update: function(item) {
-               $(item).removeClass("dragged").removeAttr("style");
-               $("body").removeClass("dragging");
-               getInitialOrder('.js-tbody-supported-locales tr');
-           }
-        });
+        makeSortable();
 
         getInitialOrder('.js-tbody-supported-locales tr');
 
@@ -92,6 +95,17 @@ $langs = mw()->lang_helper->get_all_lang_codes();
         });
 
     });
+
+    function makeSortable() {
+        $('.js-tbody-supported-locales').sortable({
+            distance: 40,
+            update: function(item) {
+                $(item).removeClass("dragged").removeAttr("style");
+                $("body").removeClass("dragging");
+                getInitialOrder('.js-tbody-supported-locales tr');
+            }
+        });
+    }
 
     function submitNewOrderNumbers() {
 
@@ -185,8 +199,7 @@ $langs = mw()->lang_helper->get_all_lang_codes();
         mw.tools.confirm('<?php _e('Are you sure you want to delete?'); ?>', function () {
             $.post(mw.settings.api_url + "multilanguage/delete_language", { id:language_id })
                 .done(function(data) {
-                    mw.reload_module_everywhere('multilanguage/list');
-                    // mw.reload_module('multilanguage/change_language');
+                    mw.reload_module_everywhere('multilanguage/settings');
                 });
         });
     }

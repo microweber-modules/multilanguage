@@ -2,6 +2,7 @@
 /**
  * Author: Bozhidar Slaveykov
  */
+require_once 'src/MultilanguageApi.php';
 require_once 'src/TranslateManager.php';
 
 $translate = new TranslateManager();

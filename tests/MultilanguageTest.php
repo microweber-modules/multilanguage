@@ -167,4 +167,45 @@ class MultilanguageTest extends \Microweber\tests\TestCase
         $this->assertEquals($get_menu['url'], $update['url']);
 
     }
+
+    public function testDetectLangFromUrl()
+    {
+        $url = 'bg/tova-e-strahotniq-post.html';
+        $detect = detect_lang_from_url($url);
+
+        $this->assertEquals('bg', $detect['target_lang']);
+        $this->assertEquals('tova-e-strahotniq-post.html', $detect['target_url']);
+
+
+        $url = 'en/tova-e-strahotniq-post.html';
+        $detect = detect_lang_from_url($url);
+
+        $this->assertEquals('en', $detect['target_lang']);
+        $this->assertEquals('tova-e-strahotniq-post.html', $detect['target_url']);
+
+
+        $url = 'blqblq/tova-e-strahotniq-post.html';
+        $detect = detect_lang_from_url($url);
+
+        $this->assertEquals(false, $detect['target_lang']);
+        $this->assertEquals('tova-e-strahotniq-post.html', $detect['target_url']);
+
+    }
+
+    public function testCheckLanguageIsCorrect()
+    {
+        $check = is_lang_correct('en');
+        $this->assertEquals(true, $check);
+
+        $check = is_lang_correct('bg');
+        $this->assertEquals(true, $check);
+
+        $check = is_lang_correct('mnogokesh');
+        $this->assertEquals(false, $check);
+    }
+
+    public function testChangeLanguageFrontend() {
+
+
+    }
 }
