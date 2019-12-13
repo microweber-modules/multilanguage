@@ -24,12 +24,8 @@ class MultilanguageTest extends \Microweber\tests\TestCase
         }
         $default_lang = mw()->lang_helper->default_lang();
         $default_lang = strtolower($default_lang);
-        $check = false;
-        if (in_array($default_lang, $locales)) {
-            $check = true;
-        }
 
-        $this->assertEquals(true, $check);
+        $this->assertEquals(true, in_array($default_lang, $locales));
 
     }
 
@@ -49,12 +45,7 @@ class MultilanguageTest extends \Microweber\tests\TestCase
             $locales[] = strtolower($language['locale']);
         }
 
-        $check = false;
-        if (in_array($locale, $locales)) {
-            $check = true;
-        }
-
-        $this->assertEquals(true, $check);
+        $this->assertEquals(true, in_array($locale, $locales));
 
     }
 
@@ -75,7 +66,8 @@ class MultilanguageTest extends \Microweber\tests\TestCase
         $this->_addNewMultilanguageOption('rich', 'Rich', 'Богат');
     }
 
-    private function _addNewMultilanguageOption($option_key, $en_option_value, $bg_option_value) {
+    private function _addNewMultilanguageOption($option_key, $en_option_value, $bg_option_value)
+    {
 
         // Switch to english language
         mw()->lang_helper->set_current_lang('en');
@@ -130,7 +122,8 @@ class MultilanguageTest extends \Microweber\tests\TestCase
 
     }
 
-    public function testTranslateNewMenu() {
+    public function testTranslateNewMenu()
+    {
 
         // Switch to english language
         mw()->lang_helper->set_current_lang('en');
@@ -161,7 +154,7 @@ class MultilanguageTest extends \Microweber\tests\TestCase
 
         mw()->menu_manager->menu_create($update);
 
-        $get_menu = mw()->menu_manager->get_menu('id='.$get_menu['id'].'&single=1');
+        $get_menu = mw()->menu_manager->get_menu('id=' . $get_menu['id'] . '&single=1');
 
         $this->assertEquals($get_menu['title'], $update['title']);
         $this->assertEquals($get_menu['url'], $update['url']);
@@ -204,8 +197,39 @@ class MultilanguageTest extends \Microweber\tests\TestCase
         $this->assertEquals(false, $check);
     }
 
-    public function testChangeLanguageFrontend() {
+    public function testChangeLanguageApi()
+    {
+        // Ad Greek
+        $api = new MultilanguageApi();
+        $output = $api->addLanguage([
+            'locale' => 'gr',
+            'language' => 'Greek'
+        ]);
 
+        $this->assertEquals(true, is_int($output));
+
+        $languages = get_supported_languages();
+
+        // Check default lang is exists on supported languages
+        $locales = array();
+        foreach ($languages as $language) {
+            $locales[] = strtolower($language['locale']);
+        }
+
+        $this->assertEquals(true, in_array('gr', $locales));
+
+        // Delete greek
+        $output = $api->deleteLanguage(['id' => $output]);
+
+        $languages = get_supported_languages();
+
+        // Check default lang is exists on supported languages
+        $locales = array();
+        foreach ($languages as $language) {
+            $locales[] = strtolower($language['locale']);
+        }
+
+        $this->assertEquals(false, in_array('gr', $locales));
 
     }
 }
