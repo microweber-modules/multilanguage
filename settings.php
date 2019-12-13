@@ -43,7 +43,7 @@ $langs = mw()->lang_helper->get_all_lang_codes();
                 return;
             }
 
-            $.post(mw.settings.api_url + "multilanguage_add_language", { locale: add_language_key, language: add_language_value })
+            $.post(mw.settings.api_url + "multilanguage/add_language", { locale: add_language_key, language: add_language_value })
                 .done(function(data) {
                     mw.reload_module_everywhere('multilanguage/list');
                     // mw.reload_module('multilanguage/change_language');
@@ -103,7 +103,7 @@ $langs = mw()->lang_helper->get_all_lang_codes();
             });
         });
 
-        $.post(mw.settings.api_url + "multilanguage_sort_language", {ids: languages})
+        $.post(mw.settings.api_url + "multilanguage/sort_language", {ids: languages})
             .done(function (data) {
                 // Done
             });
@@ -183,7 +183,7 @@ $langs = mw()->lang_helper->get_all_lang_codes();
 
     function deleteSuportedLanguage(language_id) {
         mw.tools.confirm('<?php _e('Are you sure you want to delete?'); ?>', function () {
-            $.post(mw.settings.api_url + "multilanguage_delete_language", { id:language_id })
+            $.post(mw.settings.api_url + "multilanguage/delete_language", { id:language_id })
                 .done(function(data) {
                     mw.reload_module_everywhere('multilanguage/list');
                     // mw.reload_module('multilanguage/change_language');

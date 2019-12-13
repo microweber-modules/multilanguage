@@ -13,7 +13,7 @@ description: Clean
             var selected = $(this).val();
             var is_admin = <?php if (defined('MW_FRONTEND')) { echo 0; } else { echo 1; } ?>;
 
-            $.post(mw.settings.api_url + "multilanguage_change_language", { locale: selected, is_admin: is_admin })
+            $.post(mw.settings.api_url + "multilanguage/change_language", { locale: selected, is_admin: is_admin })
                 .done(function(data) {
                     if (data.refresh) {
                         if (data.location) {
