@@ -49,7 +49,7 @@ class TranslateTable {
                 $saveTranslation['allow_html'] = 1;
                 $saveTranslation['allow_scripts'] = 1;
 
-                db_save('translations', $saveTranslation);
+                db_save('multilanguage_translations', $saveTranslation);
             }
         }
     }
@@ -64,7 +64,7 @@ class TranslateTable {
 
         unset($filter['field_value']);
 
-        return db_get('translations', $filter);
+        return db_get('multilanguage_translations', $filter);
     }
 
     public function getTranslate($data) {
@@ -84,7 +84,7 @@ class TranslateTable {
             $filter['enable_trigers'] = false;
             $filter['no_cache'] = true;
 
-            $translate = db_get('translations', $filter);
+            $translate = db_get('multilanguage_translations', $filter);
 
             if (!empty($translate['field_value'])) {
                 $data[$column] = $translate['field_value'];
