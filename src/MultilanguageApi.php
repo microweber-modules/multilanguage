@@ -61,7 +61,7 @@ class MultilanguageApi
         $locale = $params['locale'];
 
         if (!is_lang_correct($locale)) {
-            return array('error' => _e('Locale is not supported'));
+            return array('error' => _e('Locale is not supported', true));
         }
 
         change_language_by_locale($locale);

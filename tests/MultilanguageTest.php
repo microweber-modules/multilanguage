@@ -197,7 +197,7 @@ class MultilanguageTest extends \Microweber\tests\TestCase
         $this->assertEquals(false, $check);
     }
 
-    public function testChangeLanguageApi()
+    public function testMultilanguageApi()
     {
         // Ad Greek
         $api = new MultilanguageApi();
@@ -230,6 +230,21 @@ class MultilanguageTest extends \Microweber\tests\TestCase
         }
 
         $this->assertEquals(false, in_array('gr', $locales));
+    }
 
+    public function testChangeLanguageApi()
+    {
+        $api = new MultilanguageApi();
+        $output = $api->changeLanguage([
+            'locale'=> 'bobi-money'
+        ]);
+
+        $this->assertEquals(true, is_string($output['error']));
+
+        $output = $api->changeLanguage([
+            'locale'=> 'bg'
+        ]);
+
+        $this->assertEquals(true, $output['refresh']);
     }
 }
