@@ -6,7 +6,7 @@
  * Time: 1:52 PM
  */
 
-api_expose('delete_language', function () {
+api_expose_admin('delete_language', function () {
     if (isset($_POST['id'])) {
 
         $get = array();
@@ -14,15 +14,15 @@ api_expose('delete_language', function () {
         $get['single'] = true;
         $get['no_cache'] = true;
 
-        $find = db_get('supported_locales', $get);
+        $find = db_get('multilanguage_supported_locales', $get);
 
         if ($find) {
-            return db_delete('supported_locales', $find['id']);
+            return db_delete('multilanguage_supported_locales', $find['id']);
         }
     }
 });
 
-api_expose('sort_language', function () {
+api_expose_admin('sort_language', function () {
     if (isset($_POST['ids'])) {
         if (is_array($_POST['ids']) && !empty($_POST['ids'])) {
             foreach ($_POST['ids'] as $id) {
@@ -30,14 +30,14 @@ api_expose('sort_language', function () {
                     $save = array();
                     $save['id'] = $id['id'];
                     $save['position'] = $id['position'];
-                    $saved = db_save('supported_locales', $save);
+                    $saved = db_save('multilanguage_supported_locales', $save);
                 }
             }
         }
     }
 });
 
-api_expose('add_language', function () {
+api_expose_admin('add_language', function () {
     if (isset($_POST['locale']) && isset($_POST['language'])) {
 
         $locale = $_POST['locale'];

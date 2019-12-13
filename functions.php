@@ -67,12 +67,12 @@ function add_supported_language($locale, $language) {
     $get['locale'] = $locale;
     $get['single'] = true;
     $get['no_cache'] = true;
-    $find = db_get('supported_locales', $get);
+    $find = db_get('multilanguage_supported_locales', $get);
 
     if (!$find) {
 
         $position = 1;
-        $last_language = db_get('supported_locales', 'no_cache=true&order_by=position desc&single=1');
+        $last_language = db_get('multilanguage_supported_locales', 'no_cache=true&order_by=position desc&single=1');
         if ($last_language) {
             $position = $last_language['position'] + 1;
         }
@@ -81,7 +81,7 @@ function add_supported_language($locale, $language) {
         $save['position'] = $position;
         $save['locale'] = $locale;
         $save['language'] = $language;
-        return db_save('supported_locales', $save);
+        return db_save('multilanguage_supported_locales', $save);
     }
 
     return $find['id'];
@@ -129,7 +129,7 @@ function detect_lang_from_url($url)
 function get_supported_languages()
 {
     $get_filter = 'no_cache=true&order_by=position asc';
-    $languages = db_get('supported_locales', $get_filter);
+    $languages = db_get('multilanguage_supported_locales', $get_filter);
 
     if ($languages) {
         $locales = array();
@@ -144,11 +144,11 @@ function get_supported_languages()
 
         if (!in_array($default_lang, $locales)) {
             insert_default_language();
-            $languages = db_get('supported_locales', $get_filter);
+            $languages = db_get('multilanguage_supported_locales', $get_filter);
         }
     } else {
         insert_default_language();
-        $languages = db_get('supported_locales', $get_filter);
+        $languages = db_get('multilanguage_supported_locales', $get_filter);
     }
 
     return $languages;

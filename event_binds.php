@@ -83,7 +83,7 @@ event_bind('content.get_by_url', function ($url) {
         $filter['rel_type'] = 'content';
         $filter['field_name'] = 'url';
         $filter['field_value'] = $targetUrl;
-        $findTranslate = db_get('translations', $filter);
+        $findTranslate = db_get('multilanguage_translations', $filter);
         if ($findTranslate) {
 
             $get = array();

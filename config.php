@@ -9,7 +9,7 @@ $config['position'] = 99;
 $config['version'] = 0.3;
 
 $config['tables'] = array(
-    'translations' => array(
+    'multilanguage_translations' => array(
         'id' => 'integer',
         'rel_id' => 'string',
         'rel_type' => 'string',
@@ -17,7 +17,7 @@ $config['tables'] = array(
         'field_value' => 'text',
         'locale' => 'string',
     ),
-    'supported_locales' => array(
+    'multilanguage_supported_locales' => array(
         'id' => 'integer',
         'locale' => 'string',
         'language' => 'string',
