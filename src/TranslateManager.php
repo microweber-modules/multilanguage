@@ -58,6 +58,11 @@ class TranslateManager
                             return false;
                         }
 
+                        if ($providerInstance->getRelType() == 'content_fields') {
+                            unset($saveData['value']);
+                            return $saveData;
+                        }
+
                         if (!empty($providerInstance->getColumns())) {
                             $dataForTranslate = $saveData;
                             foreach ($providerInstance->getColumns() as $column) {
@@ -77,11 +82,16 @@ class TranslateManager
                                 $providerInstance->saveOrUpdate($dataForTranslate);
                             }
                         }
-
                     }
 
                     return $saveData;
 
+                });
+
+                event_bind('mw.database.' . $providerTable . '.save.after', function ($saveData) use ($providerInstance) {
+
+
+                    
                 });
 
             }
