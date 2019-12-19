@@ -89,15 +89,31 @@ function add_supported_language($locale, $language) {
     return $find['id'];
 }
 
-function insert_default_language()
+function get_default_language()
 {
+    $langs = mw()->lang_helper->get_all_lang_codes();
+
     $defaultLang = mw()->lang_helper->default_lang();
     $defaultLang = strtolower($defaultLang);
 
-    $langs = mw()->lang_helper->get_all_lang_codes();
-
     if (isset($langs[$defaultLang])) {
-        return add_supported_language($defaultLang, $langs[$defaultLang]);
+        return array('locale'=>$defaultLang, 'language'=>$langs[$defaultLang]);
+    }
+
+    $locale = app()->getLocale();
+    $locale = strtolower($locale);
+    if (isset($langs[$locale])) {
+        return array('locale' => $locale, 'language' => $langs[$locale]);
+    }
+
+    return false;
+}
+
+function insert_default_language()
+{
+    $defaultLang = get_default_language();
+    if ($defaultLang) {
+        return add_supported_language($defaultLang['locale'], $defaultLang['language']);
     }
 
     return false;
@@ -143,16 +159,18 @@ function get_supported_languages()
         }
 
         // Check default language exists on supported locales
-        $default_lang = mw()->lang_helper->default_lang();
-        $default_lang = strtolower($default_lang);
-
-        if (!in_array($default_lang, $locales)) {
-            insert_default_language();
-            $languages = get_supported_languages();
+        $default_lang = get_default_language();
+        if (!in_array($default_lang['locale'], $locales)) {
+            $insert = insert_default_language();
+            if ($insert) {
+               $languages = get_supported_languages();
+            }
         }
     } else {
-        insert_default_language();
-        $languages = get_supported_languages();
+        $insert = insert_default_language();
+        if ($insert) {
+           $languages = get_supported_languages();
+        }
     }
 
     return $languages;
