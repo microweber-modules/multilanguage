@@ -41,7 +41,7 @@ $langs = mw()->lang_helper->get_all_lang_codes();
         $('.js-add-language').on('click', function () {
 
             if (add_language_key == false || add_language_value == false) {
-                mw.notification.error('<?php _e('Please, select language.'); ?>');
+                mw.notification.error('<?php _ejs('Please, select language.'); ?>');
                 return;
             }
 
@@ -50,7 +50,7 @@ $langs = mw()->lang_helper->get_all_lang_codes();
                     mw.reload_module_everywhere('multilanguage/settings', function () {
 /*
 
-                        $('.js-dropdown-text-language').html("<?php _e('Select Language...'); ?>");
+                        $('.js-dropdown-text-language').html("<?php _ejs('Select Language...'); ?>");
 
                         add_language_key = false;
                         add_language_value = false;

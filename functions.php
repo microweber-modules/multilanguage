@@ -92,6 +92,8 @@ function add_supported_language($locale, $language) {
 function insert_default_language()
 {
     $defaultLang = mw()->lang_helper->default_lang();
+    $defaultLang = strtolower($defaultLang);
+
     $langs = mw()->lang_helper->get_all_lang_codes();
 
     if (isset($langs[$defaultLang])) {
@@ -146,11 +148,11 @@ function get_supported_languages()
 
         if (!in_array($default_lang, $locales)) {
             insert_default_language();
-            $languages = db_get('multilanguage_supported_locales', $get_filter);
+            $languages = get_supported_languages();
         }
     } else {
         insert_default_language();
-        $languages = db_get('multilanguage_supported_locales', $get_filter);
+        $languages = get_supported_languages();
     }
 
     return $languages;
