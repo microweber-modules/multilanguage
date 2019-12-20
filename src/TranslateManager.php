@@ -59,6 +59,7 @@ class TranslateManager
                         }
 
                         if ($providerInstance->getRelType() == 'content_fields') {
+                            $saveData['__value'] = $saveData['value'];
                             unset($saveData['value']);
                             return $saveData;
                         }
@@ -90,8 +91,19 @@ class TranslateManager
 
                 event_bind('mw.database.' . $providerTable . '.save.after', function ($saveData) use ($providerInstance) {
 
+                    $currentLocale = mw()->lang_helper->current_lang();
+                    $defaultLocale = mw()->lang_helper->default_lang();
 
-                    
+                    if ($currentLocale != $defaultLocale) {
+                        if (!empty($providerInstance->getColumns())) {
+                            if ($providerInstance->getRelType() == 'content_fields') {
+                                $saveData['value'] = $saveData['__value'];
+                                unset($saveData['__value']);
+                                $providerInstance->saveOrUpdate($saveData);
+                            }
+                        }
+                    }
+
                 });
 
             }
