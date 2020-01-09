@@ -96,7 +96,7 @@ class TranslateManager
 
                     if ($currentLocale != $defaultLocale) {
                         if (!empty($providerInstance->getColumns())) {
-                            if ($providerInstance->getRelType() == 'content_fields') {
+                            if ($providerInstance->getRelType() == 'content_fields' && isset($saveData['__value'])) {
                                 $saveData['value'] = $saveData['__value'];
                                 unset($saveData['__value']);
                                 $providerInstance->saveOrUpdate($saveData);
