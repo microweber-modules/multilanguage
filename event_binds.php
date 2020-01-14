@@ -45,10 +45,26 @@ event_bind('content.link.after', function ($link) {
 
 });*/
 
+
 event_bind('mw.controller.index', function () {
 
     $targetUrl = mw()->url_manager->string();
     $detect = detect_lang_from_url($targetUrl);
+
+    if (!isset($_COOKIE['lang'])) {
+        $ip = user_ip();
+        $geoLocation = file_get_contents('http://ipinfo.microweberapi.com/?ip=' . $ip);
+        if ($geoLocation) {
+            $geoLocation = json_decode($geoLocation, true);
+            if ($geoLocation && isset($geoLocation['countryCode'])) {
+                $language = get_country_language_by_country_code($geoLocation['countryCode']);
+                if ($language && is_lang_correct($language)) {
+                    change_language_by_locale($language);
+                    return;
+                }
+            }
+        }
+    }
 
     if ($detect['target_lang']) {
         change_language_by_locale($detect['target_lang']);
