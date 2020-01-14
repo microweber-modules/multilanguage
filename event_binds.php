@@ -53,7 +53,7 @@ event_bind('mw.controller.index', function () {
 
     if (!isset($_COOKIE['lang'])) {
         $ip = user_ip();
-        $geoLocation = file_get_contents('http://ipinfo.microweberapi.com/?ip=' . $ip);
+        $geoLocation = mw()->http->url('http://ipinfo.microweberapi.com/?ip=' . $ip)->get();
         if ($geoLocation) {
             $geoLocation = json_decode($geoLocation, true);
             if ($geoLocation && isset($geoLocation['countryCode'])) {
@@ -64,6 +64,8 @@ event_bind('mw.controller.index', function () {
                 }
             }
         }
+
+
     }
 
     if ($detect['target_lang']) {
