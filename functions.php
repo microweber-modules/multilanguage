@@ -6,18 +6,18 @@ require_once 'src/MultilanguageApi.php';
 require_once 'src/TranslateManager.php';
 
 // Check multilanguage is active
-if (get_option('is_active','multilanguage') == '1') {
-    
-    $translate = new TranslateManager();
-    $translate->run();
-
-    require_once 'event_binds.php';
-    require_once 'api_exposes.php';
+if (get_option('is_active','multilanguage') !== '1') {
+    return;
 }
+
+$translate = new TranslateManager();
+$translate->run();
+
+require_once 'event_binds.php';
+require_once 'api_exposes.php';
 
 function get_short_abr($locale)
 {
-
     if (strlen($locale) == 2) {
         return $locale;
     }
