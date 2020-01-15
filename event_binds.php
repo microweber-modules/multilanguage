@@ -55,9 +55,10 @@ event_bind('mw.controller.index', function () {
     if ($useGeolocation && $useGeolocation == '1') {
         if (!isset($_COOKIE['lang'])) {
             $geoLocation = get_geolocation();
+            $geoLocation['countryCode'] = 'us';
             if ($geoLocation && isset($geoLocation['countryCode'])) {
                 $language = get_country_language_by_country_code($geoLocation['countryCode']);
-                if ($language && is_lang_correct($language)) {
+                if ($language && is_lang_supported($language)) {
                     change_language_by_locale($language);
                     return;
                 }

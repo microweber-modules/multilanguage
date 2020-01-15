@@ -123,6 +123,21 @@ function insert_default_language()
     return false;
 }
 
+function is_lang_supported($lang) {
+
+    if (!is_lang_correct($lang)) {
+        return false;
+    }
+
+    $supportedLanguagesMap = array();
+    $supportedLanguages = get_supported_languages();
+    foreach ($supportedLanguages as $language) {
+        $supportedLanguagesMap[] = $language['locale'];
+    }
+    
+    return in_array($lang, $supportedLanguagesMap);
+}
+
 function is_lang_correct($lang)
 {
     $correct = false;
