@@ -10,7 +10,7 @@
     <div class="mw-ui-box-no-bg">
         <b style="margin-right: 10px;">Multilanguage is active?</b>
         <label class="mw-switch mw-switch-action">
-            <input class="mw_option_field" type="checkbox" name="is_active" value="<?php echo get_option('use_geolocation','multilanguage');?>" option-group="multilanguage" data-value-checked="1" data-value-unchecked="0">
+            <input class="mw_option_field" type="checkbox" name="is_active" value="<?php echo get_option('is_active','multilanguage');?>" option-group="multilanguage" data-value-checked="1" data-value-unchecked="0">
             <span class="mw-switch-off">No</span>
             <span class="mw-switch-on">Yes</span>
             <span class="mw-switcher"></span>

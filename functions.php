@@ -5,11 +5,15 @@
 require_once 'src/MultilanguageApi.php';
 require_once 'src/TranslateManager.php';
 
-$translate = new TranslateManager();
-$translate->run();
+// Check multilanguage is active
+if (get_option('is_active','multilanguage') == '1') {
+    
+    $translate = new TranslateManager();
+    $translate->run();
 
-require_once 'event_binds.php';
-require_once 'api_exposes.php';
+    require_once 'event_binds.php';
+    require_once 'api_exposes.php';
+}
 
 function get_short_abr($locale)
 {
@@ -403,6 +407,36 @@ function get_country_language_by_country_code($country_code)
         if ($locale_exp[1] == $country_code) {
             return $locale_exp[0];
         }
+    }
+
+    return false;
+}
+
+function get_geolocation()
+{
+    $ip = user_ip();
+
+    $accessKey = get_option('ipstack_api_access_key','multilanguage');
+    if (!empty($accessKey)) {
+        $ipInfo = mw()->http->url('http://api.ipstack.com/'.$ip.'?access_key='.$accessKey)->get();
+    } else {
+        $ipInfo = mw()->http->url('http://ipinfo.microweberapi.com/?ip=' . $ip)->get();
+    }
+
+    $geoLocation = json_decode($ipInfo, true);
+
+    $countryCode = false;
+
+    if (isset($geoLocation['country_code'])) {
+        $countryCode = $geoLocation['country_code'];
+    }
+
+    if (isset($geoLocation['countryCode'])) {
+        $countryCode = $geoLocation['countryCode'];
+    }
+
+    if ($countryCode) {
+        return array('countryCode' => $countryCode);
     }
 
     return false;

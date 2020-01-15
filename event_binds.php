@@ -51,11 +51,10 @@ event_bind('mw.controller.index', function () {
     $targetUrl = mw()->url_manager->string();
     $detect = detect_lang_from_url($targetUrl);
 
-    if (!isset($_COOKIE['lang'])) {
-        $ip = user_ip();
-        $geoLocation = mw()->http->url('http://ipinfo.microweberapi.com/?ip=' . $ip)->get();
-        if ($geoLocation) {
-            $geoLocation = json_decode($geoLocation, true);
+    $useGeolocation = get_option('use_geolocation','multilanguage');
+    if ($useGeolocation && $useGeolocation == '1') {
+        if (!isset($_COOKIE['lang'])) {
+            $geoLocation = get_geolocation();
             if ($geoLocation && isset($geoLocation['countryCode'])) {
                 $language = get_country_language_by_country_code($geoLocation['countryCode']);
                 if ($language && is_lang_correct($language)) {
@@ -64,8 +63,6 @@ event_bind('mw.controller.index', function () {
                 }
             }
         }
-
-
     }
 
     if ($detect['target_lang']) {
