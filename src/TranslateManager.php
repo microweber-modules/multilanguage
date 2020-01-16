@@ -38,6 +38,9 @@ class TranslateManager
                             if (isset($item['option_key']) && $item['option_key'] == 'language') {
                                 continue;
                             }
+                            if (isset($item['option_key']) && $item['option_key'] == 'multilanguage') {
+                                continue;
+                            }
                             $item = $providerInstance->getTranslate($item);
                         }
                     }
@@ -55,6 +58,9 @@ class TranslateManager
 
                         // Exclude for language option
                         if (isset($saveData['option_key']) && $saveData['option_key'] == 'language') {
+                            return false;
+                        }
+                        if (isset($saveData['option_key']) && $saveData['option_key'] == 'multilanguage') {
                             return false;
                         }
 
