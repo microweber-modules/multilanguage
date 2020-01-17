@@ -32,33 +32,32 @@ class TranslateManager
                 $providerTable = $providerInstance->getRelType();
 
                 // BIND GET TABLES
-                event_bind('mw.database.' . $providerTable . '.get', function ($get) use ($providerTable, $providerInstance) {
-                    if (is_array($get) && !empty($get)) {
-                        foreach ($get as &$item) {
+                $currentLocale = mw()->lang_helper->current_lang();
+                $defaultLocale = mw()->lang_helper->default_lang();
 
-                            // Exclude for language option
-                            if (isset($item['option_key']) && $item['option_key'] == 'language') {
-                                continue;
+                if ($currentLocale != $defaultLocale) {
+
+                    event_bind('mw.database.' . $providerTable . '.get', function ($get) use ($providerTable, $providerInstance) {
+                        if (is_array($get) && !empty($get)) {
+                            foreach ($get as &$item) {
+
+                                // Exclude for language option
+                                if (isset($item['option_key']) && $item['option_key'] == 'language') {
+                                    continue;
+                                }
+
+                                if (isset($item['option_key']) && $item['option_key'] == 'multilanguage_settings') {
+                                    continue;
+                                }
+
+                                $item = $providerInstance->getTranslate($item);
                             }
-
-                            if (isset($item['option_key']) && $item['option_key'] == 'multilanguage_settings') {
-                                continue;
-                            }
-
-                            $item = $providerInstance->getTranslate($item);
                         }
-                    }
+                        return $get;
+                    });
 
-                    return $get;
-                });
-
-                // BIND SAVE TABLES
-                event_bind('mw.database.' . $providerTable . '.save.params', function ($saveData) use ($providerInstance) {
-
-                    $currentLocale = mw()->lang_helper->current_lang();
-                    $defaultLocale = mw()->lang_helper->default_lang();
-
-                    if ($currentLocale != $defaultLocale) {
+                    // BIND SAVE TABLES
+                    event_bind('mw.database.' . $providerTable . '.save.params', function ($saveData) use ($providerInstance) {
 
                         // Exclude for language option
                         if (isset($saveData['option_key']) && $saveData['option_key'] == 'language') {
@@ -94,29 +93,28 @@ class TranslateManager
                                 $providerInstance->saveOrUpdate($dataForTranslate);
                             }
                         }
-                    }
 
-                    return $saveData;
 
-                });
+                        return $saveData;
+                    });
 
-                event_bind('mw.database.' . $providerTable . '.save.after', function ($saveData) use ($providerInstance) {
+                    event_bind('mw.database.' . $providerTable . '.save.after', function ($saveData) use ($providerInstance) {
 
-                    $currentLocale = mw()->lang_helper->current_lang();
-                    $defaultLocale = mw()->lang_helper->default_lang();
+                        $currentLocale = mw()->lang_helper->current_lang();
+                        $defaultLocale = mw()->lang_helper->default_lang();
 
-                    if ($currentLocale != $defaultLocale) {
-                        if (!empty($providerInstance->getColumns())) {
-                            if ($providerInstance->getRelType() == 'content_fields' && isset($saveData['__value'])) {
-                                $saveData['value'] = $saveData['__value'];
-                                unset($saveData['__value']);
-                                $providerInstance->saveOrUpdate($saveData);
+                        if ($currentLocale != $defaultLocale) {
+                            if (!empty($providerInstance->getColumns())) {
+                                if ($providerInstance->getRelType() == 'content_fields' && isset($saveData['__value'])) {
+                                    $saveData['value'] = $saveData['__value'];
+                                    unset($saveData['__value']);
+                                    $providerInstance->saveOrUpdate($saveData);
+                                }
                             }
                         }
-                    }
 
-                });
-
+                    });
+                }
             }
         }
 
