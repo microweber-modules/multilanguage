@@ -68,6 +68,12 @@ class TranslateManager
                             return false;
                         }
 
+                        if ($providerInstance->getRelType() == 'options') {
+                            $saveData['__option_value'] = $saveData['option_value'];
+                            unset($saveData['option_value']);
+                            return $saveData;
+                        }
+
                         if ($providerInstance->getRelType() == 'content_fields') {
                             $saveData['__value'] = $saveData['value'];
                             unset($saveData['value']);
@@ -105,11 +111,19 @@ class TranslateManager
 
                         if ($currentLocale != $defaultLocale) {
                             if (!empty($providerInstance->getColumns())) {
+
                                 if ($providerInstance->getRelType() == 'content_fields' && isset($saveData['__value'])) {
                                     $saveData['value'] = $saveData['__value'];
                                     unset($saveData['__value']);
                                     $providerInstance->saveOrUpdate($saveData);
                                 }
+
+                                if ($providerInstance->getRelType() == 'options' && isset($saveData['__option_value'])) {
+                                    $saveData['option_value'] = $saveData['__option_value'];
+                                    unset($saveData['__option_value']);
+                                    $providerInstance->saveOrUpdate($saveData);
+                                }
+
                             }
                         }
 
