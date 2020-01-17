@@ -6,7 +6,7 @@ require_once 'src/MultilanguageApi.php';
 require_once 'src/TranslateManager.php';
 
 // Check multilanguage is active
-if (get_option('is_active','multilanguage') !== '1') {
+if (get_option('is_active','multilanguage_settings') !== 'y') {
     return;
 }
 

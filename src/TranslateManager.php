@@ -35,12 +35,16 @@ class TranslateManager
                 event_bind('mw.database.' . $providerTable . '.get', function ($get) use ($providerTable, $providerInstance) {
                     if (is_array($get) && !empty($get)) {
                         foreach ($get as &$item) {
+
+                            // Exclude for language option
                             if (isset($item['option_key']) && $item['option_key'] == 'language') {
                                 continue;
                             }
-                            if (isset($item['option_key']) && $item['option_key'] == 'multilanguage') {
+
+                            if (isset($item['option_key']) && $item['option_key'] == 'multilanguage_settings') {
                                 continue;
                             }
+
                             $item = $providerInstance->getTranslate($item);
                         }
                     }
@@ -60,7 +64,8 @@ class TranslateManager
                         if (isset($saveData['option_key']) && $saveData['option_key'] == 'language') {
                             return false;
                         }
-                        if (isset($saveData['option_key']) && $saveData['option_key'] == 'multilanguage') {
+
+                        if (isset($saveData['option_key']) && $saveData['option_key'] == 'multilanguage_settings') {
                             return false;
                         }
 

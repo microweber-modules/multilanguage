@@ -52,7 +52,7 @@ event_bind('mw.controller.index', function () {
     $detect = detect_lang_from_url($targetUrl);
 
     $useGeolocation = get_option('use_geolocation','multilanguage');
-    if ($useGeolocation && $useGeolocation == '1') {
+    if ($useGeolocation && $useGeolocation == 'y') {
         if (!isset($_COOKIE['lang'])) {
             $geoLocation = get_geolocation();
             $geoLocation['countryCode'] = 'us';
