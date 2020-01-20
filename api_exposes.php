@@ -33,3 +33,11 @@ api_expose('multilanguage/change_language', function ($params) {
     return $api->changeLanguage($params);
 
 });
+
+api_expose('multilanguage/geolocaiton_test', function ($params) {
+
+    $geo = get_geolocation_detailed();
+
+    echo json_encode($geo,JSON_PRETTY_PRINT);
+
+});

@@ -78,7 +78,15 @@
             });
         });
         function testGeoApi() {
-            
+            var client_details = {}
+            // client_details.ip = $('#ip').val();
+
+            $.post("<?php print site_url('api/multilanguage/geolocaiton_test'); ?>", client_details, function (msg) {
+                mw.tools.modal.init({
+                    html: "<pre>" + msg + "</pre>",
+                    title: "<?php _e('Geo API Results...'); ?>"
+                });
+            });
         }
     </script>
 
