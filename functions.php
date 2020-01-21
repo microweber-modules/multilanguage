@@ -430,13 +430,18 @@ function get_country_language_by_country_code($country_code)
 function get_geolocation_detailed()
 {
     $ip = user_ip();
-   // $ip = '8.8.8.8';
+    // $ip = '8.8.8.8';
 
     $geolocationProvider = get_option('geolocation_provider','multilanguage_settings');
     $accessKey = get_option('ipstack_api_access_key','multilanguage_settings');
 
     if ($geolocationProvider == 'ipstack_com') {
         $ipInfo = mw()->http->url('http://api.ipstack.com/' . $ip . '?access_key=' . $accessKey)->get();
+    } else if ($geolocationProvider == 'browser_detection') {
+        $countryCode = substr($_SERVER['HTTP_ACCEPT_LANGUAGE'], 3, 2);
+        $ipInfo = json_encode(array(
+            'countryCode'=> $countryCode
+        ));
     } else {
         $ipInfo = mw()->http->url('http://ipinfo.microweberapi.com/?ip=' . $ip)->get();
     }
