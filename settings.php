@@ -34,6 +34,12 @@
         <?php endif; ?>
     </div>
 
+    <?php
+/*
+    var_dump(get_option('is_active','multilanguage_settings'));
+    die();*/
+    ?>
+
     <div class="mw-ui-box-no-bg" style="margin-top: 15px;">
         <b style="margin-right: 10px;">Multilanguage is active?</b>
         <label class="mw-switch mw-switch-action">

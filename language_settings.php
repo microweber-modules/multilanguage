@@ -47,7 +47,7 @@ $langs = mw()->lang_helper->get_all_lang_codes();
 
             $.post(mw.settings.api_url + "multilanguage/add_language", { locale: add_language_key, language: add_language_value })
                 .done(function(data) {
-                    mw.reload_module_everywhere('multilanguage/settings', function () {
+                    mw.reload_module_everywhere('multilanguage/language_settings', function () {
 /*
 
                         $('.js-dropdown-text-language').html("<?php _ejs('Select Language...'); ?>");
@@ -199,7 +199,7 @@ $langs = mw()->lang_helper->get_all_lang_codes();
         mw.tools.confirm('<?php _e('Are you sure you want to delete?'); ?>', function () {
             $.post(mw.settings.api_url + "multilanguage/delete_language", { id:language_id })
                 .done(function(data) {
-                    mw.reload_module_everywhere('multilanguage/settings');
+                    mw.reload_module_everywhere('multilanguage/language_settings');
                 });
         });
     }

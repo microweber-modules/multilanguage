@@ -46,7 +46,7 @@ class TranslateManager
                                     continue;
                                 }
 
-                                if (isset($item['option_key']) && $item['option_key'] == 'multilanguage_settings') {
+                                if (isset($item['option_group']) && $item['option_group'] == 'multilanguage_settings') {
                                     continue;
                                 }
 
@@ -64,7 +64,7 @@ class TranslateManager
                             return false;
                         }
 
-                        if (isset($saveData['option_key']) && $saveData['option_key'] == 'multilanguage_settings') {
+                        if (isset($saveData['option_group']) && $saveData['option_group'] == 'multilanguage_settings') {
                             return false;
                         }
 
@@ -95,7 +95,7 @@ class TranslateManager
                                 }
                             }
 
-                            if (!empty($dataForTranslate)) {
+                            if (!empty($dataForTranslate) && isset($dataForTranslate['id']) && intval($dataForTranslate['id']) !== 0) {
                                 $providerInstance->saveOrUpdate($dataForTranslate);
                             }
                         }
