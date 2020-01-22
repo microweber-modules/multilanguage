@@ -12,6 +12,13 @@ class MultilanguageTest extends \Microweber\tests\TestCase
         $option['option_group'] = 'website';
         save_option($option);
 
+        // Activate multilaguage
+        $option = array();
+        $option['option_value'] = 'y';
+        $option['option_key'] = 'is_active';
+        $option['option_group'] = 'multilanguage_settings';
+        save_option($option);
+
         mw()->lang_helper->set_current_lang($lang);
         $this->assertEquals($lang, mw()->lang_helper->current_lang());
 
