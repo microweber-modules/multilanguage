@@ -1,5 +1,5 @@
 # Microweber: Multilanguage Module
-![Screenshot](screenshot.png)
+![Screenshot](https://raw.githubusercontent.com/microweber-modules/multilanguage/master/screenshot.png)
 
 
 # What is multilanguage module?
@@ -28,23 +28,23 @@ You can create a admin options, settings, posts, categories and all content on a
 3. Go to "Settings(On the left sidebar tab) > Marketplace".
 4. Click on left bar to filter only modules.
 5. Find the "Multilanguage Module" & click to install it the latest version.
-![Screenshot](screenshots/mw-marketplace.png)
+![Screenshot](https://raw.githubusercontent.com/microweber-modules/multilanguage/master/screenshots/mw-marketplace.png)
 6. Go to "My Modules(On the left sidebar tab)" and find the "Multilanguage Module" and open it.
-![Screenshot](screenshots/mw-modules-reload-modules.png)
+![Screenshot](https://raw.githubusercontent.com/microweber-modules/multilanguage/master/screenshots/mw-modules-reload-modules.png)
 7. Click the settings tab and activate the module.
-![Screenshot](screenshots/ml-activation.png)
+![Screenshot](https://raw.githubusercontent.com/microweber-modules/multilanguage/master/screenshots/ml-activation.png)
 
 + Second method.
 1. Download the zip of this repository. https://github.com/microweber-modules/multilanguage/archive/master.zip
 
-![Screenshot](screenshots/git-download.png)
+![Screenshot](https://raw.githubusercontent.com/microweber-modules/multilanguage/master/screenshots/git-download.png)
 
 2. Open the FTP of your "Microweber website".
 3. Open the directory "userfiles/modules".
 4. Unzip the "Multilanguage module" on the directory "userfiles/modules".
 5. Open your "Microweber Website Admin"
 6. Go to "Modules" reload modules and find the "Multilanguage Module" and open it.
-![Screenshot](screenshots/mw-modules-reload-modules.png)
+![Screenshot](https://raw.githubusercontent.com/microweber-modules/multilanguage/master/screenshots/mw-modules-reload-modules.png)
 7. Click the "Settings tab" and activate the module.
-![Screenshot](screenshots/ml-activation.png)
+![Screenshot](https://raw.githubusercontent.com/microweber-modules/multilanguage/master/screenshots/ml-activation.png)
 
