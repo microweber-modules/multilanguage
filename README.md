@@ -35,7 +35,7 @@ You can create a admin options, settings, posts, categories and all content on a
 ![Screenshot](screenshots/ml-activation.png)
 
 + Second method.
-1. [Download the zip of this repository.]: (https://github.com/microweber-modules/multilanguage/archive/master.zip)
+1. Download the zip of this repository. https://github.com/microweber-modules/multilanguage/archive/master.zip
 
 ![Screenshot](screenshots/git-download.png)
 
