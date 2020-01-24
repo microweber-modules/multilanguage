@@ -36,9 +36,13 @@ First method.
 
 Second method.
 1. Download the zip of this repository.
+![Screenshot](screenshots/git-download.png)
 2. Open the FTP of your "Microweber website".
 3. Open the directory "userfiles/modules".
 4. Unzip the "Multilanguage module" on the directory "userfiles/modules".
 5. Open your "Microweber Website Admin"
 6. Go to "Modules" reload modules and find the "Multilanguage Module" and open it.
+![Screenshot](screenshots/mw-modules-reload-modules.png)
 7. Click the "Settings tab" and activate the module.
+![Screenshot](screenshots/ml-activation.png)
+
