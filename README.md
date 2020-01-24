@@ -28,8 +28,11 @@ First method.
 3. Go to "Settings(On the left sidebar tab) > Marketplace".
 4. Click on left bar to filter only modules.
 5. Find the "Multilanguage Module" & click to install it the latest version.
+![Screenshot](screenshots/mw-marketplace.png)
 6. Go to "My Modules(On the left sidebar tab)" and find the "Multilanguage Module" and open it.
+![Screenshot](screenshots/mw-modules-reload-modules.png)
 7. Click the settings tab and activate the module.
+![Screenshot](screenshots/ml-activation.png)
 
 Second method.
 1. Download the zip of this repository.
