@@ -22,7 +22,7 @@ You can create a admin options, settings, posts, categories and all content on a
 
 # How to install?
 
-First method.
++ First method.
 1. Make sure you have installed "Microweber website", if you dont have just go to https://microweber.org/download and download the latest version.
 2. Open your "Microweber Website Admin".
 3. Go to "Settings(On the left sidebar tab) > Marketplace".
@@ -34,9 +34,8 @@ First method.
 7. Click the settings tab and activate the module.
 ![Screenshot](screenshots/ml-activation.png)
 
-Second method.
-1. Download the zip of this repository.
-https://github.com/microweber-modules/multilanguage/archive/master.zip
++ Second method.
+1. [Download the zip of this repository.]: https://github.com/microweber-modules/multilanguage/archive/master.zip
 ![Screenshot](screenshots/git-download.png)
 2. Open the FTP of your "Microweber website".
 3. Open the directory "userfiles/modules".
