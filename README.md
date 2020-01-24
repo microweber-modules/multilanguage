@@ -36,7 +36,9 @@ You can create a admin options, settings, posts, categories and all content on a
 
 + Second method.
 1. [Download the zip of this repository.]: https://github.com/microweber-modules/multilanguage/archive/master.zip
+
 ![Screenshot](screenshots/git-download.png)
+
 2. Open the FTP of your "Microweber website".
 3. Open the directory "userfiles/modules".
 4. Unzip the "Multilanguage module" on the directory "userfiles/modules".
