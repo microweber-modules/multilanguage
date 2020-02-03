@@ -211,6 +211,28 @@ $langs = mw()->lang_helper->get_all_lang_codes();
 
 <div class="mw-module-language-settings">
 
+    <script type="text/javascript">
+        $(document).ready(function () {
+            mw.options.form('.module-switch-active-form', function () {
+                mw.notification.success("All changes are saved.");
+                window.location.href = window.location.href;
+            });
+        });
+    </script>
+
+    <div class="module-switch-active-form">
+        <div class="mw-ui-box-no-bg" style="margin-top: 15px;margin-bottom: 15px;float:right">
+            <b style="margin-right: 10px;">Multilanguage is active?</b>
+            <label class="mw-switch mw-switch-action">
+                <input class="mw_option_field" type="checkbox" autocomplete="off" name="is_active" <?php if (get_option('is_active','multilanguage_settings') == 'y'):?>checked="checked"<?php endif;?> option-group="multilanguage_settings" data-value-checked="y" data-value-unchecked="n">
+                <span class="mw-switch-off">No</span>
+                <span class="mw-switch-on">Yes</span>
+                <span class="mw-switcher"></span>
+            </label>
+        </div>
+    </div>
+
+
     <label class="mw-ui-label"><?php _e('Add new language');?></label>
 
     <?php if($langs) : ?>
