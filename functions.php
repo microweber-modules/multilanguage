@@ -16,6 +16,14 @@ $translate->run();
 require_once 'event_binds.php';
 require_once 'api_exposes.php';
 
+function get_supported_locale_by_id($id) {
+    return db_get('multilanguage_supported_locales', 'id='.$id . '&single=1');
+}
+
+function get_supported_locale_by_locale($locale) {
+    return db_get('multilanguage_supported_locales', 'locale='.$locale . '&single=1');
+}
+
 function get_short_abr($locale)
 {
     if (strlen($locale) == 2) {

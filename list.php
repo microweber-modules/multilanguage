@@ -1,11 +1,16 @@
+<?php
+only_admin_access();
+?>
 <table class="mw-ui-table mw-full-width mw-ui-table-basic" style="margin-top: 30px;">
     <thead>
     <tr>
         <th style="width: 3%;"></th>
         <th style="width: 10%;"><?php echo _e('Locale');?></th>
-        <th><?php echo _e('Language');?></th>
+        <th style="width:25%;"><?php echo _e('Language');?></th>
+        <th><?php echo _e('Dispaly Name');?></th>
+        <th><?php echo _e('Dispaly Icon');?></th>
         <th style="width: 7%;"></th>
-        <th style="width: 10%;"></th>
+        <th style="width: 20%;"></th>
     </tr>
     </thead>
     <tbody class="js-tbody-supported-locales">
@@ -26,12 +31,17 @@
                     (<?php _e('Default'); ?>)
                     <?php endif; ?>
                 </td>
+                <td><?php echo $language['display_name']; ?></td>
+                <td><img src="<?php echo $language['display_icon']; ?>" style="max-width:22px;max-height: 22px;" /></td>
                 <td>
                     <input class="js-supported-language-order-numbers js-supported-language-order-number-<?php echo $language['id']; ?>" name="<?php echo $language['id']; ?>" data-initial-value="<?php echo $isl; ?>" value="<?php echo $isl; ?>" type="number" style="display:none;font-size:22px;border: 0px;width: 35px;" min="1">
                     <a href="#" class="show-on-hover" onclick="updateOrderNumber(<?php echo $language['id']; ?>, 'down')"><span class="mw-icon-arrow-up-a js-update-order-number"></span></a>
                     <a href="#" class="show-on-hover" onclick="updateOrderNumber(<?php echo $language['id']; ?>, 'up')"><span class="mw-icon-arrow-down-a js-update-order-number"></span></a>
                 </td>
                 <td>
+                    <a href="javascript:;" onClick="editSuportedLanguage('<?php echo $language['id']; ?>')" class="mw-ui-btn mw-ui-btn-medium show-on-hover">
+                        <?php echo _e('Edit');?>
+                    </a>
                     <?php
                     if ($defaultLang !== $language['locale']):
                         ?>

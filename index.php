@@ -19,6 +19,12 @@ if (isset($langs[$current_language_abr])) {
     $current_language['language'] = $langs[$current_language_abr];
 }
 
+$details_for_locale = get_supported_locale_by_locale($current_language['locale']);
+if ($details_for_locale) {
+    $current_language['display_name'] = $details_for_locale['display_name'];
+    $current_language['display_icon'] = $details_for_locale['display_icon'];
+}
+
 $module_template = get_option('data-template', $params['id']);
 
 if ($module_template == false and isset($params['template'])) {

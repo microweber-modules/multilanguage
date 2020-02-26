@@ -38,15 +38,52 @@ description: MW Default
         mw.lib.require('flag_icons');
     </script>
 
+    <style>
+        .multilanguage-display-icon-custom {
+            max-width: 18px;max-height: 18px;margin-right:5px;
+        }
+
+    </style>
+
     <div class="mw-dropdown mw-dropdown-default">
     <span class="mw-dropdown-value mw-ui-btn mw-ui-btn-medium mw-ui-btn-info mw-dropdown-val">
-        <span class="flag-icon flag-icon-<?php echo $current_language['icon']; ?> m-r-10"></span> <?php echo strtoupper($current_language['locale']); ?>
+
+        <?php if (!empty($current_language['display_icon'])): ?>
+            <img src="<?php echo $current_language['display_icon']; ?>" class="multilanguage-display-icon-custom" style="margin-top:3px;" />
+        <?php else: ?>
+            <span class="flag-icon flag-icon-<?php echo $current_language['icon']; ?> m-r-10"></span>
+        <?php endif; ?>
+
+        <?php if (!empty($current_language['display_name'])): ?>
+            <?php echo $current_language['display_name']; ?>
+        <?php else: ?>
+            <?php echo strtoupper($current_language['locale']); ?>
+        <?php endif; ?>
+
     </span>
         <div class="mw-dropdown-content">
             <ul id="switch_language_ul">
                 <?php foreach($supported_languages as $language): ?>
                     <li <?php if ($current_language['locale'] == get_short_abr($language['locale'])): ?> selected="" <?php endif; ?> data-value="<?php print $language['locale'] ?>" style="color:#000;">
-                        <span class="flag-icon flag-icon-<?php echo $language['icon']; ?> m-r-10"></span> <?php echo strtoupper($language['locale']) ?>
+
+                        <!-- custom display icon -->
+                        <?php if (!empty($language['display_icon'])): ?>
+                            <img src="<?php echo $language['display_icon']; ?>" class="multilanguage-display-icon-custom" />
+                        <?php else: ?>
+                            <span class="flag-icon flag-icon-<?php echo $language['icon']; ?> m-r-10"></span>
+                        <?php endif; ?>
+                        <!--- end of display icon -->
+
+
+                        <!-- custom display name -->
+                        <?php if (!empty($language['display_name'])): ?>
+                            <?php echo $language['display_name']; ?>
+                        <?php else: ?>
+                            <?php echo strtoupper($language['locale']); ?>
+                        <?php endif; ?>
+                        <!--- end of display name -->
+
+
                     </li>
                 <?php endforeach; ?>
                 <?php if (isset($params['show_settings_link']) && $params['show_settings_link'] == true): ?>

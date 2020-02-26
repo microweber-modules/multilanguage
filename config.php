@@ -21,6 +21,8 @@ $config['tables'] = array(
         'id' => 'integer',
         'locale' => 'string',
         'language' => 'string',
+        'display_name'=> 'string',
+        'display_icon'=> 'string',
         'position'=> 'integer'
     )
 );

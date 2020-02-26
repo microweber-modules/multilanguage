@@ -195,6 +195,20 @@ $langs = mw()->lang_helper->get_all_lang_codes();
         submitNewOrderNumbers();
     }
 
+    function editSuportedLanguage(id) {
+        mw.modal({
+            content: '<div id="mw_admin_preview_module_multilanguage_edit"></div>',
+            title: '<?php _e('Edit langauge'); ?>',
+            width: 600,
+            height: 300,
+            id: 'mw_admin_preview_module_mutlilanguage_modal'
+        });
+
+        var params = {};
+        params.locale_id = id;
+        mw.load_module('multilanguage/edit', '#mw_admin_preview_module_multilanguage_edit', null, params);
+    }
+
     function deleteSuportedLanguage(language_id) {
         mw.tools.confirm('<?php _e('Are you sure you want to delete?'); ?>', function () {
             $.post(mw.settings.api_url + "multilanguage/delete_language", { id:language_id })

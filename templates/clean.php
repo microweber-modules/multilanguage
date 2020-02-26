@@ -29,7 +29,15 @@ description: Clean
 
 <select name="switch-language" class="mw-ui-field js-switch-language-dropdown">
     <?php foreach($supported_languages as $language): ?>
-        <option value="<?php echo $language['locale']; ?>"><?php echo strtoupper($language['locale']) ?></option>
+        <option value="<?php echo $language['locale']; ?>">
+
+            <?php if (!empty($language['display_name'])): ?>
+                <?php echo $language['display_name']; ?>
+            <?php else: ?>
+                <?php echo strtoupper($language['locale']); ?>
+            <?php endif; ?>
+
+        </option>
     <?php endforeach; ?>
 </select>
 <?php endif; ?>

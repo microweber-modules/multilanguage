@@ -12,6 +12,10 @@ only_admin_access();
     <module type="admin/modules/info"/>
 <?php endif; ?>
 
+<script>
+    mw.lib.require('bootstrap4');
+</script>
+
 <div id="mw-admin-content" class="admin-side-content">
     <div class="mw-modules-tabs">
 
