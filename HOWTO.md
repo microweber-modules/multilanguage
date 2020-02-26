@@ -1,6 +1,4 @@
 # Microweber: Multilanguage Module
-![Screenshot](https://raw.githubusercontent.com/microweber-modules/multilanguage/master/screenshot.png)
-
 
 # How it works?
 
