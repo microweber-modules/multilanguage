@@ -255,6 +255,7 @@ $langs = mw()->lang_helper->get_all_lang_codes();
     <button class="mw-ui-btn mw-ui-btn-normal mw-ui-btn-notification js-add-language">
         <span class="mw-icon-plus"></span> <?php _e('Add');?>
     </button>
-
+    <div style="min-height:270px">
     <module type="multilanguage/list" />
+    </div>
 </div>
