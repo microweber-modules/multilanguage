@@ -3,16 +3,16 @@
 # How it works?
 
 # Make website multilanguage from live edit
-![Screenshot](screenshots/live-edit-multilanguage.gif)
+![Screenshot](https://raw.githubusercontent.com/microweber/microweber-docs/master/assets/multilanguage/live-edit-multilanguage.gif)
 
 # Edit custom page from live edit 
-![Screenshot](screenshots/live-edit-page-multilanguage.gif)
+![Screenshot](https://raw.githubusercontent.com/microweber/microweber-docs/master/assets/multilanguage/live-edit-page-multilanguage.gif)
 
 # Make post multilanguage from admin
-![Screenshot](screenshots/admin-post-edit.gif)
+![Screenshot](https://raw.githubusercontent.com/microweber/microweber-docs/master/assets/multilanguage/admin-post-edit.gif)
 
 # Edit custom fields from live edit
-![Screenshot](screenshots/customfields-live-edit-multilanguage.gif)
+![Screenshot](https://raw.githubusercontent.com/microweber/microweber-docs/master/assets/multilanguage/customfields-live-edit-multilanguage.gif)
 
 # Display custom name and icon
-![Screenshot](screenshots/dispaly-icon-multinaguage.gif)
+![Screenshot](https://raw.githubusercontent.com/microweber/microweber-docs/master/assets/multilanguage/dispaly-icon-multinaguage.gif)
