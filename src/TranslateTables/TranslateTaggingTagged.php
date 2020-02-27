@@ -13,7 +13,7 @@ class TranslateTaggingTagged extends TranslateTable
 
     protected $columns = [
         'tag_name',
-        'tag_slug',
+       // 'tag_slug',
         'tag_description'
     ];
 }
