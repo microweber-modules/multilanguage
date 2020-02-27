@@ -1,4 +1,11 @@
 <?php
+/**
+ * Created by PhpStorm.
+ * User: Bojidar Slaveykov
+ * Date: 2/27/2020
+ * Time: 12:50 PM
+ */
+
 require_once __DIR__ . '/TranslateTable.php';
 require_once __DIR__ . '/TranslateTables/TranslateMenu.php';
 require_once __DIR__ . '/TranslateTables/TranslateOption.php';
@@ -8,6 +15,8 @@ require_once __DIR__ . '/TranslateTables/TranslateContentFields.php';
 require_once __DIR__ . '/TranslateTables/TranslateCustomFields.php';
 require_once __DIR__ . '/TranslateTables/TranslateCustomFieldsValues.php';
 require_once __DIR__ . '/TranslateTables/TranslateTestimonials.php';
+require_once __DIR__ . '/TranslateTables/TranslateTaggingTags.php';
+require_once __DIR__ . '/TranslateTables/TranslateTaggingTagged.php';
 
 class TranslateManager
 {
@@ -20,7 +29,9 @@ class TranslateManager
         'TranslateContentFields',
         'TranslateCustomFields',
         'TranslateCustomFieldsValues',
-        'TranslateTestimonials'
+        'TranslateTestimonials',
+        'TranslateTaggingTags',
+        'TranslateTaggingTagged'
     ];
 
     public function run()

@@ -6,14 +6,14 @@
  * Time: 12:50 PM
  */
 
-class TranslateCustomFields extends TranslateTable {
-
+class TranslateTaggingTagged extends TranslateTable
+{
     protected $relId = 'id';
-    protected $relType = 'custom_fields';
+    protected $relType = 'tagging_tagged';
 
     protected $columns = [
-        'name',
-        'placeholder'
+        'tag_name',
+       // 'tag_slug',
+       // 'tag_description'
     ];
-
 }
