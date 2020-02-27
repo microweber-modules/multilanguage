@@ -31,6 +31,7 @@ if (empty($displayName)) {
             mw.$("#upload_info").html("");
             $('.js-display-icon').attr('src', data.src);
             $('.js-display-icon-url').attr('value', data.src);
+            $('.js-display-icon-remove').show();
         });
 
         $(uploader).bind('progress', function(up, file) {
@@ -41,6 +42,14 @@ if (empty($displayName)) {
 
         $(uploader).bind('error', function(up, file) {
             mw.notification.error("The file is not uploaded.");
+        });
+
+
+        $('.js-display-icon-remove').click(function (e) {
+            $('.js-display-icon').attr('src', '');
+            $('.js-display-icon-url').attr('value', '');
+            $('.js-admin-supported-locale-edit-form').submit();
+            $('.js-display-icon-remove').hide();
         });
 
         $('.js-admin-supported-locale-edit-form').submit(function (e) {
@@ -81,12 +90,13 @@ if (empty($displayName)) {
     <span style="padding-left: 5px"> Upload file <span id="upload_info"></span>
     </span>
     </span>
+    <div class="mw-ui-btn js-display-icon-remove" <?php if (empty($displayIcon)): ?>style="display: none;" <?php endif; ?>><span class="fa fa-times"></span> <span style="padding-left: 5px">Remove</span></div>
 
     <input type="hidden" name="display_icon" value="<?php echo $displayIcon; ?>" class="form-control js-display-icon-url" />
 
     <div class="form-group"  style="margin-top:15px">
     <input type="hidden" name="locale_id" value="<?php echo $localeId; ?>">
-    <button type="submit" class="btn btn-success" style="width:120px;"><i class="fa fa-save"></i> Save</button>
+    <button type="submit" class="btn btn-success"><i class="fa fa-save"></i> Save</button>
     </div>
 
 </form>
