@@ -1,18 +1,14 @@
-# Microweber: Multilanguage Module
-
-# How it works?
-
-# Make website multilanguage from live edit
+# 1.Make website multilanguage from live edit
 ![Screenshot](https://raw.githubusercontent.com/microweber/microweber-docs/master/assets/multilanguage/live-edit-multilanguage.gif)
 
-# Edit custom page from live edit 
+# 2.Edit custom page from live edit 
 ![Screenshot](https://raw.githubusercontent.com/microweber/microweber-docs/master/assets/multilanguage/live-edit-page-multilanguage.gif)
 
-# Make post multilanguage from admin
+# 3.Make post multilanguage from admin
 ![Screenshot](https://raw.githubusercontent.com/microweber/microweber-docs/master/assets/multilanguage/admin-post-edit.gif)
 
-# Edit custom fields from live edit
+# 4.Edit custom fields from live edit
 ![Screenshot](https://raw.githubusercontent.com/microweber/microweber-docs/master/assets/multilanguage/customfields-live-edit-multilanguage.gif)
 
-# Display custom name and icon
+# 5.Display custom name and icon
 ![Screenshot](https://raw.githubusercontent.com/microweber/microweber-docs/master/assets/multilanguage/dispaly-icon-multinaguage.gif)

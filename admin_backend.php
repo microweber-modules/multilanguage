@@ -44,4 +44,5 @@ only_admin_access();
         </div>
 
     </div>
+    <module type="help/modal_with_button" for_module="multilanguage" />
 </div>
