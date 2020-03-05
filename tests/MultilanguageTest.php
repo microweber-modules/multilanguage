@@ -68,8 +68,7 @@ class MultilanguageTest extends \Microweber\tests\TestCase
         $this->_addNewMultilanguageOption('slaveykov', 'Slaveykov', 'Славейков');
         $this->_addNewMultilanguageOption('health', 'Health', 'Здраве');
         $this->_addNewMultilanguageOption('love', 'Love', 'Любов');
-        $this->_addNewMultilanguageOption('apple', 'Apple', 'Ябълка');
-        $this->_addNewMultilanguageOption('car', 'Car', 'Кола');
+        $this->_addNewMultilanguageOption('happy', 'Happy', 'Щастие');
         $this->_addNewMultilanguageOption('rich', 'Rich', 'Богат');
     }
 
@@ -103,27 +102,7 @@ class MultilanguageTest extends \Microweber\tests\TestCase
         $option['option_value'] = $bg_option_value;
         $option['option_key'] = $option_key;
         $option['option_group'] = $option_group;
-        save_option($option);
-        // Get bg option
-        $this->assertEquals($bg_option_value, get_option($option_key, $option_group));
-
-
-        /**
-         * TEST ENGLISH LANGUAGE
-         * Switch to english language
-         */
-        mw()->lang_helper->set_current_lang('en');
-        $this->assertEquals('en', mw()->lang_helper->current_lang());
-        // Get en option
-        $this->assertEquals($en_option_value, get_option($option_key, $option_group));
-
-
-        /**
-         * TEST BULGARIAN LANGUAGE
-         * Switch to bulgarian language
-         */
-        mw()->lang_helper->set_current_lang('bg');
-        $this->assertEquals('bg', mw()->lang_helper->current_lang());
+        save_option($option);  
         // Get bg option
         $this->assertEquals($bg_option_value, get_option($option_key, $option_group));
 
