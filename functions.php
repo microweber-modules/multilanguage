@@ -156,26 +156,38 @@ function is_lang_correct($lang)
     return $correct;
 }
 
-function detect_lang_from_url($url)
+function detect_lang_from_url($targetUrl)
 {
-    $targetUrl = false;
-    $targetLang = false;
-    $segments = explode('/', $url);
-    if (count($segments) >= 2) {
-        $targetLang = $segments[0];
-        $urlSegments = [];
-        foreach ($segments as $key=>$segment) {
-            if ($key == 0) {
-                continue;
-            }
-            $urlSegments[] = $segment;
-        }
-        $targetUrl = implode('/', $urlSegments);
+    $targetLang = mw()->lang_helper->default_lang();
+    $findedLangAbr = 0;
+    $segments = explode('/', $targetUrl);
+    if (count($segments) < 1) {
+        array('target_lang' => $targetLang, 'target_url' => $targetUrl);
     }
 
-    if (!is_lang_correct($targetLang)) {
-        $targetLang = false;
+    // Find target lang in segments
+    foreach ($segments as $segment) {
+        if (is_lang_correct($segment)) {
+            $findedLangAbr++;
+        }
     }
+
+    if ($findedLangAbr == 0) {
+        return array(
+            'target_lang' => $targetLang,
+            'target_url' => $targetUrl
+        );
+    }
+    $targetUrlSegments = array();
+    foreach ($segments as $key=>$segment) {
+        if ($key == 0) {
+            $targetLang = $segment; // This is the lang abr
+        } else {
+            $targetUrlSegments[] = $segment;
+        }
+    }
+
+    $targetUrl = implode('/',$targetUrlSegments);
 
     return array('target_lang' => $targetLang, 'target_url' => $targetUrl);
 }
