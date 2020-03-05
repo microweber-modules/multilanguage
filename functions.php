@@ -161,9 +161,16 @@ function detect_lang_from_url($url)
     $targetUrl = false;
     $targetLang = false;
     $segments = explode('/', $url);
-    if (count($segments) == 2) {
+    if (count($segments) >= 2) {
         $targetLang = $segments[0];
-        $targetUrl = $segments[1];
+        $urlSegments = [];
+        foreach ($segments as $key=>$segment) {
+            if ($key == 0) {
+                continue;
+            }
+            $urlSegments[] = $segment;
+        }
+        $targetUrl = implode('/', $urlSegments);
     }
 
     if (!is_lang_correct($targetLang)) {
