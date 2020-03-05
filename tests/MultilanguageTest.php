@@ -102,7 +102,7 @@ class MultilanguageTest extends \Microweber\tests\TestCase
         $option['option_value'] = $bg_option_value;
         $option['option_key'] = $option_key;
         $option['option_group'] = $option_group;
-        save_option($option);  
+        save_option($option);
         // Get bg option
         $this->assertEquals($bg_option_value, get_option($option_key, $option_group));
 
