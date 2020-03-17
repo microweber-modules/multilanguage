@@ -66,6 +66,7 @@
         </label>
         <select name="geolocation_provider" class="mw-ui-field mw_option_field js-geolocation-provider" style="width: 200px;" option-group="multilanguage_settings">
             <option value="browser_detection">Browser Detection</option>
+            <option value="domain_detection">Domain Detection</option>
             <option value="microweber">Microweber Geo Api</option>
             <option value="ipstack_com">IpStack.com</option>
         </select>

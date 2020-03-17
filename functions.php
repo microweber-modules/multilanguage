@@ -6,7 +6,7 @@ require_once 'src/MultilanguageApi.php';
 require_once 'src/TranslateManager.php';
 
 // Check multilanguage is active
-if (get_option('is_active','multilanguage_settings') !== 'y') {
+if (get_option('is_active', 'multilanguage_settings') !== 'y') {
     return;
 }
 
@@ -16,12 +16,14 @@ $translate->run();
 require_once 'event_binds.php';
 require_once 'api_exposes.php';
 
-function get_supported_locale_by_id($id) {
-    return db_get('multilanguage_supported_locales', 'id='.$id . '&single=1');
+function get_supported_locale_by_id($id)
+{
+    return db_get('multilanguage_supported_locales', 'id=' . $id . '&single=1');
 }
 
-function get_supported_locale_by_locale($locale) {
-    return db_get('multilanguage_supported_locales', 'locale='.$locale . '&single=1');
+function get_supported_locale_by_locale($locale)
+{
+    return db_get('multilanguage_supported_locales', 'locale=' . $locale . '&single=1');
 }
 
 function get_short_abr($locale)
@@ -75,7 +77,8 @@ function change_language_by_locale($locale)
     return mw()->lang_helper->set_current_lang($locale);
 }
 
-function add_supported_language($locale, $language) {
+function add_supported_language($locale, $language)
+{
 
     $get = array();
     $get['locale'] = $locale;
@@ -109,7 +112,7 @@ function get_default_language()
     $defaultLang = strtolower($defaultLang);
 
     if (isset($langs[$defaultLang])) {
-        return array('locale'=>$defaultLang, 'language'=>$langs[$defaultLang]);
+        return array('locale' => $defaultLang, 'language' => $langs[$defaultLang]);
     }
 
     $locale = app()->getLocale();
@@ -131,7 +134,8 @@ function insert_default_language()
     return false;
 }
 
-function is_lang_supported($lang) {
+function is_lang_supported($lang)
+{
 
     if (!is_lang_correct($lang)) {
         return false;
@@ -179,7 +183,7 @@ function detect_lang_from_url($targetUrl)
         );
     }
     $targetUrlSegments = array();
-    foreach ($segments as $key=>$segment) {
+    foreach ($segments as $key => $segment) {
         if ($key == 0) {
             $targetLang = $segment; // This is the lang abr
         } else {
@@ -187,7 +191,7 @@ function detect_lang_from_url($targetUrl)
         }
     }
 
-    $targetUrl = implode('/',$targetUrlSegments);
+    $targetUrl = implode('/', $targetUrlSegments);
 
     return array('target_lang' => $targetLang, 'target_url' => $targetUrl);
 }
@@ -209,13 +213,13 @@ function get_supported_languages()
         if (!in_array($default_lang['locale'], $locales)) {
             $insert = insert_default_language();
             if ($insert) {
-               $languages = get_supported_languages();
+                $languages = get_supported_languages();
             }
         }
     } else {
         $insert = insert_default_language();
         if ($insert) {
-           $languages = get_supported_languages();
+            $languages = get_supported_languages();
         }
     }
 
@@ -441,10 +445,9 @@ function get_country_language_by_country_code($country_code)
 
     $country_code = strtolower($country_code);
 
-    foreach ($locales as $locale)
-    {
+    foreach ($locales as $locale) {
         $locale = strtolower($locale);
-        $locale_exp = explode( '-', $locale);
+        $locale_exp = explode('-', $locale);
 
         if ($locale_exp[1] == $country_code) {
             return $locale_exp[0];
@@ -459,24 +462,55 @@ function get_geolocation_detailed()
     $ip = user_ip();
     // $ip = '8.8.8.8';
 
-    $geolocationProvider = get_option('geolocation_provider','multilanguage_settings');
-    $accessKey = get_option('ipstack_api_access_key','multilanguage_settings');
+    $geolocationProvider = get_option('geolocation_provider', 'multilanguage_settings');
+    $accessKey = get_option('ipstack_api_access_key', 'multilanguage_settings');
 
     if ($geolocationProvider == 'ipstack_com') {
         $ipInfo = mw()->http->url('http://api.ipstack.com/' . $ip . '?access_key=' . $accessKey)->get();
+    } else if ($geolocationProvider == 'domain_detection') {
+        $countryCode = get_country_code_from_domain();
+        $ipInfo = json_encode(array(
+            'countryCode' => $countryCode
+        ));
     } else if ($geolocationProvider == 'browser_detection') {
         $countryCode = substr($_SERVER['HTTP_ACCEPT_LANGUAGE'], 3, 2);
         $ipInfo = json_encode(array(
-            'countryCode'=> $countryCode
+            'countryCode' => $countryCode
         ));
     } else {
         $ipInfo = mw()->http->url('http://ipinfo.microweberapi.com/?ip=' . $ip)->get();
     }
 
     $geoLocation = json_decode($ipInfo, true);
-   // $geoLocation['provider'] = $geolocationProvider;
+    // $geoLocation['provider'] = $geolocationProvider;
 
     return $geoLocation;
+}
+
+function get_country_code_from_domain()
+{
+    $countryCode = 'EN';
+    if (strpos($_SERVER['HTTP_HOST'], '.com') !== false) {
+        $countryCode = 'EN';
+    }
+
+    if (strpos($_SERVER['HTTP_HOST'], '.bg') !== false) {
+        $countryCode = 'BG';
+    }
+
+    if (strpos($_SERVER['HTTP_HOST'], '.ru') !== false) {
+        $countryCode = 'RU';
+    }
+
+    if (strpos($_SERVER['HTTP_HOST'], '.gr') !== false) {
+        $countryCode = 'GR';
+    }
+
+    if (strpos($_SERVER['HTTP_HOST'], '.ar') !== false) {
+        $countryCode = 'AR';
+    }
+
+    return $countryCode;
 }
 
 function get_geolocation()
