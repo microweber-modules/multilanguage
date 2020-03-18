@@ -68,6 +68,7 @@ class MultilanguageApi
 
         if (isset($params['is_admin']) && $params['is_admin'] == 1) {
             $json['refresh'] = true;
+            mw()->event_manager->trigger('mw.admin.change_language');
         } else {
             $targetUrl = mw()->url_manager->string(true);
             $detect = detect_lang_from_url($targetUrl);
