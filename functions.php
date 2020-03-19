@@ -162,7 +162,7 @@ function is_lang_correct($lang)
 
 function detect_lang_from_url($targetUrl)
 {
-    $targetLang = mw()->lang_helper->default_lang();
+    $targetLang = mw()->lang_helper->current_lang();
     $findedLangAbr = 0;
     $segments = explode('/', $targetUrl);
     if (count($segments) < 1) {
