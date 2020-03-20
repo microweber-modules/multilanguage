@@ -1,5 +1,5 @@
 <?php
-$supported_languages = get_supported_languages();
+$supported_languages = get_supported_languages(true);
 
 $current_language = array();
 

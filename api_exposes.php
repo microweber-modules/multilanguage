@@ -6,6 +6,32 @@
  * Time: 1:52 PM
  */
 
+api_expose_admin('multilanguage/supported_locale/set_active', function ($params) {
+
+    if (isset($params['id'])) {
+
+        $getLocale = get_supported_locale_by_id($params['id']);
+        if ($getLocale) {
+
+            $localeUpdate = [];
+            $localeUpdate['id'] = $getLocale['id'];
+
+            $localeUpdate['is_active'] = 'n';
+            if ($params['is_active'] == 'true') {
+                $localeUpdate['is_active'] = 'y';
+            }
+
+            $save = db_save('multilanguage_supported_locales', $localeUpdate);
+            if ($save) {
+                return ['success'=>true];
+            }
+        }
+
+    }
+
+    return ['error'=>true];
+
+});
 
 api_expose_admin('multilanguage/edit_locale', function ($params) {
 

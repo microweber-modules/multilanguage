@@ -23,6 +23,7 @@ $config['tables'] = array(
         'language' => 'string',
         'display_name'=> 'string',
         'display_icon'=> 'string',
-        'position'=> 'integer'
+        'position'=> 'integer',
+        'is_active'=> 'string'
     )
 );

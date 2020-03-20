@@ -1,16 +1,36 @@
 <?php
 only_admin_access();
 ?>
+<script type="text/javascript">
+    $(document).ready(function () {
+
+        $('.js-option-field-change-is-active').change(function (e) {
+
+            is_checked = $(this).is(':checked');
+            supported_language_id = $(this).attr('supported_language_id');
+
+            $.post("<?php print site_url('api/multilanguage/supported_locale/set_active'); ?>", {is_active:is_checked, id:supported_language_id}, function (msg) {
+                if (is_checked === true) {
+                    mw.notification.success('<?php _e('Language is enabled!');?>');
+                } else {
+                    mw.notification.error('<?php _e('Language is disabled!');?>');
+                }
+            });
+        });
+
+    });
+</script>
 <table class="mw-ui-table mw-full-width mw-ui-table-basic" style="margin-top: 30px;">
     <thead>
     <tr>
         <th style="width: 3%;"></th>
         <th style="width: 10%;"><?php echo _e('Locale');?></th>
         <th style="width:25%;"><?php echo _e('Language');?></th>
-        <th><?php echo _e('Dispaly Name');?></th>
-        <th><?php echo _e('Dispaly Icon');?></th>
+        <th style="width: 20%;"><?php echo _e('Dispaly Name');?></th>
+        <th style="width: 15%;"><?php echo _e('Dispaly Icon');?></th>
         <th style="width: 7%;"></th>
         <th style="width: 20%;"></th>
+        <th style="width: 10%;">Active</th>
     </tr>
     </thead>
     <tbody class="js-tbody-supported-locales">
@@ -49,6 +69,16 @@ only_admin_access();
                             <?php echo _e('Delete');?>
                         </a>
                     <?php endif; ?>
+                </td>
+                <td>
+                    <div class="mw-ui-box-no-bg">
+                        <label class="mw-switch mw-switch-action">
+                            <input class="mw_option_field js-option-field-change-is-active" type="checkbox" supported_language_id="<?php echo $language['id']; ?>" autocomplete="off" value="y" name="is_active" <?php if ($language['is_active'] == 'y'):?>checked="checked"<?php endif;?> data-value-checked="y" data-value-unchecked="n">
+                            <span class="mw-switch-off">No</span>
+                            <span class="mw-switch-on">Yes</span>
+                            <span class="mw-switcher"></span>
+                        </label>
+                    </div>
                 </td>
             </tr>
         <?php $isl++; endforeach; ?>

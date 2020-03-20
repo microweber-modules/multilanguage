@@ -4,6 +4,8 @@
  */
 require_once 'src/MultilanguageApi.php';
 require_once 'src/TranslateManager.php';
+require_once 'api_exposes.php';
+
 
 // Check multilanguage is active
 if (get_option('is_active', 'multilanguage_settings') !== 'y') {
@@ -14,7 +16,6 @@ $translate = new TranslateManager();
 $translate->run();
 
 require_once 'event_binds.php';
-require_once 'api_exposes.php';
 
 function get_supported_locale_by_id($id)
 {
@@ -196,9 +197,13 @@ function detect_lang_from_url($targetUrl)
     return array('target_lang' => $targetLang, 'target_url' => $targetUrl);
 }
 
-function get_supported_languages()
+function get_supported_languages($only_active = false)
 {
     $get_filter = 'no_cache=true&order_by=position asc';
+    if ($only_active) {
+        $get_filter .= '&is_active=y';
+    }
+
     $languages = db_get('multilanguage_supported_locales', $get_filter);
 
     if ($languages) {
