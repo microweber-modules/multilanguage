@@ -155,19 +155,17 @@ class MultilanguageTest extends \Microweber\tests\TestCase
         $this->assertEquals('bg', $detect['target_lang']);
         $this->assertEquals('tova-e-strahotniq-post.html', $detect['target_url']);
 
-
         $url = 'en/tova-e-strahotniq-post.html';
         $detect = detect_lang_from_url($url);
 
         $this->assertEquals('en', $detect['target_lang']);
         $this->assertEquals('tova-e-strahotniq-post.html', $detect['target_url']);
 
-
-        $url = 'blqblq/tova-e-strahotniq-post.html';
+        $url = 'one-level/two-level/three-level/tova-e-strahotniq-post.html';
         $detect = detect_lang_from_url($url);
 
-        $this->assertEquals(false, $detect['target_lang']);
-        $this->assertEquals('tova-e-strahotniq-post.html', $detect['target_url']);
+        $this->assertEquals('en', $detect['target_lang']);
+        $this->assertEquals('one-level/two-level/three-level/tova-e-strahotniq-post.html', $detect['target_url']);
 
     }
 
