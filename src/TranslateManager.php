@@ -18,6 +18,7 @@ require_once __DIR__ . '/TranslateTables/TranslateCustomFieldsValues.php';
 require_once __DIR__ . '/TranslateTables/TranslateTestimonials.php';
 require_once __DIR__ . '/TranslateTables/TranslateTaggingTags.php';
 require_once __DIR__ . '/TranslateTables/TranslateTaggingTagged.php';
+require_once __DIR__ . '/TranslateTables/TranslateDynamicTextVariables.php';
 
 class TranslateManager
 {
@@ -33,7 +34,8 @@ class TranslateManager
         'TranslateCustomFieldsValues',
         'TranslateTestimonials',
         'TranslateTaggingTags',
-        'TranslateTaggingTagged'
+        'TranslateTaggingTagged',
+        'TranslateDynamicTextVariables'
     ];
 
     public function run()
