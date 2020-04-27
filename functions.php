@@ -185,6 +185,8 @@ function detect_lang_from_url($targetUrl)
         if (is_lang_correct($segment)) {
             $findedLangAbr++;
         }
+
+        // display locale
         if (is_lang_correct_by_display_locale($segment)) {
             $findedLangAbr++;
         }

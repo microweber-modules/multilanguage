@@ -20,6 +20,13 @@ event_bind('content.link.after', function ($link) {
         $current_lang = mw()->lang_helper->current_lang();
 
         if ($default_lang !== $current_lang) {
+
+            // display locale
+            $localeSettings = db_get('multilanguage_supported_locales', 'locale=' . $current_lang . '&single=1');
+            if ($localeSettings && !empty($localeSettings['display_locale'])) {
+                $current_lang = $localeSettings['display_locale'];
+            }
+
             $new_url = str_replace(site_url(), site_url() . $current_lang . '/', $link);
             $link = $new_url;
         }
@@ -68,7 +75,15 @@ event_bind('mw.controller.index', function () {
     }
 
     if ($detect['target_lang']) {
-        change_language_by_locale($detect['target_lang']);
+
+        // display locale
+        $localeSettings = db_get('multilanguage_supported_locales', 'display_locale=' . $detect['target_lang'] . '&single=1');
+        if ($localeSettings) {
+            change_language_by_locale($localeSettings['locale']);
+        } else {
+            change_language_by_locale($detect['target_lang']);
+        }
+
     }
 
 });
