@@ -16,7 +16,7 @@ event_bind('live_edit_toolbar_action_buttons', function () {
 event_bind('content.link.after', function ($link) {
 
    if (!defined('MW_API_HTML_OUTPUT') && (defined('MW_FRONTEND') || defined('MW_API_CALL'))) {
-        $default_lang = get_option('language', 'website');   
+        $default_lang = get_option('language', 'website');
         $current_lang = mw()->lang_helper->current_lang();
 
         if ($default_lang !== $current_lang) {

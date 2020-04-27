@@ -161,6 +161,16 @@ function is_lang_correct($lang)
     return $correct;
 }
 
+function is_lang_correct_by_display_locale($locale)
+{
+    $localeSettings = db_get('multilanguage_supported_locales', 'display_locale=' . $locale . '&single=1');
+    if ($localeSettings) {
+        return true;
+    }
+
+    return false;
+}
+
 function detect_lang_from_url($targetUrl)
 {
     $targetLang = mw()->lang_helper->current_lang();
@@ -173,6 +183,9 @@ function detect_lang_from_url($targetUrl)
     // Find target lang in segments
     foreach ($segments as $segment) {
         if (is_lang_correct($segment)) {
+            $findedLangAbr++;
+        }
+        if (is_lang_correct_by_display_locale($segment)) {
             $findedLangAbr++;
         }
     }

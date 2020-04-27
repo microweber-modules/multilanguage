@@ -75,6 +75,12 @@ class MultilanguageApi
 
             $json['refresh'] = true;
             if ($detect['target_url']) {
+
+                $localeSettings = get_supported_locale_by_locale($locale);
+                if (!empty($localeSettings['display_locale'])) {
+                    $locale = $localeSettings['display_locale'];
+                }
+
                 $json['location'] = site_url($locale . '/' . $detect['target_url']);
             }
 
