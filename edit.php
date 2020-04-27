@@ -6,9 +6,14 @@ $getSupportedLocale = get_supported_locale_by_id($localeId);
 if (!$getSupportedLocale) {
     return;
 }
+
+$displayLocale = $getSupportedLocale['display_locale'];
 $displayName = $getSupportedLocale['display_name'];
 $displayIcon = $getSupportedLocale['display_icon'];
 
+if (empty($displayLocale)) {
+    $displayLocale = $getSupportedLocale['locale'];
+}
 if (empty($displayName)) {
     $displayName = $getSupportedLocale['language'];
 }
@@ -77,6 +82,11 @@ if (empty($displayName)) {
     });
 </script>
 <form method="post" class="js-admin-supported-locale-edit-form">
+
+    <div class="form-group">
+    Display Locale:
+    <input type="text" name="display_locale" value="<?php echo $displayLocale; ?>" class="form-control" />
+    </div>
 
     <div class="form-group">
     Display Name:

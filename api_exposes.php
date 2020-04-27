@@ -44,6 +44,7 @@ api_expose_admin('multilanguage/edit_locale', function ($params) {
             $localeUpdate['id'] = $getLocale['id'];
             $localeUpdate['display_name'] = $params['display_name'];
             $localeUpdate['display_icon'] = $params['display_icon'];
+            $localeUpdate['display_locale'] = $params['display_locale'];
 
             $save = db_save('multilanguage_supported_locales', $localeUpdate);
             if ($save) {

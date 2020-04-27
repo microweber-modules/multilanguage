@@ -26,6 +26,7 @@ only_admin_access();
         <th style="width: 3%;"></th>
         <th style="width: 10%;"><?php echo _e('Locale');?></th>
         <th style="width:25%;"><?php echo _e('Language');?></th>
+        <th style="width: 20%;"><?php echo _e('Dispaly Locale');?></th>
         <th style="width: 20%;"><?php echo _e('Dispaly Name');?></th>
         <th style="width: 15%;"><?php echo _e('Dispaly Icon');?></th>
         <th style="width: 7%;"></th>
@@ -51,6 +52,7 @@ only_admin_access();
                     (<?php _e('Default'); ?>)
                     <?php endif; ?>
                 </td>
+                <td><?php echo $language['display_locale']; ?></td>
                 <td><?php echo $language['display_name']; ?></td>
                 <td><img src="<?php echo $language['display_icon']; ?>" style="max-width:22px;max-height: 22px;" /></td>
                 <td>
