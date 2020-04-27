@@ -42,7 +42,6 @@ description: MW Default
         .multilanguage-display-icon-custom {
             max-width: 18px;max-height: 18px;margin-right:5px;
         }
-
     </style>
 
     <div class="mw-dropdown mw-dropdown-default">
