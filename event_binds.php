@@ -5,10 +5,13 @@
 
 template_head(function(){
 
-    $lang = mw()->lang_helper->current_lang();
     $content_link = content_link(CONTENT_ID);
-te
-    $link = '<link rel="alternate" href="'.$content_link.'" hreflang="'.$lang.'" />';
+    $link = '<link rel="canonical" href="' . $content_link . '"/>';
+
+    $supportedLanguages = get_supported_languages();
+    foreach ($supportedLanguages as $locale) {
+        $link .= '<link rel="alternate" href="' . $content_link . '" hreflang="' . $locale['locale'] . '" />';
+    }
 
     return $link;
 });
