@@ -3,6 +3,16 @@
  * Author: Bozhidar Slaveykov
  */
 
+template_head(function(){
+
+    $lang = mw()->lang_helper->current_lang();
+    $content_link = content_link(CONTENT_ID);
+
+    $link = '<link rel="alternate" href="'.$content_link.'" hreflang="'.$lang.'" />';
+
+    return $link;
+});
+
 event_bind('mw.admin.header.toolbar', function () {
     echo '<div class="mw-ui-col pull-right">
          <module type="multilanguage/change_language"></module>
