@@ -7,7 +7,7 @@ template_head(function(){
 
     $lang = mw()->lang_helper->current_lang();
     $content_link = content_link(CONTENT_ID);
-
+te
     $link = '<link rel="alternate" href="'.$content_link.'" hreflang="'.$lang.'" />';
 
     return $link;
