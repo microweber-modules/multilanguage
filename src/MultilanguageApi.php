@@ -85,7 +85,11 @@ class MultilanguageApi
                         $locale = $localeSettings['display_locale'];
                     }
 
-                    $json['location'] = site_url($locale . '/' . $detect['target_url']);
+                    if (mw()->lang_helper->default_lang() == $localeSettings['locale']) {
+                        $json['location'] = site_url($detect['target_url']);
+                    } else {
+                        $json['location'] = site_url($locale . '/' . $detect['target_url']);
+                    }
                 }
             } else {
                 $json['location'] = site_url($detect['target_url']);
