@@ -73,15 +73,22 @@ class MultilanguageApi
             $targetUrl = mw()->url_manager->string(true);
             $detect = detect_lang_from_url($targetUrl);
 
+            $posts = get_posts('url=' . $targetUrl);
+            $pages = get_pages('url=' . $targetUrl);
+
             $json['refresh'] = true;
-            if ($detect['target_url']) {
+            if ($posts || $pages) {
+                if ($detect['target_url']) {
 
-                $localeSettings = get_supported_locale_by_locale($locale);
-                if (!empty($localeSettings['display_locale'])) {
-                    $locale = $localeSettings['display_locale'];
+                    $localeSettings = get_supported_locale_by_locale($locale);
+                    if (!empty($localeSettings['display_locale'])) {
+                        $locale = $localeSettings['display_locale'];
+                    }
+
+                    $json['location'] = site_url($locale . '/' . $detect['target_url']);
                 }
-
-                $json['location'] = site_url($locale . '/' . $detect['target_url']);
+            } else {
+                $json['location'] = site_url($detect['target_url']);
             }
 
         }

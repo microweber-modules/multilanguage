@@ -13,7 +13,10 @@ class TranslateCategory extends TranslateTable {
 
     protected $columns = [
         'title',
-        'description'
+        'description',
+        'category_meta_title',
+        'category_meta_keywords',
+        'category_meta_description'
     ];
 
 }
