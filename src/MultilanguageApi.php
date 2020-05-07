@@ -77,8 +77,8 @@ class MultilanguageApi
                 $targetUrl = end($targetUrlExp);
             }
 
-            $content = get_content('url=' . $targetUrl);
-            $category = get_categories('url=' . $targetUrl);
+            $content = get_content('url=' . $targetUrl  . '&single=1');
+            $category = get_categories('id=' . CATEGORY_ID . '&single=1');
 
             $json['refresh'] = true;
             if ($content || $category) {
@@ -89,10 +89,18 @@ class MultilanguageApi
                         $locale = $localeSettings['display_locale'];
                     }
 
+                  /*  if ($category) {
+                        $json['location'] = category_link($category['id']);
+                    }
+*/
+                    if ($content) {
+                        $json['location'] = content_link($content['id']);
+                    }
+
                     if (mw()->lang_helper->default_lang() == $localeSettings['locale']) {
                         $json['location'] = site_url($detect['target_url']);
                     } else {
-                        $json['location'] = site_url($locale . '/' . $detect['target_url']);
+                      //  $json['location'] = site_url($locale . '/' . $detect['target_url']);
                     }
                 }
             } else {
