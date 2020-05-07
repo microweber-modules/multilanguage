@@ -12,6 +12,7 @@ class TranslateCategory extends TranslateTable {
     protected $relType = 'categories';
 
     protected $columns = [
+        'url',
         'title',
         'description',
         'category_meta_title',

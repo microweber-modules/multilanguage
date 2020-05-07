@@ -29,10 +29,10 @@ event_bind('live_edit_toolbar_action_buttons', function () {
 event_bind('content.link.after', function ($link) {
 
    if (!defined('MW_API_HTML_OUTPUT') && (defined('MW_FRONTEND') || defined('MW_API_CALL'))) {
-        //$default_lang = get_option('language', 'website');
+        $default_lang = get_option('language', 'website');
         $current_lang = mw()->lang_helper->current_lang();
 
-        //if ($default_lang !== $current_lang) {
+        if ($default_lang !== $current_lang) {
 
             // display locale
             $localeSettings = db_get('multilanguage_supported_locales', 'locale=' . $current_lang . '&single=1');
@@ -42,7 +42,7 @@ event_bind('content.link.after', function ($link) {
 
             $new_url = str_replace(site_url(), site_url() . $current_lang . '/', $link);
             $link = $new_url;
-        //}
+        }
     }
 
     return $link;
@@ -131,6 +131,12 @@ event_bind('content.get_by_url', function ($url) {
             return;
         }
 
+        if (mw()->lang_helper->default_lang() == $targetLang) {
+            $targetLang = '';
+        } else {
+            $targetLang .= '/';
+        }
+
         $filter = array();
         $filter['single'] = 1;
         $filter['rel_type'] = 'content';
@@ -147,7 +153,8 @@ event_bind('content.get_by_url', function ($url) {
             if ($content['url'] == $findTranslate['field_value']) {
                 return $content;
             } else {
-                mw_var('should_redirect', site_url() . $targetLang . '/' . $content['url']);
+                mw_var('should_redirect', content_link($content['id']));
+                //mw_var('should_redirect', site_url() . $targetLang . $content['url']);
                 return;
             }
         } else {
@@ -158,7 +165,8 @@ event_bind('content.get_by_url', function ($url) {
             $content = mw()->content_manager->get($get);
             if ($content) {
                 if ($content['url'] !== $targetUrl) {
-                    mw_var('should_redirect', site_url() . $targetLang . '/' . $content['url']);
+                    mw_var('should_redirect', content_link($content['id']));
+                    //mw_var('should_redirect', site_url() . $targetLang . $content['url']);
                     return;
                 }
                 return $content;

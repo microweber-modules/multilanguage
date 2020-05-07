@@ -72,12 +72,16 @@ class MultilanguageApi
         } else {
             $targetUrl = mw()->url_manager->string(true);
             $detect = detect_lang_from_url($targetUrl);
+            $targetUrlExp = explode('/', $targetUrl);
+            if ($targetUrlExp) {
+                $targetUrl = end($targetUrlExp);
+            }
 
-            $posts = get_posts('url=' . $targetUrl);
-            $pages = get_pages('url=' . $targetUrl);
+            $content = get_content('url=' . $targetUrl);
+            $category = get_categories('url=' . $targetUrl);
 
             $json['refresh'] = true;
-            if ($posts || $pages) {
+            if ($content || $category) {
                 if ($detect['target_url']) {
 
                     $localeSettings = get_supported_locale_by_locale($locale);
@@ -85,17 +89,15 @@ class MultilanguageApi
                         $locale = $localeSettings['display_locale'];
                     }
 
-                    /*if (mw()->lang_helper->default_lang() == $localeSettings['locale']) {
+                    if (mw()->lang_helper->default_lang() == $localeSettings['locale']) {
                         $json['location'] = site_url($detect['target_url']);
                     } else {
                         $json['location'] = site_url($locale . '/' . $detect['target_url']);
-                    }*/
-                    $json['location'] = site_url($locale . '/' . $detect['target_url']);
+                    }
                 }
             } else {
                 $json['location'] = site_url($detect['target_url']);
             }
-
         }
 
         return $json;
