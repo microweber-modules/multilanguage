@@ -122,10 +122,8 @@ event_bind('content.get_by_url', function ($url) {
         if (empty($targetUrl)) {
             $homepageGet = mw()->content_manager->homepage();
             if ($homepageGet) {
-
-
-                echo 1;
-                die();
+                mw_var('should_redirect', site_url() . $targetLang . '/' . $homepageGet['url']);
+                return;
             }
         }
 
