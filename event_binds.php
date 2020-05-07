@@ -29,10 +29,10 @@ event_bind('live_edit_toolbar_action_buttons', function () {
 event_bind('content.link.after', function ($link) {
 
    if (!defined('MW_API_HTML_OUTPUT') && (defined('MW_FRONTEND') || defined('MW_API_CALL'))) {
-        $default_lang = get_option('language', 'website');
+      //  $default_lang = get_option('language', 'website');
         $current_lang = mw()->lang_helper->current_lang();
 
-        if ($default_lang !== $current_lang) {
+      //  if ($default_lang !== $current_lang) {
 
             // display locale
             $localeSettings = db_get('multilanguage_supported_locales', 'locale=' . $current_lang . '&single=1');
@@ -42,7 +42,7 @@ event_bind('content.link.after', function ($link) {
 
             $new_url = str_replace(site_url(), site_url() . $current_lang . '/', $link);
             $link = $new_url;
-        }
+    //    }
     }
 
     return $link;
