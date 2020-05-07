@@ -78,7 +78,7 @@ class MultilanguageApi
             }
 
             $content = get_content('url=' . $targetUrl  . '&single=1');
-            $category = get_categories('id=' . CATEGORY_ID . '&single=1');
+            $category = get_categories('url=' . $targetUrl . '&single=1');
 
             $json['refresh'] = true;
             if ($content || $category) {
@@ -89,10 +89,10 @@ class MultilanguageApi
                         $locale = $localeSettings['display_locale'];
                     }
 
-                  /*  if ($category) {
+                    if ($category) {
                         $json['location'] = category_link($category['id']);
                     }
-*/
+
                     if ($content) {
                         $json['location'] = content_link($content['id']);
                     }
