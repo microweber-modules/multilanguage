@@ -65,7 +65,16 @@ class TranslateManager
                                     continue;
                                 }
 
+                                $itemHash = md5(serialize($item));
+                                $cacheGet = cache_get($itemHash, 'multilanguage');
+                                if ($cacheGet && is_array($cacheGet) && !empty($cacheGet)) {
+                                    $item = $cacheGet;
+                                    continue;
+                                }
+
                                 $item = $providerInstance->getTranslate($item);
+
+                                $cacheSave = cache_save($item, $itemHash, 'multilanguage', 15);
                             }
                         }
                         return $get;
