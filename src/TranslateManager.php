@@ -148,6 +148,8 @@ class TranslateManager
                                     $providerInstance->saveOrUpdate($saveData);
                                 }
 
+
+                                cache_clear('multilanguage');
                             }
                         }
 
