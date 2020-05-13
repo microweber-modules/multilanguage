@@ -77,6 +77,7 @@ class TranslateTable {
 
             $filter = array();
             $filter['single'] = 1;
+            $filter['limit'] = 1;
             $filter['locale'] = $this->getCurrentLocale();
             $filter['rel_type'] = $this->relType;
             $filter['rel_id'] = $data[$this->relId];

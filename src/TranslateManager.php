@@ -74,48 +74,47 @@ class TranslateManager
                     return $params;
                 });
 
-                if ($currentLocale != $defaultLocale) {
+                event_bind('mw.database.' . $providerTable . '.get', function ($get) use ($providerTable, $providerInstance, $currentLocale) {
+                    if (is_array($get) && !empty($get)) {
+                        foreach ($get as &$item) {
 
-                    event_bind('mw.database.' . $providerTable . '.get', function ($get) use ($providerTable, $providerInstance) {
-                        if (is_array($get) && !empty($get)) {
-                            foreach ($get as &$item) {
-
-                                // Exclude for language option
-                                if (isset($item['option_key']) && $item['option_key'] == 'language') {
-                                    continue;
-                                }
-
-                                if (isset($item['option_group']) && $item['option_group'] == 'multilanguage_settings') {
-                                    continue;
-                                }
-
-                                $itemHash = md5(serialize($item));
-                                $cacheGet = cache_get($itemHash, 'multilanguage');
-                                if ($cacheGet && is_array($cacheGet) && !empty($cacheGet)) {
-                                    $item = $cacheGet;
-                                    continue;
-                                }
-
-                                $item = $providerInstance->getTranslate($item);
-
-                                $cacheSave = cache_save($item, $itemHash, 'multilanguage', 15);
+                            // Exclude for language option
+                            if (isset($item['option_key']) && $item['option_key'] == 'language') {
+                                continue;
                             }
+
+                            if (isset($item['option_group']) && $item['option_group'] == 'multilanguage_settings') {
+                                continue;
+                            }
+
+                            $itemHash = md5(serialize($item) . '_' . $currentLocale);
+                            $cacheGet = cache_get($itemHash, 'multilanguage');
+                            if ($cacheGet && is_array($cacheGet) && !empty($cacheGet)) {
+                                $item = $cacheGet;
+                                continue;
+                            }
+
+                            $item = $providerInstance->getTranslate($item);
+
+                            $cacheSave = cache_save($item, $itemHash, 'multilanguage', 15);
                         }
-                        return $get;
-                    });
+                    }
+                    return $get;
+                });
 
-                    // BIND SAVE TABLES
-                    event_bind('mw.database.' . $providerTable . '.save.params', function ($saveData) use ($providerInstance) {
+                // BIND SAVE TABLES
+                event_bind('mw.database.' . $providerTable . '.save.params', function ($saveData) use ($currentLocale, $defaultLocale, $providerInstance) {
 
-                        // Exclude for language option
-                        if (isset($saveData['option_key']) && $saveData['option_key'] == 'language') {
-                            return false;
-                        }
+                    // Exclude for language option
+                    if (isset($saveData['option_key']) && $saveData['option_key'] == 'language') {
+                        return false;
+                    }
 
-                        if (isset($saveData['option_group']) && $saveData['option_group'] == 'multilanguage_settings') {
-                            return false;
-                        }
+                    if (isset($saveData['option_group']) && $saveData['option_group'] == 'multilanguage_settings') {
+                        return false;
+                    }
 
+                    if ($currentLocale != $defaultLocale) {
                         if ($providerInstance->getRelType() == 'options') {
                             $saveData['__option_value'] = $saveData['option_value'];
                             unset($saveData['option_value']);
@@ -127,58 +126,61 @@ class TranslateManager
                             unset($saveData['value']);
                             return $saveData;
                         }
+                    }
 
-                        if (!empty($providerInstance->getColumns())) {
-                            $dataForTranslate = $saveData;
-                            foreach ($providerInstance->getColumns() as $column) {
+                    if (!empty($providerInstance->getColumns())) {
+                        $dataForTranslate = $saveData;
+                        foreach ($providerInstance->getColumns() as $column) {
 
-                                if (!isset($saveData['id'])) {
-                                    continue;
-                                }
+                            if (!isset($saveData['id'])) {
+                                continue;
+                            }
 
-                                if (intval($saveData['id']) !== 0) {
+                            if (intval($saveData['id']) !== 0) {
+                                if ($currentLocale != $defaultLocale) {
                                     if (isset($saveData[$column])) {
                                         unset($saveData[$column]);
                                     }
                                 }
                             }
-
-                            if (!empty($dataForTranslate) && isset($dataForTranslate['id']) && intval($dataForTranslate['id']) !== 0) {
-                                $providerInstance->saveOrUpdate($dataForTranslate);
-                            }
                         }
 
-
-                        return $saveData;
-                    });
-
-                    event_bind('mw.database.' . $providerTable . '.save.after', function ($saveData) use ($providerInstance) {
-
-                        $currentLocale = mw()->lang_helper->current_lang();
-                        $defaultLocale = mw()->lang_helper->default_lang();
-
-                        if ($currentLocale != $defaultLocale) {
-                            if (!empty($providerInstance->getColumns())) {
-
-                                if ($providerInstance->getRelType() == 'content_fields' && isset($saveData['__value'])) {
-                                    $saveData['value'] = $saveData['__value'];
-                                    unset($saveData['__value']);
-                                    $providerInstance->saveOrUpdate($saveData);
-                                }
-
-                                if ($providerInstance->getRelType() == 'options' && isset($saveData['__option_value'])) {
-                                    $saveData['option_value'] = $saveData['__option_value'];
-                                    unset($saveData['__option_value']);
-                                    $providerInstance->saveOrUpdate($saveData);
-                                }
-
-
-                                cache_clear('multilanguage');
-                            }
+                        if (!empty($dataForTranslate) && isset($dataForTranslate['id']) && intval($dataForTranslate['id']) !== 0) {
+                            $providerInstance->saveOrUpdate($dataForTranslate);
                         }
+                    }
 
-                    });
-                }
+                    return $saveData;
+                });
+
+                event_bind('mw.database.' . $providerTable . '.save.after', function ($saveData) use ($providerInstance) {
+
+                    $currentLocale = mw()->lang_helper->current_lang();
+                    $defaultLocale = mw()->lang_helper->default_lang();
+
+                    if ($currentLocale != $defaultLocale) {
+                        if (!empty($providerInstance->getColumns())) {
+
+                            if ($providerInstance->getRelType() == 'content_fields' && isset($saveData['__value'])) {
+                                $saveData['value'] = $saveData['__value'];
+                                unset($saveData['__value']);
+                                $providerInstance->saveOrUpdate($saveData);
+                            }
+
+                            if ($providerInstance->getRelType() == 'options' && isset($saveData['__option_value'])) {
+                                $saveData['option_value'] = $saveData['__option_value'];
+                                unset($saveData['__option_value']);
+                                $providerInstance->saveOrUpdate($saveData);
+                            }
+
+
+                            cache_clear('multilanguage');
+                        }
+                    }
+
+                });
+
+
             }
         }
 
