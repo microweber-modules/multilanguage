@@ -50,36 +50,32 @@ class TranslateManager
                 $currentLocale = mw()->lang_helper->current_lang();
                 $defaultLocale = mw()->lang_helper->default_lang();
 
+                event_bind('mw.database.' . $providerTable . '.get.query_filter', function ($params) use ($providerTable, $providerInstance) {
+
+                    if (isset($params['params']['data-keyword'])) {
+
+                        $keyword = $params['params']['data-keyword'];
+                        $contentType = $params['params']['content_type'];
+                        $searchInFields = $params['params']['search_in_fields'];
+
+                        $params['query']->orWhereIn('id', function ($subQuery) use ($providerTable, $searchInFields, $keyword) {
+                            $subQuery->select('rel_id');
+                            $subQuery->from('multilanguage_translations');
+                            $subQuery->where('rel_type', '=', $providerTable);
+                            /*foreach ($searchInFields as $field) {
+                                 $subQuery->orWhere(function($query) use ($field, $keyword) {
+                                     $query->where('field_name', $field);
+                                     $query->where('field_value', 'LIKE', '%'.$keyword.'%');
+                                 });
+                             }*/
+                            $subQuery->where('field_value', 'LIKE', '%' . $keyword . '%');
+                        });
+                    }
+
+                    return $params;
+                });
+
                 if ($currentLocale != $defaultLocale) {
-
-                    event_bind('mw.database.' . $providerTable . '.get.query_filter', function ($params) use ($providerTable, $providerInstance) {
-
-                        if (isset($params['params']['data-keyword'])) {
-
-                            /*
-                             * multilanguage_translations
-                            * rel_type=table
-                            * field_name=column_table
-                            * field_value=column_vale
-                            */
-
-                            $keyword = $params['params']['data-keyword'];
-                            $contentType = $params['params']['content_type'];
-                            $searchInFields = $params['params']['search_in_fields'];
-
-                            $params['query']->join('multilanguage_translations', function ($join) use ($providerTable, $searchInFields, $keyword) {
-                                $join->on('multilanguage_translations.rel_type', '=', $providerTable);
-                                foreach ($searchInFields as $field) {
-                                    $join->orWhere(function($query) use ($field, $keyword) {
-                                        $query->where('field_name', $field)
-                                            ->where('field_value', '=', $keyword);
-                                    });
-                                }
-                            });
-                        }
-
-                        return $params;
-                    });
 
                     event_bind('mw.database.' . $providerTable . '.get', function ($get) use ($providerTable, $providerInstance) {
                         if (is_array($get) && !empty($get)) {
