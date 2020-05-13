@@ -55,10 +55,9 @@ class TranslateManager
                     if (isset($params['params']['data-keyword'])) {
 
                         $keyword = $params['params']['data-keyword'];
-                        $contentType = $params['params']['content_type'];
-                        $searchInFields = $params['params']['search_in_fields'];
+                       // $searchInFields = $params['params']['search_in_fields'];
 
-                        $params['query']->orWhereIn('id', function ($subQuery) use ($providerTable, $searchInFields, $keyword) {
+                        $params['query']->orWhereIn($providerTable.'.id', function ($subQuery) use ($providerTable, $keyword) {
                             $subQuery->select('rel_id');
                             $subQuery->from('multilanguage_translations');
                             $subQuery->where('rel_type', '=', $providerTable);
