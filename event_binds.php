@@ -61,7 +61,16 @@ event_bind('mw.controller.index', function () {
 
     $targetUrl = mw()->url_manager->string();
     $detect = detect_lang_from_url($targetUrl);
- 
+
+    $homepageLanguage = get_option('homepage_language', 'website');
+    if ($homepageLanguage) {
+        if (is_lang_supported($homepageLanguage)) {
+
+
+        }
+    }
+
+
     $useGeolocation = get_option('use_geolocation', 'multilanguage_settings');
     if ($useGeolocation && $useGeolocation == 'y') {
         if (!isset($_COOKIE['autodetected_lang'])) {
