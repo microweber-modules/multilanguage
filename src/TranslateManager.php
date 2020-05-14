@@ -40,6 +40,11 @@ class TranslateManager
 
     public function run()
     {
+        $currentLocale = mw()->lang_helper->current_lang();
+        if (!is_lang_supported($currentLocale)) {
+            return;
+        }
+
         if (!empty($this->translateProviders)) {
             foreach ($this->translateProviders as $provider) {
 
