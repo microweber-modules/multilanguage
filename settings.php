@@ -7,7 +7,14 @@
 </script>
 <div class="module-settings-group-multilanguage">
 
+    <?php
+    $langs = array();
+    foreach (get_supported_languages(1) as $supported_language) {
+        $langs[$supported_language['locale']] = $supported_language['language'];
+    }
+    ?>
 
+    <?php if ($langs): ?>
     <div class="mw-ui-field-holder">
         <label class="mw-ui-label" style="float:left;margin-right: 5px;">
             <?php _e("Default Website Language"); ?>
@@ -17,7 +24,6 @@
             </small>
         </label>
         <?php
-        $langs  = mw()->lang_helper->get_all_lang_codes();
         $def_language = get_option('language', 'website');
 
         if ($def_language == false) {
@@ -33,12 +39,31 @@
             </select>
         <?php endif; ?>
     </div>
+    <?php endif; ?>
 
-    <?php
-/*
-    var_dump(get_option('is_active','multilanguage_settings'));
-    die();*/
-    ?>
+    <?php if ($langs): ?>
+    <div class="mw-ui-field-holder">
+        <label class="mw-ui-label" style="float:left;margin-right: 5px;">
+            <?php _e("Homepage Language"); ?>
+        </label>
+        <?php
+        $def_language = get_option('homepage_language', 'website');
+
+        if ($def_language == false) {
+            $def_language = 'en';
+        }
+        ?>
+        <?php if($langs) : ?>
+            <select id="user_homepage_lang" name="homepage_language" class="mw-ui-field mw_option_field" option-group="website">
+                <option disabled="disabled"><?php _e('Select Language...'); ?></option>
+                <option value="none">None</option>
+                <?php foreach($langs as $key=>$lang): ?>
+                    <option <?php if ($def_language == $key): ?> selected="" <?php endif; ?> value="<?php print $key ?>" ><?php print $lang ?></option>
+                <?php endforeach; ?>
+            </select>
+        <?php endif; ?>
+    </div>
+    <?php endif; ?>
 
     <div class="mw-ui-box-no-bg" style="margin-top: 15px;">
         <b style="margin-right: 10px;">Multilanguage is active?</b>
