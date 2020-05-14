@@ -65,8 +65,9 @@ event_bind('mw.controller.index', function () {
     $homepageLanguage = get_option('homepage_language', 'website');
     if ($homepageLanguage) {
         if (is_lang_supported($homepageLanguage)) {
-
-
+            change_language_by_locale($homepageLanguage);
+            $_COOKIE['autodetected_lang'] = 1;
+            return;
         }
     }
 
