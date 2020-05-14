@@ -60,6 +60,11 @@ class MultilanguageApi
         $json = array();
         $locale = $params['locale'];
 
+        $localeSettings = get_supported_locale_by_locale($locale);
+        if (!empty($localeSettings['display_locale'])) {
+            $locale = $localeSettings['display_locale'];
+        }
+
         if (!is_lang_correct($locale)) {
             return array('error' => _e('Locale is not supported', true));
         }
@@ -84,10 +89,9 @@ class MultilanguageApi
             if ($content || $category) {
                 if ($detect['target_url']) {
 
-                    $localeSettings = get_supported_locale_by_locale($locale);
-                    if (!empty($localeSettings['display_locale'])) {
-                        $locale = $localeSettings['display_locale'];
-                    }
+
+                   /* var_dump(category_link($category['id']));
+                    die();*/
 
                     if ($category) {
                         $json['location'] = category_link($category['id']);
@@ -97,11 +101,9 @@ class MultilanguageApi
                         $json['location'] = content_link($content['id']);
                     }
 
-                    if (mw()->lang_helper->default_lang() == $localeSettings['locale']) {
+                   /* if (mw()->lang_helper->default_lang() == $localeSettings['locale']) {
                         $json['location'] = site_url($detect['target_url']);
-                    } else {
-                      //  $json['location'] = site_url($locale . '/' . $detect['target_url']);
-                    }
+                    }*/
                 }
             } else {
                 $json['location'] = site_url($detect['target_url']);
