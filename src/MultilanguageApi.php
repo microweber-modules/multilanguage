@@ -90,20 +90,23 @@ class MultilanguageApi
                 if ($detect['target_url']) {
 
 
-                   /* var_dump(category_link($category['id']));
-                    die();*/
-
                     if ($category) {
-                        $json['location'] = category_link($category['id']);
+                        $categoryLink = category_link($category['id']);
+                        if ($categoryLink) {
+                            $json['location'] = $categoryLink;
+                        }
                     }
 
                     if ($content) {
-                        $json['location'] = content_link($content['id']);
+                        $contentLink = content_link($content['id']);
+                        if ($contentLink) {
+                            $json['location'] = $contentLink;
+                        }
                     }
 
-                   /* if (mw()->lang_helper->default_lang() == $localeSettings['locale']) {
+                    if (mw()->lang_helper->default_lang() == $localeSettings['locale']) {
                         $json['location'] = site_url($detect['target_url']);
-                    }*/
+                    }
                 }
             } else {
                 $json['location'] = site_url($detect['target_url']);
