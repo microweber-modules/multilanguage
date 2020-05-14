@@ -57,20 +57,25 @@ event_bind('content.link.after', function ($link) {
 });*/
 
 
+event_bind('mw.front', function () {
+
+    if (!isset($_COOKIE['lang']) && is_home()) {
+        $homepageLanguage = get_option('homepage_language', 'website');
+        if ($homepageLanguage) {
+            if (is_lang_supported($homepageLanguage)) {
+                change_language_by_locale($homepageLanguage);
+                $_COOKIE['autodetected_lang'] = 1;
+                return;
+            }
+        }
+    }
+
+});
+
 event_bind('mw.controller.index', function () {
 
     $targetUrl = mw()->url_manager->string();
     $detect = detect_lang_from_url($targetUrl);
-
-    $homepageLanguage = get_option('homepage_language', 'website');
-    if ($homepageLanguage) {
-        if (is_lang_supported($homepageLanguage)) {
-            change_language_by_locale($homepageLanguage);
-            $_COOKIE['autodetected_lang'] = 1;
-            return;
-        }
-    }
-
 
     $useGeolocation = get_option('use_geolocation', 'multilanguage_settings');
     if ($useGeolocation && $useGeolocation == 'y') {
@@ -79,9 +84,12 @@ event_bind('mw.controller.index', function () {
 
             if ($geoLocation && isset($geoLocation['countryCode'])) {
                 $language = get_country_language_by_country_code($geoLocation['countryCode']);
+
+                var_dump($geoLocation);
+
                 if ($language && is_lang_supported($language)) {
                     change_language_by_locale($language);
-                    $_COOKIE['autodetected_lang'] = 1;
+                    setcookie('autodetected_lang', 1);
                     return;
                 }
             }
