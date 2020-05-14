@@ -493,10 +493,26 @@ function get_geolocation_detailed()
             'countryCode' => $countryCode
         ));
     } else if ($geolocationProvider == 'browser_detection') {
-        $countryCode = substr($_SERVER['HTTP_ACCEPT_LANGUAGE'], 3, 2);
+        $browserCountryCode = substr($_SERVER['HTTP_ACCEPT_LANGUAGE'], 3, 2);
         $ipInfo = json_encode(array(
-            'countryCode' => $countryCode
+            'countryCode' => $browserCountryCode
         ));
+    } else if ($geolocationProvider == 'geoip_browser_detection') {
+
+        $defaultWebsiteLanguage = mw()->lang_helper->default_lang();
+        $browserCountryCode = substr($_SERVER['HTTP_ACCEPT_LANGUAGE'], 3, 2);
+        $browserLanguage = get_country_language_by_country_code($browserCountryCode);
+
+        if ($defaultWebsiteLanguage == $browserLanguage) {
+            $ipInfo = json_encode(array(
+                'countryCode' => $browserCountryCode
+            ));
+        }
+
+        if ($defaultWebsiteLanguage !== $browserLanguage) {
+            $ipInfo = mw()->http->url('http://ipinfo.microweberapi.com/?ip=' . $ip)->get();
+        }
+
     } else {
         $ipInfo = mw()->http->url('http://ipinfo.microweberapi.com/?ip=' . $ip)->get();
     }

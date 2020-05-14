@@ -3,7 +3,7 @@
  * Author: Bozhidar Slaveykov
  */
 
-template_head(function(){
+template_head(function () {
 
     $content_link = content_link(CONTENT_ID);
     $link = '<link rel="canonical" href="' . $content_link . '"/>';
@@ -28,7 +28,7 @@ event_bind('live_edit_toolbar_action_buttons', function () {
 
 event_bind('content.link.after', function ($link) {
 
-   if (!defined('MW_API_HTML_OUTPUT') && (defined('MW_FRONTEND') || defined('MW_API_CALL'))) {
+    if (!defined('MW_API_HTML_OUTPUT') && (defined('MW_FRONTEND') || defined('MW_API_CALL'))) {
         $default_lang = get_option('language', 'website');
         $current_lang = mw()->lang_helper->current_lang();
 
@@ -72,23 +72,23 @@ event_bind('mw.controller.index', function () {
     $targetUrl = mw()->url_manager->string();
     $detect = detect_lang_from_url($targetUrl);
 
-    $useGeolocation = get_option('use_geolocation','multilanguage');
+    $useGeolocation = get_option('use_geolocation', 'multilanguage_settings');
     if ($useGeolocation && $useGeolocation == 'y') {
-        if (!isset($_COOKIE['lang'])) {
+        if (!isset($_COOKIE['autodetected_lang'])) {
             $geoLocation = get_geolocation();
-            $geoLocation['countryCode'] = 'us';
             if ($geoLocation && isset($geoLocation['countryCode'])) {
                 $language = get_country_language_by_country_code($geoLocation['countryCode']);
                 if ($language && is_lang_supported($language)) {
                     change_language_by_locale($language);
+                    $_COOKIE['autodetected_lang'] = 1;
                     return;
                 }
             }
+
         }
     }
 
     if ($detect['target_lang']) {
-
         // display locale
         $localeSettings = db_get('multilanguage_supported_locales', 'display_locale=' . $detect['target_lang'] . '&single=1');
         if ($localeSettings) {
@@ -96,7 +96,6 @@ event_bind('mw.controller.index', function () {
         } else {
             change_language_by_locale($detect['target_lang']);
         }
-
     }
 
 });
