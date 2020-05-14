@@ -19,11 +19,23 @@ template_head(function () {
 event_bind('content.link.after', function ($link) {
 
     if (!defined('MW_API_HTML_OUTPUT') && (defined('MW_FRONTEND') || defined('MW_API_CALL'))) {
+
+        $rewriteUrl = false;
+
         $default_lang = get_option('language', 'website');
         $current_lang = mw()->lang_helper->current_lang();
 
-        if ($default_lang !== $current_lang) {
+        $prefixForAll = get_option('add_prefix_for_all_languages','multilanguage_settings');
 
+        if ($default_lang !== $current_lang) {
+            $rewriteUrl = true;
+        }
+
+        if ($prefixForAll == 'y') {
+            $rewriteUrl = true;
+        }
+
+        if ($rewriteUrl) {
             // display locale
             $localeSettings = db_get('multilanguage_supported_locales', 'locale=' . $current_lang . '&single=1');
             if ($localeSettings && !empty($localeSettings['display_locale'])) {

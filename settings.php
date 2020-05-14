@@ -75,6 +75,16 @@
         </label>
     </div>
 
+    <div class="mw-ui-box-no-bg" style="margin-top: 15px;">
+        <b style="margin-right: 10px;">Add prefix for all languages</b>
+        <label class="mw-switch mw-switch-action">
+            <input class="mw_option_field" type="checkbox" autocomplete="off" name="add_prefix_for_all_languages" <?php if (get_option('add_prefix_for_all_languages','multilanguage_settings') == 'y'):?>checked="checked"<?php endif;?> option-group="multilanguage_settings" data-value-checked="y" data-value-unchecked="n">
+            <span class="mw-switch-off">No</span>
+            <span class="mw-switch-on">Yes</span>
+            <span class="mw-switcher"></span>
+        </label>
+    </div>
+
     <div class="mw-ui-box-no-bg" style="margin-top:20px;">
         <b style="margin-right: 10px;">Switch language by IP Geolocation</b>
         <label class="mw-switch mw-switch-action">
