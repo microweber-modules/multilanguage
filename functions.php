@@ -14,8 +14,7 @@ if (get_option('is_active', 'multilanguage_settings') !== 'y') {
 }
 
 $currentLocale = mw()->lang_helper->current_lang();
-if (is_lang_supported($currentLocale)) {
-
+if (is_lang_correct($currentLocale)) {
     $translate = new TranslateManager();
     $translate->run();
 

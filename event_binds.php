@@ -61,11 +61,12 @@ event_bind('mw.controller.index', function () {
 
     $targetUrl = mw()->url_manager->string();
     $detect = detect_lang_from_url($targetUrl);
-
+ 
     $useGeolocation = get_option('use_geolocation', 'multilanguage_settings');
     if ($useGeolocation && $useGeolocation == 'y') {
         if (!isset($_COOKIE['autodetected_lang'])) {
             $geoLocation = get_geolocation();
+
             if ($geoLocation && isset($geoLocation['countryCode'])) {
                 $language = get_country_language_by_country_code($geoLocation['countryCode']);
                 if ($language && is_lang_supported($language)) {
