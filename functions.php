@@ -5,6 +5,7 @@
 require_once 'src/MultilanguageApi.php';
 require_once 'src/TranslateManager.php';
 require_once 'api_exposes.php';
+require_once 'event_binds_general.php';
 
 
 // Check multilanguage is active
@@ -12,10 +13,14 @@ if (get_option('is_active', 'multilanguage_settings') !== 'y') {
     return;
 }
 
-$translate = new TranslateManager();
-$translate->run();
+$currentLocale = mw()->lang_helper->current_lang();
+if (is_lang_supported($currentLocale)) {
 
-require_once 'event_binds.php';
+    $translate = new TranslateManager();
+    $translate->run();
+
+    require_once 'event_binds.php';
+}
 
 function get_supported_locale_by_id($id)
 {

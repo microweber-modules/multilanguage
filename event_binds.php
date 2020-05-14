@@ -16,16 +16,6 @@ template_head(function () {
     return $link;
 });
 
-event_bind('mw.admin.header.toolbar', function () {
-    echo '<div class="mw-ui-col pull-right">
-         <module type="multilanguage/change_language"></module>
-    </div>';
-});
-
-event_bind('live_edit_toolbar_action_buttons', function () {
-    echo '<module type="multilanguage/change_language"></module>';
-});
-
 event_bind('content.link.after', function ($link) {
 
     if (!defined('MW_API_HTML_OUTPUT') && (defined('MW_FRONTEND') || defined('MW_API_CALL'))) {
