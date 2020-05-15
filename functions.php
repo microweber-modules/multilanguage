@@ -12,19 +12,22 @@ require_once 'event_binds_general.php';
 if (get_option('is_active', 'multilanguage_settings') !== 'y') {
     return;
 }
+event_bind('mw.init', function () {
+    $currentUrl = mw()->url_manager->current();
+    if ($currentUrl !== api_url('multilanguage/change_language')) {
+        run_translate_manager();
+    }
+});
 
-
-//event_bind('mw.init', function (){
+function run_translate_manager()
+{
     $currentLocale = mw()->lang_helper->current_lang();
     if (is_lang_correct($currentLocale)) {
         $translate = new TranslateManager();
         $translate->run();
-
         require_once 'event_binds.php';
     }
-//});
-
-
+}
 
 function get_supported_locale_by_id($id)
 {
@@ -82,6 +85,7 @@ function change_language_by_locale($locale)
     // $locale = get_short_abr($locale);
     if (!is_cli()) {
         setcookie('lang', $locale, time() + (86400 * 30), "/");
+        $_COOKIE['lang'] = $locale;
     }
 
     return mw()->lang_helper->set_current_lang($locale);

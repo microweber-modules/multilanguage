@@ -73,6 +73,9 @@ class MultilanguageApi
 
         change_language_by_locale($locale);
 
+        run_translate_manager();
+
+
         if (isset($params['is_admin']) && $params['is_admin'] == 1) {
             $json['refresh'] = true;
             mw()->event_manager->trigger('mw.admin.change_language');
@@ -109,6 +112,7 @@ class MultilanguageApi
                     if (mw()->lang_helper->default_lang() == $localeSettings['locale']) {
                         $json['location'] = site_url($detect['target_url']);
                     }
+
                 }
             } else {
                 $json['location'] = site_url($detect['target_url']);
