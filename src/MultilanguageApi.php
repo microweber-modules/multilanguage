@@ -93,7 +93,6 @@ class MultilanguageApi
             if ($content || $category) {
                 if ($detect['target_url']) {
 
-
                     if ($category) {
                         $categoryLink = category_link($category['id']);
                         if ($categoryLink) {
@@ -107,11 +106,6 @@ class MultilanguageApi
                             $json['location'] = $contentLink;
                         }
                     }
-
-                    if (mw()->lang_helper->default_lang() == $localeSettings['locale']) {
-                        $json['location'] = site_url($detect['target_url']);
-                    }
-
                 }
             } else {
                 $json['location'] = site_url($detect['target_url']);
