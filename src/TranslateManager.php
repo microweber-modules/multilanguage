@@ -76,8 +76,14 @@ class TranslateManager
 
                 event_bind('mw.database.' . $providerTable . '.get', function ($get) use ($providerTable, $providerInstance, $currentLocale) {
                     if (is_array($get) && !empty($get)) {
-                        foreach ($get as &$item) {
 
+                        $getHash = md5(serialize($get) . '_' . $currentLocale);
+                        $cacheGet = cache_get($getHash, 'multilanguage');
+                        if ($cacheGet && is_array($cacheGet) && !empty($cacheGet)) {
+                            return $cacheGet;
+                        }
+
+                        foreach ($get as &$item) {
                             // Exclude for language option
                             if (isset($item['option_key']) && $item['option_key'] == 'language') {
                                 continue;
@@ -87,17 +93,10 @@ class TranslateManager
                                 continue;
                             }
 
-                            $itemHash = md5(serialize($item) . '_' . $currentLocale);
-                            $cacheGet = cache_get($itemHash, 'multilanguage');
-                            if ($cacheGet && is_array($cacheGet) && !empty($cacheGet)) {
-                                $item = $cacheGet;
-                                continue;
-                            }
-
                             $item = $providerInstance->getTranslate($item);
-
-                            $cacheSave = cache_save($item, $itemHash, 'multilanguage', 15);
                         }
+
+                        cache_save($get, $getHash, 'multilanguage', false);
                     }
                     return $get;
                 });

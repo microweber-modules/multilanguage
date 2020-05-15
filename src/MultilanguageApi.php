@@ -73,10 +73,7 @@ class MultilanguageApi
 
         change_language_by_locale($locale);
 
-        cache_clear('multilanguage');
-
         run_translate_manager();
-
 
         if (isset($params['is_admin']) && $params['is_admin'] == 1) {
             $json['refresh'] = true;
