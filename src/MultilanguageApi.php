@@ -86,8 +86,8 @@ class MultilanguageApi
                 $targetUrl = end($targetUrlExp);
             }
 
-            $content = get_content('url=' . $targetUrl  . '&single=1');
-            $category = get_categories('url=' . $targetUrl . '&single=1');
+            $content = get_content('id=' . CONTENT_ID  . '&single=1');
+            $category = get_categories('id=' . CATEGORY_ID . '&single=1');
 
             $json['refresh'] = true;
             if ($content || $category) {
