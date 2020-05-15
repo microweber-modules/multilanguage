@@ -69,12 +69,10 @@ event_bind('content.link.after', function ($link) {
 });*/
 
 
-/*
-
 
 event_bind('mw.front', function () {
 
-    if (!isset($_COOKIE['lang']) && is_home()) {
+    if (!isset($_COOKIE['autodetected_lang']) && is_home()) {
         $homepageLanguage = get_option('homepage_language', 'website');
         if ($homepageLanguage) {
             if (is_lang_supported($homepageLanguage)) {
@@ -86,7 +84,6 @@ event_bind('mw.front', function () {
     }
 
 });
-*/
 
 
 event_bind('mw.controller.index', function () {
