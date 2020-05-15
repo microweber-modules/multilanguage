@@ -69,6 +69,9 @@ event_bind('content.link.after', function ($link) {
 });*/
 
 
+/*
+
+
 event_bind('mw.front', function () {
 
     if (!isset($_COOKIE['lang']) && is_home()) {
@@ -76,13 +79,15 @@ event_bind('mw.front', function () {
         if ($homepageLanguage) {
             if (is_lang_supported($homepageLanguage)) {
                 change_language_by_locale($homepageLanguage);
-                $_COOKIE['autodetected_lang'] = 1;
+                setcookie('autodetected_lang', 1);
                 return;
             }
         }
     }
 
 });
+*/
+
 
 event_bind('mw.controller.index', function () {
 
@@ -91,22 +96,22 @@ event_bind('mw.controller.index', function () {
 
     $useGeolocation = get_option('use_geolocation', 'multilanguage_settings');
     if ($useGeolocation && $useGeolocation == 'y') {
-        if (!isset($_COOKIE['autodetected_lang'])) {
-            $geoLocation = get_geolocation();
-
-            if ($geoLocation && isset($geoLocation['countryCode'])) {
-                $language = get_country_language_by_country_code($geoLocation['countryCode']);
-
-                var_dump($geoLocation);
-
-                if ($language && is_lang_supported($language)) {
-                    change_language_by_locale($language);
-                    setcookie('autodetected_lang', 1);
-                    return;
-                }
-            }
-
-        }
+//        if (!isset($_COOKIE['autodetected_lang']) and !isset($_COOKIE['lang'])) {
+//            $geoLocation = get_geolocation();
+//
+//            if ($geoLocation && isset($geoLocation['countryCode'])) {
+//                $language = get_country_language_by_country_code($geoLocation['countryCode']);
+//
+//               // var_dump($geoLocation);
+//
+//                if ($language && is_lang_supported($language)) {
+//                    change_language_by_locale($language);
+//                    setcookie('autodetected_lang', 1);
+//                    return;
+//                }
+//            }
+//
+//        }
     }
 
     if ($detect['target_lang']) {

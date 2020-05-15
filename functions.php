@@ -13,13 +13,18 @@ if (get_option('is_active', 'multilanguage_settings') !== 'y') {
     return;
 }
 
-$currentLocale = mw()->lang_helper->current_lang();
-if (is_lang_correct($currentLocale)) {
-    $translate = new TranslateManager();
-    $translate->run();
 
-    require_once 'event_binds.php';
-}
+//event_bind('mw.init', function (){
+    $currentLocale = mw()->lang_helper->current_lang();
+    if (is_lang_correct($currentLocale)) {
+        $translate = new TranslateManager();
+        $translate->run();
+
+        require_once 'event_binds.php';
+    }
+//});
+
+
 
 function get_supported_locale_by_id($id)
 {
