@@ -73,6 +73,8 @@ class MultilanguageApi
 
         change_language_by_locale($locale);
 
+        cache_clear('multilanguage');
+
         run_translate_manager();
 
 
