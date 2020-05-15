@@ -7,11 +7,11 @@ require_once 'src/TranslateManager.php';
 require_once 'api_exposes.php';
 require_once 'event_binds_general.php';
 
-
 // Check multilanguage is active
 if (get_option('is_active', 'multilanguage_settings') !== 'y') {
     return;
 }
+
 event_bind('mw.init', function () {
 
     if (!isset($_COOKIE['autodetected_lang'])) {
@@ -39,6 +39,24 @@ function run_translate_manager()
         $translate->run();
         require_once 'event_binds.php';
     }
+}
+
+function get_rel_id_by_multilanguage_url($url) {
+    $get = db_get('multilanguage_translations', 'field_name=url&field_value=' . $url . '&single=1');
+    if ($get) {
+        return $get['rel_id'];
+    } else {
+        $content = get_content('url=' . $url  . '&single=1');
+        if ($content) {
+            return $content['id'];
+        }
+
+        $category = get_categories('url=' . $url . '&single=1');
+        if ($category) {
+            return $category['id'];
+        }
+    }
+    return false;
 }
 
 function get_supported_locale_by_id($id)
