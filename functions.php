@@ -13,6 +13,18 @@ if (get_option('is_active', 'multilanguage_settings') !== 'y') {
     return;
 }
 event_bind('mw.init', function () {
+
+    if (!isset($_COOKIE['autodetected_lang'])) {
+        $homepageLanguage = get_option('homepage_language', 'website');
+        if ($homepageLanguage) {
+            if (is_lang_supported($homepageLanguage)) {
+                change_language_by_locale($homepageLanguage);
+                setcookie('autodetected_lang', 1);
+                $_COOKIE['autodetected_lang'] = 1;
+            }
+        }
+    }
+
     $currentUrl = mw()->url_manager->current();
     if ($currentUrl !== api_url('multilanguage/change_language')) {
         run_translate_manager();

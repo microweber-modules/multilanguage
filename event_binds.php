@@ -69,23 +69,6 @@ event_bind('content.link.after', function ($link) {
 });*/
 
 
-
-event_bind('mw.front', function () {
-
-    if (!isset($_COOKIE['autodetected_lang']) && is_home()) {
-        $homepageLanguage = get_option('homepage_language', 'website');
-        if ($homepageLanguage) {
-            if (is_lang_supported($homepageLanguage)) {
-                change_language_by_locale($homepageLanguage);
-                setcookie('autodetected_lang', 1);
-                return;
-            }
-        }
-    }
-
-});
-
-
 event_bind('mw.controller.index', function () {
 
     $targetUrl = mw()->url_manager->string();
