@@ -41,21 +41,21 @@ function run_translate_manager()
     }
 }
 
-function get_rel_id_by_multilanguage_url($url) {
-    $get = db_get('multilanguage_translations', 'field_name=url&field_value=' . $url . '&single=1');
+function get_rel_id_by_multilanguage_url($url, $relType = false) {
+
+    $filter = array();
+    $filter['field_name'] = 'url';
+    $filter['field_value'] = $url;
+    $filter['single'] = 1;
+    if ($relType) {
+        $filter['rel_type'] = $relType;
+    }
+
+    $get = db_get('multilanguage_translations', $filter);
     if ($get) {
         return $get['rel_id'];
-    } else {
-        $content = get_content('url=' . $url  . '&single=1');
-        if ($content) {
-            return $content['id'];
-        }
-
-        $category = get_categories('url=' . $url . '&single=1');
-        if ($category) {
-            return $category['id'];
-        }
     }
+
     return false;
 }
 

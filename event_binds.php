@@ -16,6 +16,20 @@ template_head(function () {
     return $link;
 });
 
+event_bind('content.define_constants', function ($page) {
+
+    $targetUrl = mw()->url_manager->string(true);
+    $targetUrlExp = explode('/', $targetUrl);
+    if ($targetUrlExp) {
+        $targetUrl = end($targetUrlExp);
+    }
+
+    $relId = get_rel_id_by_multilanguage_url($targetUrl, 'categories');
+    if ($relId) {
+        define('CATEGORY_ID', $relId);
+    }
+});
+
 event_bind('content.link.after', function ($link) {
 
     if (!defined('MW_API_HTML_OUTPUT') && (defined('MW_FRONTEND') || defined('MW_API_CALL'))) {
