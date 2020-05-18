@@ -95,20 +95,42 @@ class MultilanguageApi
             if ($content || $category) {
                 if ($detect['target_url']) {
 
+                    $redirectLocation = false;
                     if ($category) {
-                        $categoryLink = category_link($category['id']);
-                        if ($categoryLink) {
-                            $json['location'] = $categoryLink;
-                        }
+                        $redirectLocation = 'category';
                     }
 
-                    if ($content) {
-                        $contentLink = content_link($content['id']);
-                        if ($contentLink) {
-                            $json['location'] = $contentLink;
-                        }
+                    if ($category == false && isset($content['content_type']) && $content['content_type'] == 'page') {
+                        $redirectLocation = 'content';
+                    }
+
+                    if ($category && $content && isset($content['content_type']) && $content['content_type'] == 'page') {
+                        $redirectLocation = 'category';
+                    }
+
+                    if ($content && isset($content['content_type']) && $content['content_type'] !== 'page') {
+                        $redirectLocation = 'content';
+                    }
+
+                    switch($redirectLocation) {
+                        case 'content':
+                            $contentLink = content_link($content['id']);
+                            if ($contentLink) {
+                                $json['location'] = $contentLink;
+                            }
+                        break;
+                        case 'category':
+                            $categoryLink = category_link($category['id']);
+                            if ($categoryLink) {
+                                $json['location'] = $categoryLink;
+                            }
+                        break;
                     }
                 }
+
+
+                var_dump($json);
+                die();
             } else {
                 $json['location'] = site_url($detect['target_url']);
             }
