@@ -74,8 +74,10 @@ class TranslateManager
                     return $params;
                 });
 
-                event_bind('mw.database.' . $providerTable . '.get', function ($get) use ($providerTable, $providerInstance, $currentLocale) {
+                event_bind('mw.database.' . $providerTable . '.get', function ($get) use ($providerTable, $providerInstance) {
                     if (is_array($get) && !empty($get)) {
+
+                        $currentLocale = mw()->lang_helper->current_lang();
 
                         $getHash = md5(serialize($get) . '_' . $currentLocale);
                         $cacheGet = cache_get($getHash, 'multilanguage');
@@ -96,7 +98,7 @@ class TranslateManager
                             $item = $providerInstance->getTranslate($item);
                         }
 
-                        cache_save($get, $getHash, 'multilanguage', false);
+                        cache_save($get, $getHash, 'multilanguage', 5);
                     }
                     return $get;
                 });
