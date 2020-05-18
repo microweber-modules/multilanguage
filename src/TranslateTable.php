@@ -82,7 +82,7 @@ class TranslateTable {
             $filter['rel_type'] = $this->relType;
             $filter['rel_id'] = $data[$this->relId];
             $filter['field_name'] = $column;
-            $filter['enable_trigers'] = false;
+            $filter['enable_triggers'] = false;
             $filter['no_cache'] = true;
 
             $translate = db_get('multilanguage_translations', $filter);

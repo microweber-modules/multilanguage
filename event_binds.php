@@ -16,6 +16,16 @@ template_head(function () {
     return $link;
 });
 
+event_bind('category.get_by_slug', function ($slug) {
+
+    $slug = urldecode($slug);
+    $relId = get_rel_id_by_multilanguage_url($slug, 'categories');
+    if ($relId) {
+        return get_category_by_id($relId);
+    }
+
+});
+
 event_bind('content.define_constants', function ($page) {
 
     $targetUrl = mw()->url_manager->string(true);
