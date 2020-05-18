@@ -98,7 +98,7 @@ class TranslateManager
                             $item = $providerInstance->getTranslate($item);
                         }
 
-                        cache_save($get, $getHash, 'multilanguage', 1);
+                        cache_save($get, $getHash, 'multilanguage', 5);
                     }
                     return $get;
                 });
