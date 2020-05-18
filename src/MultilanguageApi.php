@@ -126,6 +126,7 @@ class MultilanguageApi
                             }
                         break;
                     }
+
                 }
             } else {
                 $json['location'] = site_url($detect['target_url']);

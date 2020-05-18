@@ -56,6 +56,18 @@ function get_rel_id_by_multilanguage_url($url, $relType = false) {
         return $get['rel_id'];
     }
 
+   // if ($relType == 'categories') {
+        $category = get_categories('url=' . $url . '&single=1');
+        if ($category) {
+            return $category['id'];
+        }
+  //  }
+
+    $content = get_content('url=' . $url . '&single=1');
+    if ($content) {
+        return $content['id'];
+    }
+
     return false;
 }
 
