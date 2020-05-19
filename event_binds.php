@@ -20,6 +20,7 @@ event_bind('category.get_by_slug', function ($slug) {
 
     $slug = urldecode($slug);
     $relId = get_rel_id_by_multilanguage_url($slug, 'categories');
+
     if ($relId) {
         return get_category_by_id($relId);
     }
