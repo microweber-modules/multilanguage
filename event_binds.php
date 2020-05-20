@@ -16,6 +16,16 @@ template_head(function () {
     return $link;
 });
 
+event_bind('permalink.parse_link.link', function ($link) {
+
+    $link = urldecode($link);
+    $linkSegments = url_segment(-1, $link);
+
+    unset($linkSegments[0]);
+
+    return implode('/', $linkSegments);
+});
+
 event_bind('category.get_by_slug', function ($slug) {
 
     $slug = urldecode($slug);
@@ -44,6 +54,14 @@ event_bind('permalink.parse_link.category', function ($slug) {
 });
 
 event_bind('content.link.after', function ($link) {
+    return add_locale_prefix_to_link($link);
+});
+
+event_bind('permalink.generate_category_link', function ($link) {
+    return add_locale_prefix_to_link($link);
+});
+
+function add_locale_prefix_to_link($link) {
 
     if (!defined('MW_API_HTML_OUTPUT') && (defined('MW_FRONTEND') || defined('MW_API_CALL'))) {
 
@@ -69,14 +87,18 @@ event_bind('content.link.after', function ($link) {
                 $current_lang = $localeSettings['display_locale'];
             }
 
+            if (strpos($link, site_url() . $current_lang) !== false) {
+                return $link;
+            }
+
             $new_url = str_replace(site_url(), site_url() . $current_lang . '/', $link);
+
             $link = $new_url;
         }
     }
 
     return $link;
-});
-
+}
 
 /*event_bind('menu.after.get_item', function ($menu) {
 
