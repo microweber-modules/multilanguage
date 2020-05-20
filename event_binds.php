@@ -26,7 +26,7 @@ event_bind('category.get_by_slug', function ($slug) {
     }
 
 });
-
+/*
 event_bind('content.define_constants', function ($page) {
 
     $targetUrl = mw()->url_manager->string(true);
@@ -36,10 +36,11 @@ event_bind('content.define_constants', function ($page) {
     }
 
     $relId = get_rel_id_by_multilanguage_url($targetUrl, 'categories');
+
     if ($relId) {
         define('CATEGORY_ID', $relId);
     }
-});
+});*/
 
 event_bind('content.link.after', function ($link) {
 
