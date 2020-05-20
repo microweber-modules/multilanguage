@@ -26,21 +26,22 @@ event_bind('category.get_by_slug', function ($slug) {
     }
 
 });
-/*
-event_bind('content.define_constants', function ($page) {
 
-    $targetUrl = mw()->url_manager->string(true);
-    $targetUrlExp = explode('/', $targetUrl);
-    if ($targetUrlExp) {
-        $targetUrl = end($targetUrlExp);
-    }
-
-    $relId = get_rel_id_by_multilanguage_url($targetUrl, 'categories');
-
+event_bind('category.get_category_id_from_url', function ($slug) {
+    $relId = get_rel_id_by_multilanguage_url($slug, 'categories');
     if ($relId) {
-        define('CATEGORY_ID', $relId);
+        return $relId;
     }
-});*/
+    return false;
+});
+
+event_bind('permalink.parse_link.category', function ($slug) {
+    $relId = get_rel_id_by_multilanguage_url($slug, 'categories');
+    if ($relId) {
+        return $relId;
+    }
+    return false;
+});
 
 event_bind('content.link.after', function ($link) {
 
