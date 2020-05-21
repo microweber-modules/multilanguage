@@ -43,6 +43,10 @@ function run_translate_manager()
 
 function get_rel_id_by_multilanguage_url($url, $relType = false) {
 
+    if (!$url) {
+        return false;
+    }
+
     $filter = array();
     $filter['field_name'] = 'url';
     $filter['field_value'] = $url;
