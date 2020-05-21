@@ -10,7 +10,11 @@ template_head(function () {
 
     $supportedLanguages = get_supported_languages();
     foreach ($supportedLanguages as $locale) {
-        $link .= '<link rel="alternate" href="' . $content_link . '" hreflang="' . $locale['locale'] . '" />';
+        $hrefLang = $locale['locale'];
+        if (mb_strlen($hrefLang) > 2) {
+            $hrefLang = mb_substr($hrefLang, 0, 2);
+        }
+        $link .= '<link rel="alternate" href="' . $content_link . '" hreflang="' . $hrefLang . '" />';
     }
 
     return $link;
