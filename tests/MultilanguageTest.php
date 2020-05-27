@@ -231,4 +231,70 @@ class MultilanguageTest extends \Microweber\tests\TestCase
 
         $this->assertEquals(true, $output['refresh']);
     }
+
+
+
+    public function testPermalinkPageCategoryPost()
+    {
+      /*  // Set format
+        $option = array();
+        $option['option_value'] = 'page_category_post';
+        $option['option_key'] = 'permalink_structure';
+        $option['option_group'] = 'website';
+        save_option($option);*/
+
+        $time = time();
+
+        $pageSlug = 'мой-свят' . $time;
+        $pageName = 'Мой свят' . $time;
+       /* $pageId = $this->_generatePage($pageSlug, $pageName);
+
+
+
+        var_dump(get_pages());
+        die();*/
+    }
+
+
+    private function _generateCategory($url, $title, $pageId)
+    {
+
+        $params = array(
+            'content_id' => $pageId,
+            'title' => $title,
+            'url' => $url,
+            'is_active' => 1,
+        );
+
+        return save_category($params);
+    }
+
+    private function _generatePost($url, $title, $pageId, $categoryIds = array())
+    {
+        $params = array(
+            'parent' => $pageId,
+            'categories' => $categoryIds,
+            'title' => $title,
+            'url' => $url,
+            'content_type' => 'post',
+            'subtype' => 'post',
+            'is_active' => 1,
+        );
+        $savePost = save_content($params);
+
+        return $savePost;
+    }
+
+    private function _generatePage($url, $title)
+    {
+
+        $params = array(
+            'title' => $title,
+            'url' => $url,
+            'content_type' => 'page',
+            'subtype' => 'dynamic',
+            'is_active' => 1,
+        );
+        return save_content($params);
+    }
 }
