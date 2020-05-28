@@ -19,6 +19,18 @@ template_head(function () {
 
     return $link;
 });
+
+event_bind('app.category.get_category_id_from_url', function ($slug) {
+
+    $relId = get_rel_id_by_multilanguage_url($slug, 'categories');
+    if ($relId) {
+        return $relId;
+    }
+
+    return false;
+});
+
+
 /*
 event_bind('permalink.parse_link.link', function ($link) {
 
@@ -40,18 +52,13 @@ event_bind('category.get_by_slug', function ($slug) {
     }
 
 });
+*/
 
-event_bind('category.get_category_id_from_url', function ($slug) {
 
-    $relId = get_rel_id_by_multilanguage_url($slug, 'categories');
-    if ($relId) {
-        return $relId;
-    }
-
-    return false;
-});*/
-
+/*
 event_bind('app.permalink.slug.before', function ($params) {
+
+    //var_dump($params);
 
     $relType = 'post';
     if ($params['type'] == 'category') {
@@ -84,7 +91,7 @@ event_bind('app.permalink.slug.before', function ($params) {
     }
 
     return false;
-});
+});*/
 
 event_bind('content.link.after', function ($link) {
     return add_locale_prefix_to_link($link);

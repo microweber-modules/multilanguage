@@ -71,21 +71,23 @@ class TranslateManager
                         });
                     }
 
-                  /* if (isset($params['params']['url'])) {
+              /*     if (isset($params['params']['url'])) {
                         $url = $params['params']['url'];
                         if ($providerTable =='categories') {
 
-                        //   var_dump($url);
+                           var_dump($url);
 
-                            $params['query']->orWhereIn($providerTable.'.id', function ($subQuery) use ($providerTable, $url) {
+                            $params['query']->whereIn($providerTable.'.id', function ($subQuery) use ($providerTable, $url) {
                                 $subQuery->select('multilanguage_translations.rel_id');
                                 $subQuery->from('multilanguage_translations');
-                                $subQuery->where('multilanguage_translations.field_name', 'url');
-                                $subQuery->where('multilanguage_translations.rel_type', '=', $providerTable);
-                                $subQuery->where('multilanguage_translations.field_value', $url);
+                                $subQuery->where('multilanguage_translations.id', '2348');
+                                //$subQuery->where('multilanguage_translations.field_name', 'url');
+                               // $subQuery->where('multilanguage_translations.rel_type', '=', $providerTable);
+                               // $subQuery->where('multilanguage_translations.field_value', $url);
                             });
-                        }
 
+                            dd($params['query']);
+                        }
                     }*/
 
                     return $params;

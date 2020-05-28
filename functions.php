@@ -2,6 +2,7 @@
 /**
  * Author: Bozhidar Slaveykov
  */
+
 require_once 'src/MultilanguageApi.php';
 require_once 'src/TranslateManager.php';
 require_once 'api_exposes.php';
@@ -12,8 +13,7 @@ if (is_module('multilanguage') && get_option('is_active', 'multilanguage_setting
     return;
 }
 
-event_bind('mw.init', function () {
-
+event_bind('mw.after.boot', function () {
     if (!isset($_COOKIE['autodetected_lang'])) {
         $homepageLanguage = get_option('homepage_language', 'website');
         if ($homepageLanguage) {
@@ -35,9 +35,9 @@ function run_translate_manager()
 {
     $currentLocale = mw()->lang_helper->current_lang();
     if (is_lang_correct($currentLocale)) {
+        require_once 'event_binds.php';
         $translate = new TranslateManager();
         $translate->run();
-        require_once 'event_binds.php';
     }
 }
 
