@@ -71,9 +71,11 @@ class TranslateManager
                         });
                     }
 
-                 /*   if (isset($params['params']['url'])) {
+                  /* if (isset($params['params']['url'])) {
                         $url = $params['params']['url'];
                         if ($providerTable =='categories') {
+
+                        //   var_dump($url);
 
                             $params['query']->orWhereIn($providerTable.'.id', function ($subQuery) use ($providerTable, $url) {
                                 $subQuery->select('multilanguage_translations.rel_id');

@@ -19,7 +19,7 @@ template_head(function () {
 
     return $link;
 });
-
+/*
 event_bind('permalink.parse_link.link', function ($link) {
 
     $link = urldecode($link);
@@ -28,13 +28,13 @@ event_bind('permalink.parse_link.link', function ($link) {
     unset($linkSegments[0]);
 
     return implode('/', $linkSegments);
-});
-
+});*/
+/*
 event_bind('category.get_by_slug', function ($slug) {
 
     $slug = urldecode($slug);
     $relId = get_rel_id_by_multilanguage_url($slug, 'categories');
-
+//dd($relId);
     if ($relId) {
         return get_category_by_id($relId);
     }
@@ -42,18 +42,47 @@ event_bind('category.get_by_slug', function ($slug) {
 });
 
 event_bind('category.get_category_id_from_url', function ($slug) {
-    $relId = get_rel_id_by_multilanguage_url($slug, 'categories');
-    if ($relId) {
-        return $relId;
-    }
-    return false;
-});
 
-event_bind('permalink.parse_link.category', function ($slug) {
     $relId = get_rel_id_by_multilanguage_url($slug, 'categories');
     if ($relId) {
         return $relId;
     }
+
+    return false;
+});*/
+
+event_bind('app.permalink.slug.before', function ($params) {
+
+    $relType = 'post';
+    if ($params['type'] == 'category') {
+        $relType = 'categories';
+    }
+
+    $filter = array();
+    $filter['field_name'] = 'url';
+    $filter['field_value'] = $params['slug'];
+    $filter['single'] = 1;
+    if ($relType) {
+        $filter['rel_type'] = $relType;
+    }
+
+    $get = db_get('multilanguage_translations', $filter);
+    if ($get) {
+        if ($relType == 'categories') {
+            $category = get_categories('id=' . $get['rel_id'] . '&single=1');
+            if ($category) {
+                return $category['url'];
+            }
+        }
+    }
+
+    if ($relType == 'categories') {
+        $category = get_categories('url=' . $params['slug'] . '&single=1');
+        if ($category) {
+            return $category['url'];
+        }
+    }
+
     return false;
 });
 
@@ -61,9 +90,9 @@ event_bind('content.link.after', function ($link) {
     return add_locale_prefix_to_link($link);
 });
 
-event_bind('permalink.generate_category_link', function ($link) {
+/*event_bind('permalink.generate_category_link', function ($link) {
     return add_locale_prefix_to_link($link);
-});
+});*/
 
 function add_locale_prefix_to_link($link) {
 
