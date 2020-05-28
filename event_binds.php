@@ -26,6 +26,7 @@ event_bind('app.permalink.structure_map_prefix', function () {
 
 event_bind('app.category.get_category_id_from_url', function ($slug) {
 
+
     $relId = get_rel_id_by_multilanguage_url($slug, 'categories');
     if ($relId) {
         return $relId;
