@@ -3,6 +3,10 @@
  * Author: Bozhidar Slaveykov
  */
 
+require_once 'src/MultilanguagePermalinkManager.php';
+
+app()->permalink_manager = new MultilanguagePermalinkManager();
+
 require_once 'src/MultilanguageApi.php';
 require_once 'src/TranslateManager.php';
 require_once 'api_exposes.php';

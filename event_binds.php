@@ -20,9 +20,9 @@ template_head(function () {
     return $link;
 });
 
-event_bind('app.permalink.structure_map_prefix', function () {
+/*event_bind('app.permalink.structure_map_prefix', function () {
     return 'locale';
-});
+});*/
 
 event_bind('app.category.get_category_id_from_url', function ($slug) {
 
@@ -34,7 +34,7 @@ event_bind('app.category.get_category_id_from_url', function ($slug) {
     return false;
 });
 
-
+/*
 event_bind('app.permalink.link.after', function(){
 
     $rewriteUrl = false;
@@ -63,7 +63,7 @@ event_bind('app.permalink.link.after', function(){
         return $currentLang;
     }
 
-});
+});*/
 
 
 

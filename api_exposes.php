@@ -79,12 +79,17 @@ api_expose_admin('multilanguage/add_language', function ($params) {
 
 });
 
-api_expose('multilanguage/change_language', function ($params) {
-
+Route::any('api/multilanguage/change_language', function () {
     $api = new MultilanguageApi();
-    return $api->changeLanguage($params);
-
+    return $api->changeLanguage(Input::all());
 });
+
+//api_expose('multilanguage/change_language', function ($params) {
+//
+//    $api = new MultilanguageApi();
+//    return $api->changeLanguage($params);
+//
+//});
 
 api_expose('multilanguage/geolocaiton_test', function ($params) {
 

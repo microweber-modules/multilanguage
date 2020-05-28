@@ -72,13 +72,14 @@ class MultilanguageApi
         }
 
         change_language_by_locale($locale);
-        run_translate_manager();
 
-        mw()->permalink_manager->bindEvents();
+        run_translate_manager();
+       // mw()->permalink_manager->bindEvents();
 
         if (isset($params['is_admin']) && $params['is_admin'] == 1) {
             mw()->event_manager->trigger('mw.admin.change_language');
         } else {
+
             $location = false;
 
             $categoryId = get_category_id_from_url();
