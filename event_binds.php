@@ -26,7 +26,6 @@ event_bind('app.permalink.structure_map_prefix', function () {
 
 event_bind('app.category.get_category_id_from_url', function ($slug) {
 
-
     $relId = get_rel_id_by_multilanguage_url($slug, 'categories');
     if ($relId) {
         return $relId;
@@ -69,10 +68,8 @@ event_bind('app.permalink.link.after', function(){
 
 
 
-/*
-event_bind('app.permalink.slug.before', function ($params) {
 
-    //var_dump($params);
+event_bind('app.permalink.slug.before', function ($params) {
 
     $relType = 'post';
     if ($params['type'] == 'category') {
@@ -105,7 +102,7 @@ event_bind('app.permalink.slug.before', function ($params) {
     }
 
     return false;
-});*/
+});
 
 /*event_bind('menu.after.get_item', function ($menu) {
 

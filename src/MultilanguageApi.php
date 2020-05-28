@@ -81,13 +81,15 @@ class MultilanguageApi
         } else {
             $location = false;
 
-            $categoryUrl = get_category_id_from_url();
-            $contentUrl = mw()->content_manager->get_by_url();
+            $categoryId = get_category_id_from_url();
+            $contentId = mw()->content_manager->get_content_id_from_url();
 
             if (defined('POST_ID') && POST_ID) {
                 $location = post_link(POST_ID);
-            } else if ($categoryUrl) {
-                $location = category_link($categoryUrl);
+            } else if ($categoryId) {
+                $location = category_link($categoryId);
+            } else if ($contentId) {
+                $location = content_link($contentId);
             }
 
             if  ($location){
