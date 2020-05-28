@@ -20,6 +20,10 @@ template_head(function () {
     return $link;
 });
 
+event_bind('app.permalink.structure_map_prefix', function () {
+    return 'locale';
+});
+
 event_bind('app.category.get_category_id_from_url', function ($slug) {
 
     $relId = get_rel_id_by_multilanguage_url($slug, 'categories');
@@ -31,28 +35,37 @@ event_bind('app.category.get_category_id_from_url', function ($slug) {
 });
 
 
-/*
-event_bind('permalink.parse_link.link', function ($link) {
+event_bind('app.permalink.link.after', function(){
 
-    $link = urldecode($link);
-    $linkSegments = url_segment(-1, $link);
+    $rewriteUrl = false;
+    $defaultLang = get_option('language', 'website');
+    $currentLang = mw()->lang_helper->current_lang();
 
-    unset($linkSegments[0]);
+    $prefixForAll = get_option('add_prefix_for_all_languages','multilanguage_settings');
 
-    return implode('/', $linkSegments);
-});*/
-/*
-event_bind('category.get_by_slug', function ($slug) {
+    if ($defaultLang !== $currentLang) {
+        $rewriteUrl = true;
+    }
 
-    $slug = urldecode($slug);
-    $relId = get_rel_id_by_multilanguage_url($slug, 'categories');
-//dd($relId);
-    if ($relId) {
-        return get_category_by_id($relId);
+    if ($prefixForAll == 'y') {
+        $rewriteUrl = true;
+    }
+
+    if ($rewriteUrl) {
+        // display locale
+        $localeSettings = db_get('multilanguage_supported_locales', 'locale=' . $currentLang . '&single=1');
+        if ($localeSettings && !empty($localeSettings['display_locale'])) {
+            $currentLang = $localeSettings['display_locale'];
+        }
+    }
+
+    if ($rewriteUrl) {
+        return $currentLang;
     }
 
 });
-*/
+
+
 
 
 /*
@@ -92,53 +105,6 @@ event_bind('app.permalink.slug.before', function ($params) {
 
     return false;
 });*/
-
-event_bind('content.link.after', function ($link) {
-    return add_locale_prefix_to_link($link);
-});
-
-/*event_bind('permalink.generate_category_link', function ($link) {
-    return add_locale_prefix_to_link($link);
-});*/
-
-function add_locale_prefix_to_link($link) {
-
-    if (!defined('MW_API_HTML_OUTPUT') && (defined('MW_FRONTEND') || defined('MW_API_CALL'))) {
-
-        $rewriteUrl = false;
-
-        $default_lang = get_option('language', 'website');
-        $current_lang = mw()->lang_helper->current_lang();
-
-        $prefixForAll = get_option('add_prefix_for_all_languages','multilanguage_settings');
-
-        if ($default_lang !== $current_lang) {
-            $rewriteUrl = true;
-        }
-
-        if ($prefixForAll == 'y') {
-            $rewriteUrl = true;
-        }
-
-        if ($rewriteUrl) {
-            // display locale
-            $localeSettings = db_get('multilanguage_supported_locales', 'locale=' . $current_lang . '&single=1');
-            if ($localeSettings && !empty($localeSettings['display_locale'])) {
-                $current_lang = $localeSettings['display_locale'];
-            }
-
-            if (strpos($link, site_url() . $current_lang) !== false) {
-                return $link;
-            }
-
-            $new_url = str_replace(site_url(), site_url() . $current_lang . '/', $link);
-
-            $link = $new_url;
-        }
-    }
-
-    return $link;
-}
 
 /*event_bind('menu.after.get_item', function ($menu) {
 
