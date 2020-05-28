@@ -72,66 +72,31 @@ class MultilanguageApi
         }
 
         change_language_by_locale($locale);
-
         run_translate_manager();
 
+        mw()->permalink_manager->bindEvents();
+
         if (isset($params['is_admin']) && $params['is_admin'] == 1) {
-            $json['refresh'] = true;
             mw()->event_manager->trigger('mw.admin.change_language');
         } else {
-            $targetUrl = mw()->url_manager->string(true);
-            $detect = detect_lang_from_url($targetUrl);
-            $targetUrlExp = explode('/', $targetUrl);
-            if ($targetUrlExp) {
-                $targetUrl = end($targetUrlExp);
+            $location = false;
+
+            if (defined('POST_ID') && POST_ID) {
+                $location = post_link(POST_ID);
+            } else if (defined('CATEGORY_ID') && CATEGORY_ID) {
+                $location = category_link(CATEGORY_ID);
+            } else if (defined('PAGE_ID') && PAGE_ID) {
+                $location = page_link(PAGE_ID);
+            } else if (defined('CONTENT_ID') && CONTENT_ID) {
+                $location = content_link(CONTENT_ID);
             }
 
-            $relId = get_rel_id_by_multilanguage_url($targetUrl);
-
-            $content = get_content('id=' . $relId  . '&single=1');
-            $category = get_categories('id=' . $relId . '&single=1');
-
-            $json['refresh'] = true;
-            if ($content || $category) {
-                if ($detect['target_url']) {
-
-                    $redirectLocation = false;
-                    if ($category) {
-                        $redirectLocation = 'category';
-                    }
-
-                    if ($category == false && isset($content['content_type']) && $content['content_type'] == 'page') {
-                        $redirectLocation = 'content';
-                    }
-
-                    if ($category && $content && isset($content['content_type']) && $content['content_type'] == 'page') {
-                        $redirectLocation = 'category';
-                    }
-
-                    if ($content && isset($content['content_type']) && $content['content_type'] !== 'page') {
-                        $redirectLocation = 'content';
-                    }
-
-                    switch($redirectLocation) {
-                        case 'content':
-                            $contentLink = content_link($content['id']);
-                            if ($contentLink) {
-                                $json['location'] = $contentLink;
-                            }
-                        break;
-                        case 'category':
-                            $categoryLink = category_link($category['id']);
-                            if ($categoryLink) {
-                                $json['location'] = $categoryLink;
-                            }
-                        break;
-                    }
-
-                }
-            } else {
-                $json['location'] = site_url($detect['target_url']);
+            if  ($location){
+                $json['location'] = $location;
             }
         }
+
+        $json['refresh'] = true;
 
         return $json;
     }
