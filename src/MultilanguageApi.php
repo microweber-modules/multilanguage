@@ -78,14 +78,14 @@ class MultilanguageApi
             mw()->event_manager->trigger('mw.admin.change_language');
         } else {
 
+
+            $url = url_current(true);
             $location = false;
 
-            $categoryId = get_category_id_from_url();
-            $contentId = mw()->content_manager->get_content_id_from_url();
+            $categoryId = get_category_id_from_url($url);
+            $contentId = mw()->content_manager->get_content_id_from_url($url);
 
-            if (defined('POST_ID') && POST_ID) {
-                $location = post_link(POST_ID);
-            } else if ($categoryId) {
+             if ($categoryId) {
                 $location = category_link($categoryId);
             } else if ($contentId) {
                 $location = content_link($contentId);

@@ -66,10 +66,8 @@ event_bind('app.permalink.link.after', function(){
 });*/
 
 
-
-
-
 event_bind('app.permalink.slug.before', function ($params) {
+
 
     $relType = 'post';
     if ($params['type'] == 'category') {
@@ -169,7 +167,7 @@ event_bind('mw.front.content_data', function ($content) {
     return $content;
 });
 
-event_bind('content.get_by_url', function ($url) {
+event_bind('app.content.get_by_url', function ($url) {
 
     if (!empty($url)) {
 
@@ -189,17 +187,15 @@ event_bind('content.get_by_url', function ($url) {
             return;
         }
 
-        if (mw()->lang_helper->default_lang() == $targetLang) {
-            $targetLang = '';
-        } else {
-            $targetLang .= '/';
-        }
+        $targetUrl = urldecode($targetUrl);
 
         $filter = array();
         $filter['single'] = 1;
         $filter['rel_type'] = 'content';
         $filter['field_name'] = 'url';
+        $filter['enable_triggers'] = false;
         $filter['field_value'] = $targetUrl;
+
         $findTranslate = db_get('multilanguage_translations', $filter);
         if ($findTranslate && intval($findTranslate['rel_id']) !== 0) {
 
@@ -211,9 +207,12 @@ event_bind('content.get_by_url', function ($url) {
             if ($content['url'] == $findTranslate['field_value']) {
                 return $content;
             } else {
+                /**
+                 * When you visit url with prefix with diffrent language it redirects you to url with correct lang
+                 * Example /bg-lang/english-post-name > /bg-lang/imeto-na-posta-na-bg
+                 */
                 mw_var('should_redirect', content_link($content['id']));
-                //mw_var('should_redirect', site_url() . $targetLang . $content['url']);
-                return;
+                return $content;
             }
         } else {
             $get = array();
@@ -223,9 +222,12 @@ event_bind('content.get_by_url', function ($url) {
             $content = mw()->content_manager->get($get);
             if ($content) {
                 if ($content['url'] !== $targetUrl) {
+                    /**
+                     * When you visit url with prefix with diffrent language it redirects you to url with correct lang
+                     * Example /bg-lang/english-post-name > /bg-lang/imeto-na-posta-na-bg
+                     */
                     mw_var('should_redirect', content_link($content['id']));
-                    //mw_var('should_redirect', site_url() . $targetLang . $content['url']);
-                    return;
+                    return $content;
                 }
                 return $content;
             }
