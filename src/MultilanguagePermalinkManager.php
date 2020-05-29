@@ -3,6 +3,8 @@
 class MultilanguagePermalinkManager extends \Microweber\Providers\PermalinkManager
 {
 
+    // public $locale = false;
+
     public function __construct($app = null)
     {
         parent::__construct();
@@ -14,19 +16,28 @@ class MultilanguagePermalinkManager extends \Microweber\Providers\PermalinkManag
             $this->linkAfter[] = $getLinkAfter;
         }
     }
-    
+
+ /*   public function setLocale($locale)
+    {
+
+    }
+    */
     private function __getLinkAfter()
     {
         $rewriteUrl = false;
         $defaultLang = get_option('language', 'website');
-        $currentLang = mw()->lang_helper->current_lang();
 
-        $prefixForAll = get_option('add_prefix_for_all_languages','multilanguage_settings');
+      /*  if ($this->locale) {
+            mw()->lang_helper->set_current_lang($this->locale);
+        }*/
+
+        $currentLang = mw()->lang_helper->current_lang();
 
         if ($defaultLang !== $currentLang) {
             $rewriteUrl = true;
         }
 
+        $prefixForAll = get_option('add_prefix_for_all_languages','multilanguage_settings');
         if ($prefixForAll == 'y') {
             $rewriteUrl = true;
         }

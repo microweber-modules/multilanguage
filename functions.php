@@ -141,6 +141,8 @@ function change_language_by_locale($locale)
         $_COOKIE['lang'] = $locale;
     }
 
+   // mw()->permalink_manager->setLocale($locale);
+
     return mw()->lang_helper->set_current_lang($locale);
 }
 
