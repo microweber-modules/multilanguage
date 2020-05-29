@@ -4,11 +4,6 @@
  */
 
 require_once 'src/MultilanguagePermalinkManager.php';
-
-App::bind('permalink_manager', function() {
-    return new MultilanguagePermalinkManager();
-});
-
 require_once 'src/MultilanguageApi.php';
 require_once 'src/TranslateManager.php';
 require_once 'api_exposes.php';
@@ -18,6 +13,11 @@ require_once 'event_binds_general.php';
 if (is_module('multilanguage') && get_option('is_active', 'multilanguage_settings') !== 'y') {
     return;
 }
+
+App::bind('permalink_manager', function() {
+    return new MultilanguagePermalinkManager();
+});
+
 
 event_bind('mw.after.boot', function () {
     if (!isset($_COOKIE['autodetected_lang'])) {
