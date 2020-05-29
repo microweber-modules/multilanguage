@@ -25,7 +25,7 @@ event_bind('mw.after.boot', function () {
         if ($homepageLanguage) {
             if (is_lang_supported($homepageLanguage)) {
                 change_language_by_locale($homepageLanguage);
-                setcookie('autodetected_lang', 1);
+                setcookie('autodetected_lang', 1, false, '/');
                 $_COOKIE['autodetected_lang'] = 1;
             }
         }

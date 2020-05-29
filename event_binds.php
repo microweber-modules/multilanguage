@@ -5,16 +5,32 @@
 
 template_head(function () {
 
+
+    $currentLang = mw()->lang_helper->default_lang();
+
     $content_link = content_link(CONTENT_ID);
-    $link = '<link rel="canonical" href="' . $content_link . '"/>';
+    $link = '<link rel="canonical" href="' . $content_link . '" />' . "\n";
 
     $supportedLanguages = get_supported_languages();
     foreach ($supportedLanguages as $locale) {
-        $hrefLang = $locale['locale'];
-        if (mb_strlen($hrefLang) > 2) {
+
+        $localeAbr = $locale['locale'];
+
+        /*if (mb_strlen($hrefLang) > 2) {
             $hrefLang = mb_substr($hrefLang, 0, 2);
+        }*/
+
+        if(isset($locale['display_locale']) and $locale['display_locale']) {
+            $localeAbr = $locale['display_locale'];
         }
-        $link .= '<link rel="alternate" href="' . $content_link . '" hreflang="' . $hrefLang . '" />';
+
+        if ($currentLang == $locale['locale']) {
+            $locale['locale'] = 'x-default';
+        }
+
+        $locale['locale'] = str_replace('_','-', $locale['locale']);
+
+        $link .= '<link rel="alternate" href="' . $content_link . $localeAbr . '" hreflang="' . $locale['locale'] . '" />' . "\n";
     }
 
     return $link;
