@@ -67,7 +67,7 @@ class TranslateManager
                                      $query->where('field_value', 'LIKE', '%'.$keyword.'%');
                                  });
                              }*/
-                            $subQuery->where('multilanguage_translations.field_value', 'LIKE', '%' . $keyword . '%');  
+                            $subQuery->where('multilanguage_translations.field_value', 'LIKE', '%' . $keyword . '%');
                         });
 
 
