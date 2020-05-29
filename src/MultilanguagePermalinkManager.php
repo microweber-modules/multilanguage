@@ -6,7 +6,7 @@ class MultilanguagePermalinkManager extends \Microweber\Providers\PermalinkManag
     public function __construct($app = null)
     {
         parent::__construct();
-
+        
         $this->structureMapPrefix[] = 'locale';
 
         $getLinkAfter = $this->__getLinkAfter();
@@ -20,7 +20,7 @@ class MultilanguagePermalinkManager extends \Microweber\Providers\PermalinkManag
         $rewriteUrl = false;
         $defaultLang = get_option('language', 'website');
         $currentLang = mw()->lang_helper->current_lang();
-        
+
         $prefixForAll = get_option('add_prefix_for_all_languages','multilanguage_settings');
 
         if ($defaultLang !== $currentLang) {
