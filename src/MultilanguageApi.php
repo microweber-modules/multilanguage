@@ -72,9 +72,8 @@ class MultilanguageApi
         }
 
         change_language_by_locale($locale);
-
         run_translate_manager();
-       // mw()->permalink_manager->bindEvents();
+        app()->permalink_manager = new MultilanguagePermalinkManager();
 
         if (isset($params['is_admin']) && $params['is_admin'] == 1) {
             mw()->event_manager->trigger('mw.admin.change_language');
