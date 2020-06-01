@@ -282,7 +282,7 @@ function detect_lang_from_url($targetUrl)
 
 function get_supported_languages($only_active = false)
 {
-    $get_filter = 'no_cache=true&order_by=position asc';
+    $get_filter = 'order_by=position asc';
     if ($only_active) {
         $get_filter .= '&is_active=y';
     }
