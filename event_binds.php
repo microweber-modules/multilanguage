@@ -43,6 +43,7 @@ template_head(function () {
 event_bind('app.category.get_category_id_from_url', function ($slug) {
 
     $relId = get_rel_id_by_multilanguage_url($slug, 'categories');
+
     if ($relId) {
         return $relId;
     }
@@ -243,6 +244,80 @@ event_bind('app.content.get_by_url', function ($url) {
                      * Example /bg-lang/english-post-name > /bg-lang/imeto-na-posta-na-bg
                      */
                     mw_var('should_redirect', content_link($content['id']));
+                    return $content;
+                }
+                return $content;
+            }
+        }
+    }
+
+    return;
+});
+
+
+
+
+
+event_bind('app.category.get_by_url', function ($url) {
+
+    if (!empty($url)) {
+
+        $detect = detect_lang_from_url($url);
+        $targetUrl = $detect['target_url'];
+        $targetLang = $detect['target_lang'];
+
+        if (empty($targetUrl)) {
+            $homepageGet = mw()->content_manager->homepage();
+            if ($homepageGet) {
+                mw_var('should_redirect', site_url() . $targetLang . '/' . $homepageGet['url']);
+                return;
+            }
+        }
+
+        if (!$targetUrl || !$targetLang) {
+            return;
+        }
+
+        $targetUrl = urldecode($targetUrl);
+
+        $filter = array();
+        $filter['single'] = 1;
+        $filter['rel_type'] = 'categories';
+        $filter['field_name'] = 'url';
+        $filter['enable_triggers'] = false;
+        $filter['field_value'] = $targetUrl;
+
+        $findTranslate = db_get('multilanguage_translations', $filter);
+        if ($findTranslate && intval($findTranslate['rel_id']) !== 0) {
+
+            $get = array();
+            $get['id'] = $findTranslate['rel_id'];
+            $get['single'] = true;
+            $content = mw()->category_manager->get($get);
+
+            if ($content['url'] == $findTranslate['field_value']) {
+                return $content;
+            } else {
+                /**
+                 * When you visit url with prefix with diffrent language it redirects you to url with correct lang
+                 * Example /bg-lang/english-post-name > /bg-lang/imeto-na-posta-na-bg
+                 */
+                mw_var('should_redirect', category_link($content['id']));
+                return $content;
+            }
+        } else {
+            $get = array();
+            $get['url'] = $targetUrl;
+            $get['single'] = true;
+
+            $content = mw()->category_manager->get($get);
+            if ($content) {
+                if ($content['url'] !== $targetUrl) {
+                    /**
+                     * When you visit url with prefix with diffrent language it redirects you to url with correct lang
+                     * Example /bg-lang/english-post-name > /bg-lang/imeto-na-posta-na-bg
+                     */
+                    mw_var('should_redirect', category_link($content['id']));
                     return $content;
                 }
                 return $content;
