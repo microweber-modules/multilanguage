@@ -269,7 +269,7 @@ event_bind('app.category.get_by_url', function ($url) {
         if (empty($targetUrl)) {
             $homepageGet = mw()->content_manager->homepage();
             if ($homepageGet) {
-                mw_var('should_redirect', site_url() . $targetLang . '/' . $homepageGet['url']);
+                //mw_var('should_redirect', site_url() . $targetLang . '/' . $homepageGet['url']);
                 return;
             }
         }
