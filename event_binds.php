@@ -86,9 +86,13 @@ event_bind('app.permalink.link.after', function(){
 event_bind('app.permalink.slug.before', function ($params) {
 
 
-    $relType = 'post';
+    $relType = 'content';
     if ($params['type'] == 'category') {
         $relType = 'categories';
+    }
+
+    if($relType == 'post' or $relType == 'page' or $relType == 'product'){
+        $relType = 'content';
     }
 
     $filter = array();
@@ -105,6 +109,11 @@ event_bind('app.permalink.slug.before', function ($params) {
             $category = get_categories('id=' . $get['rel_id'] . '&single=1');
             if ($category) {
                 return $category['url'];
+            }
+        } else   if ($relType == 'content') {
+            $content = get_content('id=' . $get['rel_id'] . '&single=1');
+             if ($content) {
+                return $content['url'];
             }
         }
     }
