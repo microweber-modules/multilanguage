@@ -12,6 +12,12 @@ description: MW Default
         .module-multilanguage-change-language{
             display: inline-block;
         }
+
+        .mw-ui-row.header-top-center-notifs {
+            table-layout: auto;
+        }
+
+
     </style>
 <?php if (!empty($supported_languages)): ?>
     <script type="text/javascript">
