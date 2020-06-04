@@ -77,8 +77,7 @@ class MultilanguageApi
         if (isset($params['is_admin']) && $params['is_admin'] == 1) {
             mw()->event_manager->trigger('mw.admin.change_language');
         } else {
-
-
+            
             $url = url_current(true);
             $location = false;
 
