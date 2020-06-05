@@ -85,22 +85,30 @@ class MultilanguageApi
             $contentId = mw()->content_manager->get_content_id_from_url($url);
             $contentCheck = get_content_by_id($contentId);
 
-            $redirectTo = '';
+        /*  var_dump([
+                'categoryId'=> $categoryId,
+                'contentId'=>$contentId,
+                'contentCheck'=>$contentCheck
+            ]);*/
+
 
             if ($contentCheck && isset($contentCheck['content_type'])) {
                 if ($categoryId && $contentCheck['content_type'] == 'page') {
-                    $redirectTo = 'category';
+                    $location = category_link($categoryId);
                 }
-                if ($contentCheck['content_type'] != 'page') {
-                    $redirectTo = 'post';
+                if ($categoryId && $contentCheck['content_type'] != 'page') {
+                    $location = content_link($contentId);
+                }
+                if (($categoryId == false || $categoryId == 0) && $contentCheck['content_type'] == 'page') {
+                    $location = content_link($contentId);
                 }
             }
 
-            if ($redirectTo == 'category') {
+            if ($contentCheck == false && $categoryId > 0) {
                 $location = category_link($categoryId);
-            } else {
-                $location = content_link($contentId);
             }
+
+           // var_dump($location);
 
             if  ($location){
                 $json['location'] = $location;
