@@ -171,6 +171,10 @@ event_bind('mw.controller.index', function () {
 //        }
     }
 
+    if (!is_lang_supported($detect['target_lang'])) {
+        return;
+    }
+
     if ($detect['target_lang']) {
         // display locale
         $localeSettings = db_get('multilanguage_supported_locales', 'display_locale=' . $detect['target_lang'] . '&single=1');
