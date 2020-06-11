@@ -110,7 +110,7 @@ event_bind('app.permalink.slug.before', function ($params) {
             if ($category) {
                 return $category['url'];
             }
-        } else   if ($relType == 'content') {
+        } else if ($relType == 'content') {
             $content = get_content('id=' . $get['rel_id'] . '&single=1');
              if ($content) {
                 return $content['url'];
@@ -122,6 +122,13 @@ event_bind('app.permalink.slug.before', function ($params) {
         $category = get_categories('url=' . $params['slug'] . '&single=1');
         if ($category) {
             return $category['url'];
+        }
+    }
+
+    if ($relType == 'content') {
+        $content = get_content('url=' . $params['slug'] . '&single=1');
+        if ($content) {
+            return $content['url'];
         }
     }
 
