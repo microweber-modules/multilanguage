@@ -20,7 +20,7 @@ template_head(function () {
             $hrefLang = mb_substr($hrefLang, 0, 2);
         }*/
 
-        if(isset($locale['display_locale']) and $locale['display_locale']) {
+        if (isset($locale['display_locale']) and $locale['display_locale']) {
             $localeAbr = $locale['display_locale'];
         }
 
@@ -28,9 +28,9 @@ template_head(function () {
             $locale['locale'] = 'x-default';
         }
 
-        $locale['locale'] = str_replace('_','-', $locale['locale']);
+        $locale['locale'] = str_replace('_', '-', $locale['locale']);
 
-        $link .= '<link rel="alternate" href="' . $content_link .'/'. $localeAbr . '" hreflang="' . $locale['locale'] . '" />' . "\n";
+        $link .= '<link rel="alternate" href="' . $content_link . '/' . $localeAbr . '" hreflang="' . $locale['locale'] . '" />' . "\n";
     }
 
     return $link;
@@ -91,7 +91,7 @@ event_bind('app.permalink.slug.before', function ($params) {
         $relType = 'categories';
     }
 
-    if($relType == 'post' or $relType == 'page' or $relType == 'product'){
+    if ($relType == 'post' or $relType == 'page' or $relType == 'product') {
         $relType = 'content';
     }
 
@@ -112,7 +112,7 @@ event_bind('app.permalink.slug.before', function ($params) {
             }
         } else if ($relType == 'content') {
             $content = get_content('id=' . $get['rel_id'] . '&single=1');
-             if ($content) {
+            if ($content) {
                 return $content['url'];
             }
         }
@@ -204,6 +204,23 @@ event_bind('mw.front.content_data', function ($content) {
     return $content;
 });
 
+
+event_bind('mw.frontend.404', function ($content) {
+    if (isset($content['url'])) {
+        $content = get_content('url=' . $content['url'] . '&single=1');
+        if ($content and isset($content['id'])) {
+            $link = content_link($content['id']);
+            if ($link) {
+                $content['original_link'] = $link;
+                return $content;
+                //$redirect = mw_var('should_redirect',$link);
+            }
+         //   return $content;
+        }
+    }
+
+});
+
 event_bind('app.content.get_by_url', function ($url) {
 
     if (!empty($url)) {
@@ -273,9 +290,6 @@ event_bind('app.content.get_by_url', function ($url) {
 
     return;
 });
-
-
-
 
 
 event_bind('app.category.get_by_url', function ($url) {
