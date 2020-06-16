@@ -30,7 +30,11 @@ template_head(function () {
 
         $locale['locale'] = str_replace('_', '-', $locale['locale']);
 
-        $link .= '<link rel="alternate" href="' . $content_link . '/' . $localeAbr . '" hreflang="' . $locale['locale'] . '" />' . "\n";
+        if (!is_home()) {
+            $localeAbr = '';
+        }
+
+        $link .= '<link rel="alternate" href="' . $content_link . $localeAbr . '" hreflang="' . $locale['locale'] . '" />' . "\n";
     }
 
     return $link;
