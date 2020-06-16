@@ -212,8 +212,13 @@ function is_lang_supported($lang)
 
     $supportedLanguagesMap = array();
     $supportedLanguages = get_supported_languages();
+
     foreach ($supportedLanguages as $language) {
-        $supportedLanguagesMap[] = $language['locale'];
+        if (!empty($language['display_locale'])) {
+            $supportedLanguagesMap[] = $language['display_locale'];
+        } else {
+            $supportedLanguagesMap[] = $language['locale'];
+        }
     }
 
     return in_array($lang, $supportedLanguagesMap);
