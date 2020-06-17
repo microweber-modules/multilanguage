@@ -85,17 +85,18 @@ class TranslateTable
         $filter['no_limit'] = 1;
         $filter['locale'] = $this->getCurrentLocale();
         $filter['rel_type'] = $this->relType;
-
         $filter['enable_triggers'] = false;
-        $translates = db_get('multilanguage_translations', $filter);
 
+        $translates = db_get('multilanguage_translations', $filter);
         if ($translates) {
-            foreach ($this->columns as $column) {
-                foreach ($translates as $translate) {
-                    if (isset($translates['field_name']) and $translates['field_name'] == $column) {
-                        if (isset($translates['rel_id']) and $translates['rel_id'] == $this->relId) {
-                            if (!empty($translate['field_value'])) {
-                                $data[$column] = $translate['field_value'];
+            foreach ($translates as $translate_item) {
+                if (isset($translate_item['rel_type']) and $translate_item['rel_type'] == $this->relType) {
+                    if (isset($translate_item['rel_id']) and $translate_item['rel_id'] == $data[$this->relId]) {
+                        foreach ($this->columns as $column) {
+                            if (isset($translate_item['field_name']) and $translate_item['field_name'] == $column) {
+                                if (!empty($translate_item['field_value'])) {
+                                    $data[$column] = $translate_item['field_value'];
+                                }
                             }
                         }
                     }
@@ -103,7 +104,7 @@ class TranslateTable
                 $data['item_lang'] = $filter['locale'];
             }
         }
-
+        
         return $data;
     }
 
