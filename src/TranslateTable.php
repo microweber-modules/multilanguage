@@ -1,32 +1,38 @@
 <?php
 
-class TranslateTable {
+class TranslateTable
+{
 
     protected $columns = array();
     protected $relId = false;
     protected $relType = false;
     protected $locale = false;
 
-    public function getRelType() {
+    public function getRelType()
+    {
         return $this->relType;
     }
 
-    public function getRelId() {
+    public function getRelId()
+    {
         return $this->relId;
     }
 
-    public function getColumns() {
+    public function getColumns()
+    {
         return $this->columns;
     }
 
-    public function setLocale($locale) {
+    public function setLocale($locale)
+    {
         $this->locale = $locale;
     }
 
-    public function saveOrUpdate($data) {
+    public function saveOrUpdate($data)
+    {
 
         foreach ($this->columns as $column) {
-            if (isset($data[$column])) {
+            if (isset($data[$column]) && !empty($data[$column])) {
 
                 $saveTranslation = array();
 
@@ -54,7 +60,8 @@ class TranslateTable {
         }
     }
 
-    public function findTranslate($filter) {
+    public function findTranslate($filter)
+    {
 
         if (!isset($filter['locale']) || empty($filter['locale'])) {
             $filter['locale'] = $this->getCurrentLocale();
@@ -67,36 +74,71 @@ class TranslateTable {
         return db_get('multilanguage_translations', $filter);
     }
 
-    public function getTranslate($data) {
 
+    public function getTranslate($data)
+    {
         if (!isset($data[$this->relId])) {
             return $data;
         }
 
-        foreach ($this->columns as $column) {
+        $filter = array();
+        $filter['no_limit'] = 1;
+        $filter['locale'] = $this->getCurrentLocale();
+        $filter['rel_type'] = $this->relType;
 
-            $filter = array();
-            $filter['single'] = 1;
-            $filter['limit'] = 1;
-            $filter['locale'] = $this->getCurrentLocale();
-            $filter['rel_type'] = $this->relType;
-            $filter['rel_id'] = $data[$this->relId];
-            $filter['field_name'] = $column;
-            $filter['enable_triggers'] = false;
-           // $filter['no_cache'] = true;
+        $filter['enable_triggers'] = false;
+        $translates = db_get('multilanguage_translations', $filter);
 
-            $translate = db_get('multilanguage_translations', $filter);
-
-            if (!empty($translate['field_value'])) {
-                $data[$column] = $translate['field_value'];
+        if ($translates) {
+            foreach ($this->columns as $column) {
+                foreach ($translates as $translate) {
+                    if (isset($translates['field_name']) and $translates['field_name'] == $column) {
+                        if (isset($translates['rel_id']) and $translates['rel_id'] == $this->relId) {
+                            if (!empty($translate['field_value'])) {
+                                $data[$column] = $translate['field_value'];
+                            }
+                        }
+                    }
+                }
+                $data['item_lang'] = $filter['locale'];
             }
-
-            $data['item_lang'] = $filter['locale'];
-
         }
 
         return $data;
     }
+
+    /* public function getTranslate($data) {
+
+         echo 'Get Translation..<br />';
+
+         if (!isset($data[$this->relId])) {
+             return $data;
+         }
+
+         foreach ($this->columns as $column) {
+
+             $filter = array();
+             $filter['single'] = 1;
+             $filter['limit'] = 1;
+             $filter['locale'] = $this->getCurrentLocale();
+             $filter['rel_type'] = $this->relType;
+             $filter['rel_id'] = $data[$this->relId];
+             $filter['field_name'] = $column;
+             $filter['enable_triggers'] = false;
+            // $filter['no_cache'] = true;
+
+             $translate = db_get('multilanguage_translations', $filter);
+
+             if (!empty($translate['field_value'])) {
+                 $data[$column] = $translate['field_value'];
+             }
+
+             $data['item_lang'] = $filter['locale'];
+
+         }
+
+         return $data;
+     }*/
 
     public function getCurrentLocale()
     {
