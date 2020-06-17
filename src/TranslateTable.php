@@ -104,7 +104,7 @@ class TranslateTable
                 $data['item_lang'] = $filter['locale'];
             }
         }
-        
+
         return $data;
     }
 

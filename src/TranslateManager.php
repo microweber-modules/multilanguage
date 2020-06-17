@@ -108,8 +108,13 @@ class TranslateManager
                         }
 
                         foreach ($get as &$item) {
+                            
                             // Exclude for language option
                             if (isset($item['option_key']) && $item['option_key'] == 'language') {
+                                continue;
+                            }
+
+                            if (isset($item['option_key']) && $item['option_key'] == 'permalink_structure') {
                                 continue;
                             }
 
