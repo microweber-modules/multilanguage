@@ -102,13 +102,14 @@ class MultilanguageApi
                 if (($categoryId == false || $categoryId == 0) && $contentCheck['content_type'] == 'page') {
                     $location = content_link($contentId);
                 }
+                if (($categoryId == false || $categoryId == 0) && $contentCheck['content_type'] != 'page') {
+                    $location = content_link($contentId);
+                }
             }
 
             if ($contentCheck == false && $categoryId > 0) {
                 $location = category_link($categoryId);
             }
-
-           // var_dump($location);
 
             if  ($location){
                 $json['location'] = $location;
