@@ -282,6 +282,9 @@ event_bind('app.content.get_by_url', function ($url) {
             $get['single'] = true;
 
             $content = mw()->content_manager->get($get);
+            if(!$content){
+                return;
+            }
             if ($content) {
                 if ($content['url'] !== $targetUrl) {
                     /**
