@@ -38,6 +38,9 @@ class MultilanguagePermalinkManager extends \Microweber\Providers\PermalinkManag
         }
 
         $prefixForAll = get_option('add_prefix_for_all_languages','multilanguage_settings');
+
+        // needs fix
+        $prefixForAll = 'y';
         if ($prefixForAll == 'y') {
             $rewriteUrl = true;
         }
