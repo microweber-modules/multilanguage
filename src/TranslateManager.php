@@ -109,8 +109,17 @@ class TranslateManager
 
                         foreach ($get as &$item) {
 
-                            if ($providerTable == 'options' && isset($item['option_key']) && $item['option_key'] != 'settings') {
-                                continue;
+                            if ($providerTable == 'options' && isset($saveData['option_key'])) {
+                                $canISaveThisOption = true;
+                                if ($saveData['option_key'] != 'settings') {
+                                    $canISaveThisOption = false;
+                                }
+                                if ($saveData['option_key'] == 'text') {
+                                    $canISaveThisOption = true;
+                                }
+                                if (!$canISaveThisOption) {
+                                    return;
+                                }
                             }
 
                             $item = $providerInstance->getTranslate($item);
@@ -124,8 +133,17 @@ class TranslateManager
                 // BIND SAVE TABLES
                 event_bind('mw.database.' . $providerTable . '.save.params', function ($saveData) use ($providerTable, $currentLocale, $defaultLocale, $providerInstance) {
 
-                    if ($providerTable == 'options' && isset($saveData['option_key']) && $saveData['option_key'] != 'settings') {
-                        return false;
+                    if ($providerTable == 'options' && isset($saveData['option_key'])) {
+                        $canISaveThisOption = true;
+                        if ($saveData['option_key'] != 'settings') {
+                            $canISaveThisOption = false;
+                        }
+                        if ($saveData['option_key'] == 'text') {
+                            $canISaveThisOption = true;
+                        }
+                        if (!$canISaveThisOption) {
+                            return;
+                        }
                     }
 
                     if ($currentLocale != $defaultLocale) {
