@@ -109,20 +109,17 @@ class TranslateManager
 
                         foreach ($get as &$item) {
 
-                            if ($providerTable == 'options' && isset($saveData['option_key'])) {
-                                $canISaveThisOption = true;
-                                if ($saveData['option_key'] != 'settings') {
-                                    $canISaveThisOption = false;
-                                }
-                                if ($saveData['option_key'] == 'text') {
-                                    $canISaveThisOption = true;
-                                }
-                                if ($saveData['option_key'] == 'source_code') {
-                                    $canISaveThisOption = true;
-                                }
-                                if (!$canISaveThisOption) {
-                                    return;
-                                }
+                            // Exclude for language option
+                            if (isset($item['option_key']) && $item['option_key'] == 'language') {
+                                continue;
+                            }
+
+                            if (isset($item['option_key']) && $item['option_key'] == 'permalink_structure') {
+                                continue;
+                            }
+
+                            if (isset($item['option_group']) && $item['option_group'] == 'multilanguage_settings') {
+                                continue;
                             }
 
                             $item = $providerInstance->getTranslate($item);
@@ -136,21 +133,17 @@ class TranslateManager
                 // BIND SAVE TABLES
                 event_bind('mw.database.' . $providerTable . '.save.params', function ($saveData) use ($providerTable, $currentLocale, $defaultLocale, $providerInstance) {
 
-                    if ($providerTable == 'options' && isset($saveData['option_key'])) {
+                    // Exclude for language option
+                    if (isset($saveData['option_key']) && $saveData['option_key'] == 'language') {
+                        return false;
+                    }
 
-                        $canISaveThisOption = true;
-                        if ($saveData['option_key'] != 'settings') {
-                            $canISaveThisOption = false;
-                        }
-                        if ($saveData['option_key'] == 'text') {
-                            $canISaveThisOption = true;
-                        }
-                        if ($saveData['option_key'] == 'source_code') {
-                            $canISaveThisOption = true;
-                        }
-                        if (!$canISaveThisOption) {
-                            return;
-                        }
+                    if (isset($item['option_key']) && $item['option_key'] == 'permalink_structure') {
+                        continue;
+                    }
+
+                    if (isset($saveData['option_group']) && $saveData['option_group'] == 'multilanguage_settings') {
+                        return false;
                     }
 
                     if ($currentLocale != $defaultLocale) {
