@@ -117,6 +117,9 @@ class TranslateManager
                                 if ($saveData['option_key'] == 'text') {
                                     $canISaveThisOption = true;
                                 }
+                                if ($saveData['option_key'] == 'source_code') {
+                                    $canISaveThisOption = true;
+                                }
                                 if (!$canISaveThisOption) {
                                     return;
                                 }
@@ -134,11 +137,15 @@ class TranslateManager
                 event_bind('mw.database.' . $providerTable . '.save.params', function ($saveData) use ($providerTable, $currentLocale, $defaultLocale, $providerInstance) {
 
                     if ($providerTable == 'options' && isset($saveData['option_key'])) {
+
                         $canISaveThisOption = true;
                         if ($saveData['option_key'] != 'settings') {
                             $canISaveThisOption = false;
                         }
                         if ($saveData['option_key'] == 'text') {
+                            $canISaveThisOption = true;
+                        }
+                        if ($saveData['option_key'] == 'source_code') {
                             $canISaveThisOption = true;
                         }
                         if (!$canISaveThisOption) {
