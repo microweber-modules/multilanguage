@@ -6,7 +6,7 @@ $config['ui'] = true; //if set to true, module will be visible in the toolbar
 $config['ui_admin'] = true; //if set to true, module will be visible in the admin panel
 $config['categories'] = "content";
 $config['position'] = 99;
-$config['version'] = 2.2;
+$config['version'] = 2.3;
 
 $config['tables'] = array(
     'multilanguage_translations' => array(
