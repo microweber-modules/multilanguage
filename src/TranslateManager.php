@@ -139,7 +139,7 @@ class TranslateManager
                     }
 
                     if (isset($item['option_key']) && $item['option_key'] == 'permalink_structure') {
-                        continue;
+                        return false;
                     }
 
                     if (isset($saveData['option_group']) && $saveData['option_group'] == 'multilanguage_settings') {
