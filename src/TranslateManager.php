@@ -138,7 +138,7 @@ class TranslateManager
                         return false;
                     }
 
-                    if (isset($item['option_key']) && $item['option_key'] == 'permalink_structure') {
+                    if (isset($saveData['option_key']) && $saveData['option_key'] == 'permalink_structure') {
                         return false;
                     }
 
