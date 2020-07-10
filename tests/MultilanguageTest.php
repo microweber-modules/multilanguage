@@ -1,6 +1,6 @@
 <?php
 
-class MultilanguageTest extends \Microweber\tests\TestCase
+class MultilanguageTest extends \MicroweberPackages\Core\tests\TestCase
 {
     public function testSupportedLanguages()
     {
