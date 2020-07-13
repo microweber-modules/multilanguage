@@ -226,7 +226,7 @@ class MultilanguageTest extends TestCase
     public function testChangeLanguageApi()
     {
         $this->__activateML();
-        $api = new MultilanguageApi();
+        $api = new \MultilanguageApi();
         $output = $api->changeLanguage([
             'locale'=> 'bobi-money'
         ]);
@@ -239,8 +239,6 @@ class MultilanguageTest extends TestCase
 
         $this->assertEquals(true, $output['refresh']);
     }
-
-
 
     public function testPermalinkPageCategoryPost()
     {
