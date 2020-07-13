@@ -32,7 +32,7 @@ event_bind('mw.after.boot', function () {
     }
 
     $currentUrl = mw()->url_manager->current();
-    if ($currentUrl !== api_url('multilanguage/change_language')) {
+    if (get_option('is_active', 'multilanguage_settings') !== 'y' and $currentUrl !== api_url('multilanguage/change_language')) {
         run_translate_manager();
     }
 });

@@ -6,6 +6,8 @@ use MicroweberPackages\Core\tests\TestCase;
 
 class MultilanguageTest extends TestCase
 {
+
+
     public function testSupportedLanguages()
     {
         // Set default lang
@@ -16,12 +18,7 @@ class MultilanguageTest extends TestCase
         $option['option_group'] = 'website';
         save_option($option);
 
-        // Activate multilaguage
-        $option = array();
-        $option['option_value'] = 'y';
-        $option['option_key'] = 'is_active';
-        $option['option_group'] = 'multilanguage_settings';
-        save_option($option);
+         $this->__activateML();
 
         mw()->lang_helper->set_current_lang($lang);
         $this->assertEquals($lang, mw()->lang_helper->current_lang());
@@ -42,6 +39,7 @@ class MultilanguageTest extends TestCase
 
     public function testAddNewLanguage()
     {
+        $this->__activateML();
 
         $locale = 'bg';
         $language = 'Bulgarian';
@@ -62,12 +60,14 @@ class MultilanguageTest extends TestCase
 
     public function testSwitchLanguage()
     {
+        $this->__activateML();
         mw()->lang_helper->set_current_lang('bg');
         $this->assertEquals('bg', mw()->lang_helper->current_lang());
     }
 
     public function testTranslateNewOption()
     {
+        $this->__activateML();
         $this->_addNewMultilanguageOption('bozhidar', 'Bozhidar', 'Божидар');
         $this->_addNewMultilanguageOption('slaveykov', 'Slaveykov', 'Славейков');
         $this->_addNewMultilanguageOption('health', 'Health', 'Здраве');
@@ -78,7 +78,7 @@ class MultilanguageTest extends TestCase
 
     private function _addNewMultilanguageOption($option_key, $en_option_value, $bg_option_value)
     {
-
+        $this->__activateML();
         // Switch to english language
         mw()->lang_helper->set_current_lang('en');
         $this->assertEquals('en', mw()->lang_helper->current_lang());
@@ -114,7 +114,7 @@ class MultilanguageTest extends TestCase
 
     public function testTranslateNewMenu()
     {
-
+        $this->__activateML();
         // Switch to english language
         mw()->lang_helper->set_current_lang('en');
         $this->assertEquals('en', mw()->lang_helper->current_lang());
@@ -153,6 +153,7 @@ class MultilanguageTest extends TestCase
 
     public function testDetectLangFromUrl()
     {
+        $this->__activateML();
         $url = 'bg/tova-e-strahotniq-post.html';
         $detect = detect_lang_from_url($url);
 
@@ -175,6 +176,7 @@ class MultilanguageTest extends TestCase
 
     public function testCheckLanguageIsCorrect()
     {
+        $this->__activateML();
         $check = is_lang_correct('en');
         $this->assertEquals(true, $check);
 
@@ -187,8 +189,9 @@ class MultilanguageTest extends TestCase
 
     public function testMultilanguageApi()
     {
+        $this->__activateML();
         // Ad Greek
-        $api = new MultilanguageApi();
+        $api = new \MultilanguageApi();
         $output = $api->addLanguage([
             'locale' => 'gr',
             'language' => 'Greek'
@@ -222,6 +225,7 @@ class MultilanguageTest extends TestCase
 
     public function testChangeLanguageApi()
     {
+        $this->__activateML();
         $api = new MultilanguageApi();
         $output = $api->changeLanguage([
             'locale'=> 'bobi-money'
@@ -240,6 +244,7 @@ class MultilanguageTest extends TestCase
 
     public function testPermalinkPageCategoryPost()
     {
+        $this->__activateML();
       /*  // Set format
         $option = array();
         $option['option_value'] = 'page_category_post';
@@ -262,7 +267,7 @@ class MultilanguageTest extends TestCase
 
     private function _generateCategory($url, $title, $pageId)
     {
-
+        $this->__activateML();
         $params = array(
             'content_id' => $pageId,
             'title' => $title,
@@ -300,5 +305,17 @@ class MultilanguageTest extends TestCase
             'is_active' => 1,
         );
         return save_content($params);
+    }
+
+    private function __activateML(){
+
+
+        // Activate multilaguage
+        $option = array();
+        $option['option_value'] = 'y';
+        $option['option_key'] = 'is_active';
+        $option['option_group'] = 'multilanguage_settings';
+        save_option($option);
+
     }
 }
