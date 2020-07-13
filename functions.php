@@ -10,7 +10,7 @@ require_once 'api_exposes.php';
 require_once 'event_binds_general.php';
 
 // Check multilanguage is active
-if (is_module('multilanguage') && get_option('is_active', 'multilanguage_settings') !== 'y') {
+if (!defined('MW_UNIT_TEST') and is_module('multilanguage') && get_option('is_active', 'multilanguage_settings') !== 'y') {
     return;
 }
 

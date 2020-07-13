@@ -1,6 +1,10 @@
 <?php
+namespace Microweber\Modules\Multilanguage\tests;
 
-class MultilanguageTest extends \MicroweberPackages\Core\tests\TestCase
+
+use MicroweberPackages\Core\tests\TestCase;
+
+class MultilanguageTest extends TestCase
 {
     public function testSupportedLanguages()
     {
