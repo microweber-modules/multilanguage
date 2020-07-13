@@ -10,7 +10,7 @@ require_once 'api_exposes.php';
 require_once 'event_binds_general.php';
 
 // Check multilanguage is active
-if (!defined('MW_UNIT_TEST') and is_module('multilanguage') && get_option('is_active', 'multilanguage_settings') !== 'y') {
+if (is_module('multilanguage') && get_option('is_active', 'multilanguage_settings') !== 'y') {
     return;
 }
 
@@ -32,7 +32,7 @@ event_bind('mw.after.boot', function () {
     }
 
     $currentUrl = mw()->url_manager->current();
-    if (get_option('is_active', 'multilanguage_settings') !== 'y' and $currentUrl !== api_url('multilanguage/change_language')) {
+    if ($currentUrl !== api_url('multilanguage/change_language')) {
         run_translate_manager();
     }
 });
