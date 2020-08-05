@@ -1,27 +1,37 @@
-<li class="mx-1 language-selector">
-    <?php
-    $current_lang = current_lang();
-    if ($current_lang == 'en' OR $current_lang == 'undefined') {
-        $current_lang_flag = 'gb';
-    } else {
-        $current_lang_flag = $current_lang;
-    } ?>
-    <button type="button" class="btn btn-outline-secondary btn-rounded btn-icon" data-toggle="dropdown"><i class="flag-icon flag-icon-<?php print $current_lang_flag; ?>"></i></button>
-    <div class="dropdown-menu dropdown-languages">
-        <?php
-        $langs = get_available_languages();
-        $selected_lang = isset($_COOKIE['lang']) ? $_COOKIE['lang'] : 'en';
-        foreach ($langs as $lang): ?>
-            <?php
-            if ($lang == 'en') {
-                $lang_flag = 'gb';
-            } else {
-                $lang_flag = $lang;
-            }
-            ?>
-            <button onclick='mw.admin.language("<?php print $lang; ?>");' class="dropdown-item <?php if ($selected_lang == $lang): ?>active<?php endif; ?>">
-                <i class="flag-icon flag-icon-<?php print $lang_flag; ?>"></i> <span class="text-uppercase"><?php print $lang ?></span>
-            </button>
-        <?php endforeach; ?>
-    </div>
-</li>
+<?php if (!empty($supported_languages)): ?>
+    <?php $current_language_flag = $current_language['locale'];
+    if($current_language_flag == 'en'){
+        $current_language_flag = 'gb';
+    }
+    ?>
+    <li class="mx-1 language-selector">
+        <button type="button" class="btn btn-outline-secondary btn-rounded btn-icon" data-toggle="dropdown"><i class="flag-icon flag-icon-<?php print $current_language['icon']; ?>"></i></button>
+        <div class="dropdown-menu dropdown-languages">
+            <?php foreach ($supported_languages as $language): ?>
+                <button onclick='mw.admin.language("<?php print $language['locale'] ?>");' class="dropdown-item <?php if ($current_language['locale'] == get_short_abr($language['locale'])): ?>active<?php endif; ?>">
+                    <!-- custom display icon -->
+                    <?php if (!empty($language['display_icon'])): ?>
+                        <img src="<?php echo $language['display_icon']; ?>" class="multilanguage-display-icon-custom d-inline"/>
+                    <?php else: ?>
+                        <i class="flag-icon flag-icon-<?php echo $language['icon']; ?>"></i>
+                    <?php endif; ?>
+                    <!--- end of display icon -->
+
+                    <!-- custom display name -->
+                    <?php if (!empty($language['display_name'])): ?>
+                        <span class="text-uppercase"><?php echo $language['display_name']; ?></span>
+                    <?php else: ?>
+                        <span class="text-uppercase"><?php echo strtoupper($language['locale']); ?></span>
+                    <?php endif; ?>
+                    <!--- end of display name -->
+                </button>
+            <?php endforeach; ?>
+
+            <?php if (isset($params['show_settings_link']) && $params['show_settings_link'] == true): ?>
+                <button class="dropdown-item" onclick="window.location.href = '<?php echo admin_url() ?>view:modules/load_module:multilanguage';">
+                    <?php _e('Settings'); ?>
+                </button>
+            <?php endif; ?>
+        </div>
+    </li>
+<?php endif; ?>
