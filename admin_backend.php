@@ -23,34 +23,22 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
     </div>
 
     <div class="card-body pt-3">
-        <div class="mw-modules-tabs">
 
-            <div class="mw-accordion-item">
-                <div class="mw-ui-box-header mw-accordion-title">
-                    <div class="header-holder">
-                        <i class="mw-icon-navicon-round"></i> Languages
-                    </div>
-                </div>
-                <div class="mw-accordion-content mw-ui-box mw-ui-box-content">
-                    <module type="multilanguage/language_settings"/>
-                </div>
+        <nav class="nav nav-pills nav-justified btn-group btn-group-toggle btn-hover-style-3">
+            <a class="btn btn-outline-secondary justify-content-center active" data-toggle="tab" href="#list"><i class="mdi mdi-format-list-bulleted-square mr-1"></i> Languages</a>
+            <a class="btn btn-outline-secondary justify-content-center" data-toggle="tab" href="#settings"><i class="mdi mdi-cog-outline mr-1"></i> <?php print _e('Settings'); ?></a>
+        </nav>
+
+        <div class="tab-content py-3">
+            <div class="tab-pane fade show active" id="list">
+                <module type="multilanguage/language_settings"/>
             </div>
 
-            <div class="mw-accordion-item">
-                <div class="mw-ui-box-header mw-accordion-title">
-                    <div class="header-holder">
-                        <i class="mw-icon-beaker"></i> Settings
-                    </div>
-                </div>
-                <div class="mw-accordion-content mw-ui-box mw-ui-box-content">
-
-                    <module type="multilanguage/settings"/>
-
-                </div>
+            <div class="tab-pane fade" id="settings">
+                <module type="multilanguage/settings"/>
             </div>
-
         </div>
-        <br/>
+
         <module type="help/modal_with_button" for_module="multilanguage"/>
     </div>
 </div>

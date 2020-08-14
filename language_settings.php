@@ -7,99 +7,55 @@
  */
 ?>
 
-<style>
-    .js-dropdown-text-language{
-        justify-content: start;
-    }
-    .mw-module-language-settings .mw-ui-btn,
-    .mw-module-language-settings .mw-dropdown{
-        vertical-align: top;
-    }
-    .mw-icon-drag {
-        cursor: grab;
-        font-size: 20px;
-    }
-    .js-update-order-number {
-        font-size: 18px;
-        margin-right: 5px;
-        color: #3b3b3b85;
-    }
-</style>
-
 <?php
 $langs = mw()->lang_helper->get_all_lang_codes();
 ?>
 
 <script type="text/javascript">
     $(document).ready(function () {
-
         mw.dropdown();
-
         add_language_key = false;
         add_language_value = false;
 
         $('.js-add-language').on('click', function () {
-
             if (add_language_key == false || add_language_value == false) {
                 mw.notification.error('<?php _ejs('Please, select language.'); ?>');
                 return;
             }
 
-            $.post(mw.settings.api_url + "multilanguage/add_language", { locale: add_language_key, language: add_language_value })
-                .done(function(data) {
-                    mw.reload_module_everywhere('multilanguage/language_settings', function () {
-/*
-
-                        $('.js-dropdown-text-language').html("<?php _ejs('Select Language...'); ?>");
-
-                        add_language_key = false;
-                        add_language_value = false;
-
-                        makeSortable();
-
-                        getInitialOrder('.js-tbody-supported-locales tr');
-                        reorderItems('.js-tbody-supported-locales tr', '.js-tbody-supported-locales');
-*/
-
-                    });
+            $.post(mw.settings.api_url + "multilanguage/add_language", {locale: add_language_key, language: add_language_value}).done(function (data) {
+                mw.reload_module_everywhere('multilanguage/language_settings', function () {
                 });
-
+            });
         });
 
-
-        $('#add_language_ul li').on('click', function () {
-
-            var key = $(this).data('key');
-            var value = $(this).data('value');
-
+        $('#add_language_ul').on('change', function () {
+            var selectedOption = $(this).find('option:selected');
+            var key = selectedOption.data('key');
+            var value = selectedOption.data('value');
             add_language_key = key;
             add_language_value = value;
-
-            $('.js-dropdown-text-language').html('<span class="flag-icon flag-icon-'+key+' m-r-10" style=""></span>' + value);
-
         });
 
         makeSortable();
-
         getInitialOrder('.js-tbody-supported-locales tr');
 
         //bind stuff to number inputs
-        $('.js-tbody-supported-locales tr input[type="number"]').focus(function(){
+        $('.js-tbody-supported-locales tr input[type="number"]').focus(function () {
             $(this).select();
-        }).change(function(){
+        }).change(function () {
             updateAllNumbers($(this), '.js-tbody-supported-locales input');
             reorderItems('.js-tbody-supported-locales tr', '.js-tbody-supported-locales');
-        }).keyup(function(){
+        }).keyup(function () {
             updateAllNumbers($(this), '.js-tbody-supported-locales input');
             reorderItems('.js-tbody-supported-locales tr', '.js-tbody-supported-locales');
         });
-
     });
 
     function makeSortable() {
         $('.js-tbody-supported-locales').sortable({
             distance: 40,
-            update: function(item) {
+            update: function (item) {
                 $(item).removeClass("dragged").removeAttr("style");
                 $("body").removeClass("dragging");
                 getInitialOrder('.js-tbody-supported-locales tr');
@@ -108,7 +64,6 @@ $langs = mw()->lang_helper->get_all_lang_codes();
     }
 
     function submitNewOrderNumbers() {
-
         var languages = [];
         $('.js-supported-language-order-numbers').each(function () {
             languages.push({
@@ -121,7 +76,6 @@ $langs = mw()->lang_helper->get_all_lang_codes();
             .done(function (data) {
                 // Done
             });
-
     }
 
     function updateOrderNumber(id, direct) {
@@ -139,9 +93,9 @@ $langs = mw()->lang_helper->get_all_lang_codes();
         reorderItems('.js-tbody-supported-locales tr', '.js-tbody-supported-locales');
     }
 
-    function getInitialOrder(obj){
+    function getInitialOrder(obj) {
         var num = 1;
-        $(obj).each(function(){
+        $(obj).each(function () {
             //set object initial order data based on order in DOM
             $(this).find('input[type="number"]').val(num).attr('data-initial-value', num);
             num++;
@@ -150,32 +104,32 @@ $langs = mw()->lang_helper->get_all_lang_codes();
         $(obj).find('input[type="number"]').last().trigger('change');
     }
 
-    function updateAllNumbers(currObj, targets){
+    function updateAllNumbers(currObj, targets) {
         var delta = currObj.val() - currObj.attr('data-initial-value'), //if positive, the object went down in order. If negative, it went up.
             c = parseInt(currObj.val(), 10), //value just entered by user
             cI = parseInt(currObj.attr('data-initial-value'), 10), //original object val before change
             top = $(targets).length;
 
         //if the user enters a number too high or low, cap it
-        if(c > top){
+        if (c > top) {
             currObj.val(top);
-        }else if(c < 1){
+        } else if (c < 1) {
             currObj.val(1);
         }
 
-        $(targets).not($(currObj)).each(function(){ //change all the other objects
+        $(targets).not($(currObj)).each(function () { //change all the other objects
             var v = parseInt($(this).val(), 10); //value of object changed
 
-            if (v >= c && v < cI && delta < 0){ //object going up in order pushes same-numbered and in-between objects down
+            if (v >= c && v < cI && delta < 0) { //object going up in order pushes same-numbered and in-between objects down
                 $(this).val(v + 1);
-            } else if (v <= c && v > cI && delta > 0){ //object going down in order pushes same-numbered and in-between objects up
+            } else if (v <= c && v > cI && delta > 0) { //object going down in order pushes same-numbered and in-between objects up
                 $(this).val(v - 1);
             }
-        }).promise().done(function(){
+        }).promise().done(function () {
             //after all the fields update based on new val, set their data element so further changes can be tracked
             //(but ignore if no value given yet)
-            $(targets).each(function(){
-                if($(this).val() !== ""){
+            $(targets).each(function () {
+                if ($(this).val() !== "") {
                     $(this).attr('data-initial-value', $(this).val());
                 }
             });
@@ -196,11 +150,10 @@ $langs = mw()->lang_helper->get_all_lang_codes();
     }
 
     function editSuportedLanguage(id) {
-        mw.modal({
+        mw.dialog({
             content: '<div id="mw_admin_preview_module_multilanguage_edit"></div>',
             title: '<?php _e('Edit langauge'); ?>',
             width: 600,
-            height: 300,
             id: 'mw_admin_preview_module_mutlilanguage_modal'
         });
 
@@ -211,20 +164,16 @@ $langs = mw()->lang_helper->get_all_lang_codes();
 
     function deleteSuportedLanguage(language_id) {
         mw.tools.confirm('<?php _e('Are you sure you want to delete?'); ?>', function () {
-            $.post(mw.settings.api_url + "multilanguage/delete_language", { id:language_id })
-                .done(function(data) {
-                    mw.reload_module_everywhere('multilanguage/language_settings');
-                });
+            $.post(mw.settings.api_url + "multilanguage/delete_language", {id: language_id}).done(function (data) {
+                mw.reload_module_everywhere('multilanguage/language_settings');
+            });
         });
     }
 </script>
 
-<script>
-    mw.lib.require('flag_icons');
-</script>
+<script>mw.lib.require('flag_icons');</script>
 
 <div class="mw-module-language-settings">
-
     <script type="text/javascript">
         $(document).ready(function () {
             mw.options.form('.module-switch-active-form', function () {
@@ -234,42 +183,34 @@ $langs = mw()->lang_helper->get_all_lang_codes();
         });
     </script>
 
-    <div class="module-switch-active-form">
-        <div class="mw-ui-box-no-bg" style="margin-top: 15px;margin-bottom: 15px;float:right">
-            <b style="margin-right: 10px;">Multilanguage is active?</b>
-            <label class="mw-switch mw-switch-action">
-                <input class="mw_option_field" type="checkbox" autocomplete="off" name="is_active" <?php if (get_option('is_active','multilanguage_settings') == 'y'):?>checked="checked"<?php endif;?> option-group="multilanguage_settings" data-value-checked="y" data-value-unchecked="n">
-                <span class="mw-switch-off">No</span>
-                <span class="mw-switch-on">Yes</span>
-                <span class="mw-switcher"></span>
-            </label>
+    <div class="row d-flex justify-content-between">
+        <div class="col-auto">
+            <div class="form-group">
+                <label class="control-label d-block"><?php _e('Add new language'); ?></label>
+
+                <?php if ($langs) : ?>
+                    <select class="js-dropdown-text-language selectpicker" id="add_language_ul" data-size="5" data-live-search="true" data-style="btn-sm">
+                        <?php foreach ($langs as $key => $lang): ?>
+                            <option data-key="<?php print $key ?>" data-value="<?php print $lang ?>" style="color:#000;"><span class="flag-icon flag-icon-<?php echo get_flag_icon($key); ?> m-r-10"></span> <?php echo $lang; ?></option>
+                        <?php endforeach; ?>
+                    </select>
+                <?php endif; ?>
+
+                <button class="btn btn-primary btn-sm js-add-language"><?php _e('Add'); ?></button>
+            </div>
+        </div>
+
+        <div class="col-auto text-right">
+            <div class="form-group module-switch-active-form">
+                <label class="control-label">Multilanguage is active?</label>
+                <div class="custom-control custom-switch pl-0">
+                    <label class="d-inline-block mr-5" for="is_active_quick">No</label>
+                    <input class="mw_option_field custom-control-input" id="is_active_quick" type="checkbox" autocomplete="off" name="is_active" <?php if (get_option('is_active', 'multilanguage_settings') == 'y'): ?>checked<?php endif; ?> option-group="multilanguage_settings" data-value-checked="y" data-value-unchecked="n">
+                    <label class="custom-control-label" for="is_active_quick">Yes</label>
+                </div>
+            </div>
         </div>
     </div>
 
-
-    <label class="mw-ui-label"><?php _e('Add new language');?></label>
-
-    <?php if($langs) : ?>
-    <div class="mw-dropdown mw-dropdown-default" style="width:300px;">
-                <span class="mw-dropdown-value mw-ui-btn mw-ui-btn-normal mw-dropdown-val js-dropdown-text-language">
-                    <?php _e('Select Language...'); ?>
-                </span>
-        <div class="mw-dropdown-content">
-            <ul id="add_language_ul" style="max-height: 300px;">
-                <?php foreach($langs as $key=>$lang): ?>
-                    <li data-key="<?php print $key ?>" data-value="<?php print $lang ?>" style="color:#000;">
-                        <span class="flag-icon flag-icon-<?php echo get_flag_icon($key); ?> m-r-10"></span> <?php echo $lang; ?>
-                    </li>
-                <?php endforeach; ?>
-            </ul>
-        </div>
-    </div>
-    <?php endif; ?>
-
-    <button class="mw-ui-btn mw-ui-btn-normal mw-ui-btn-notification js-add-language">
-        <span class="mw-icon-plus"></span> <?php _e('Add');?>
-    </button>
-    <div style="min-height:270px">
-    <module type="multilanguage/list" />
-    </div>
+    <module type="multilanguage/list"/>
 </div>

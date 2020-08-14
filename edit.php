@@ -21,16 +21,13 @@ if (empty($displayName)) {
 
 <script>
     $(document).ready(function () {
-
-        mw.lib.require('bootstrap4');
-
         var uploader = mw.uploader({
-            filetypes:"images,videos",
-            multiple:false,
-            element:"#mw_uploader"
+            filetypes: "images,videos",
+            multiple: false,
+            element: "#mw_uploader"
         });
 
-        $(uploader).bind("FileUploaded", function(event, data){
+        $(uploader).bind("FileUploaded", function (event, data) {
             mw.$("#mw_uploader_loading").hide();
             mw.$("#mw_uploader").show();
             mw.$("#upload_info").html("");
@@ -39,16 +36,15 @@ if (empty($displayName)) {
             $('.js-display-icon-remove').show();
         });
 
-        $(uploader).bind('progress', function(up, file) {
+        $(uploader).bind('progress', function (up, file) {
             mw.$("#mw_uploader").hide();
             mw.$("#mw_uploader_loading").show();
             mw.$("#upload_info").html(file.percent + "%");
         });
 
-        $(uploader).bind('error', function(up, file) {
+        $(uploader).bind('error', function (up, file) {
             mw.notification.error("The file is not uploaded.");
         });
-
 
         $('.js-display-icon-remove').click(function (e) {
             $('.js-display-icon').attr('src', '');
@@ -63,7 +59,7 @@ if (empty($displayName)) {
                 url: mw.settings.api_url + 'multilanguage/edit_locale',
                 type: 'post',
                 data: $(this).serialize(),
-                success: function(data) {
+                success: function (data) {
                     if (data.success) {
                         mw.notification.success('<?php _e('Supported locale is saved!');?>');
                         $('.js-admin-supported-locale-edit-messages').html('<div class="alert alert-success"><?php _e('Supported locale is saved!'); ?></div>');
@@ -81,33 +77,48 @@ if (empty($displayName)) {
         });
     });
 </script>
+
 <form method="post" class="js-admin-supported-locale-edit-form">
+    <div class="js-admin-supported-locale-edit-messages mt-3"></div>
 
     <div class="form-group">
-    Display Locale:
-    <input type="text" name="display_locale" value="<?php echo $displayLocale; ?>" class="form-control" />
+        <label class="control-label">Display Locale:</label>
+        <input type="text" name="display_locale" value="<?php echo $displayLocale; ?>" class="form-control"/>
     </div>
 
     <div class="form-group">
-    Display Name:
-    <input type="text" name="display_name" value="<?php echo $displayName; ?>" class="form-control" />
+        <label class="control-label">Display Name:</label>
+        <input type="text" name="display_name" value="<?php echo $displayName; ?>" class="form-control"/>
     </div>
 
-    Display Icon: <br />
-    <img src="<?php echo $displayIcon; ?>" class="js-display-icon" style="max-width:100px;max-height: 100px;" >
-    <span id="mw_uploader" class="mw-ui-btn">
-    <span class="fa fa-upload"></span>
-    <span style="padding-left: 5px"> Upload file <span id="upload_info"></span>
-    </span>
-    </span>
-    <div class="mw-ui-btn js-display-icon-remove" <?php if (empty($displayIcon)): ?>style="display: none;" <?php endif; ?>><span class="fa fa-times"></span> <span style="padding-left: 5px">Remove</span></div>
+    <div class="form-group">
+        <label class="control-label">Display Icon:</label>
 
-    <input type="hidden" name="display_icon" value="<?php echo $displayIcon; ?>" class="form-control js-display-icon-url" />
+        <div class="row">
+            <div class="col-auto">
+                <div style="width: 120px;">
+                    <div class="dropable-zone small-zone square-zone bg-white" id="mw_uploader">
+                        <div class="holder">
+                            <div class="dropable-zone-img img-media mb-2"></div>
 
-    <div class="form-group"  style="margin-top:15px">
-    <input type="hidden" name="locale_id" value="<?php echo $localeId; ?>">
-    <button type="submit" class="btn btn-success"><i class="fa fa-save"></i> Save</button>
+                            <button type="button" class="btn btn-link py-1" id="upload_info">Add media</button>
+                            <p>or drop file</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-auto">
+                <img src="<?php echo $displayIcon; ?>" class="js-display-icon" style="max-width:120px; max-height: 120px;">
+            </div>
+        </div>
+
+        <button type="button" class="btn btn-link px-0 text-danger js-display-icon-remove" <?php if (empty($displayIcon)): ?>style="display: none;"<?php endif; ?>>Remove</button>
+        <input type="hidden" name="display_icon" value="<?php echo $displayIcon; ?>" class="form-control js-display-icon-url"/>
     </div>
 
+    <div class="form-group">
+        <input type="hidden" name="locale_id" value="<?php echo $localeId; ?>">
+        <button type="submit" class="btn btn-success btn-sm">Save</button>
+    </div>
 </form>
-<div class="js-admin-supported-locale-edit-messages" style="margin-top:15px"></div>
