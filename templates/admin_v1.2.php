@@ -1,6 +1,15 @@
+<style>
+    .multilanguage-display-icon-custom {
+        max-width: 18px;
+        max-height: 18px;
+        margin-right: 5px;
+        margin-top: 3px;
+    }
+</style>
+
 <?php if (!empty($supported_languages)): ?>
     <?php $current_language_flag = $current_language['locale'];
-    if($current_language_flag == 'en'){
+    if ($current_language_flag == 'en') {
         $current_language_flag = 'gb';
     }
     ?>
