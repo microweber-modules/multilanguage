@@ -20,7 +20,7 @@ App::bind('permalink_manager', function() {
 
 
 event_bind('mw.after.boot', function () {
-    if (!isset($_COOKIE['autodetected_lang'])) {
+    if (!isset($_COOKIE['autodetected_lang']) and !isset($_COOKIE['lang'])) {
         $homepageLanguage = get_option('homepage_language', 'website');
         if ($homepageLanguage) {
             if (is_lang_supported($homepageLanguage)) {
