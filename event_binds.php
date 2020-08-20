@@ -160,10 +160,21 @@ event_bind('app.permalink.slug.before', function ($params) {
 event_bind('mw.controller.index', function ($content) {
 
 
+
+    $autodetected_lang = \Cookie::get('autodetected_lang');
+    $lang_is_set = \Cookie::get('lang');
+
+    if($autodetected_lang and $lang_is_set){
+        return;
+    }
+
     $targetUrl = mw()->url_manager->string();
 
+
+
+
     if($targetUrl == 'orders'){
-return;
+    return;
     }
     $detect = detect_lang_from_url($targetUrl);
 

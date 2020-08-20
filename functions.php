@@ -3,6 +3,10 @@
  * Author: Bozhidar Slaveykov
  */
 
+if (isset($_REQUEST['mw_payment_success']) or isset($_REQUEST['mw_payment_failure'])) {
+return;
+}
+
 require_once 'src/MultilanguagePermalinkManager.php';
 require_once 'src/MultilanguageApi.php';
 require_once 'src/TranslateManager.php';
@@ -20,13 +24,21 @@ App::bind('permalink_manager', function() {
 
 
 event_bind('mw.after.boot', function () {
-    if (!isset($_COOKIE['autodetected_lang']) and !isset($_COOKIE['lang'])) {
+    $autodetected_lang = \Cookie::get('autodetected_lang');
+    $lang_is_set = \Cookie::get('lang');
+
+
+
+   // if (!isset($_COOKIE['autodetected_lang']) and !isset($_COOKIE['lang'])) {
+    if (!$autodetected_lang and !$lang_is_set) {
         $homepageLanguage = get_option('homepage_language', 'website');
         if ($homepageLanguage) {
             if (is_lang_supported($homepageLanguage)) {
                 change_language_by_locale($homepageLanguage);
-                setcookie('autodetected_lang', 1, false, '/');
-                $_COOKIE['autodetected_lang'] = 1;
+                \Cookie::queue('autodetected_lang', 1, 60);
+
+                //setcookie('autodetected_lang', 1, false, '/');
+               // $_COOKIE['autodetected_lang'] = 1;
             }
         }
     }
@@ -137,8 +149,12 @@ function change_language_by_locale($locale)
 {
     // $locale = get_short_abr($locale);
     if (!is_cli()) {
-        setcookie('lang', $locale, time() + (86400 * 30), "/");
-        $_COOKIE['lang'] = $locale;
+     //   setcookie('lang', $locale, time() + (86400 * 30), "/");
+        //$_COOKIE['lang'] = $locale;
+
+
+        \Cookie::queue('lang', $locale, 60);
+
     }
 
    // mw()->permalink_manager->setLocale($locale);
