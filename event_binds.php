@@ -173,9 +173,6 @@ event_bind('mw.controller.index', function ($content) {
 
 
 
-    if($targetUrl == 'orders'){
-    return;
-    }
     $detect = detect_lang_from_url($targetUrl);
 
 
