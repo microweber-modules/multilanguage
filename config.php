@@ -8,6 +8,8 @@ $config['categories'] = "content";
 $config['position'] = 99;
 $config['version'] = 2.4;
 
+$config['service_provider'] = \MicroweberPackages\Multilanguage\MultilanguageServiceProvider::class;
+
 $config['tables'] = array(
     'multilanguage_translations' => array(
         'id' => 'integer',
