@@ -157,10 +157,25 @@ event_bind('app.permalink.slug.before', function ($params) {
 });*/
 
 
-event_bind('mw.controller.index', function () {
+event_bind('mw.controller.index', function ($content) {
+
+
+
+    $autodetected_lang = \Cookie::get('autodetected_lang');
+    $lang_is_set = \Cookie::get('lang');
+
+    if($autodetected_lang and $lang_is_set){
+        return;
+    }
 
     $targetUrl = mw()->url_manager->string();
+
+
+
+
     $detect = detect_lang_from_url($targetUrl);
+
+
 
     $useGeolocation = get_option('use_geolocation', 'multilanguage_settings');
     if ($useGeolocation && $useGeolocation == 'y') {
@@ -182,11 +197,14 @@ event_bind('mw.controller.index', function () {
 //        }
     }
 
-    if (!is_lang_supported($detect['target_lang'])) {
+
+        if (!is_lang_supported($detect['target_lang'])) {
         return;
     }
 
-    if ($detect['target_lang']) {
+
+
+        if ($detect['target_lang']) {
         // display locale
         $localeSettings = db_get('multilanguage_supported_locales', 'display_locale=' . $detect['target_lang'] . '&single=1');
         if ($localeSettings) {
@@ -200,12 +218,15 @@ event_bind('mw.controller.index', function () {
 
 event_bind('mw.front.content_data', function ($content) {
 
+    if(isset($content['id']) and $content['id']){
+
     $redirect = mw_var('should_redirect');
-    if ($redirect) {
+     if ($redirect) {
         $content['original_link'] = $redirect;
     }
 
     return $content;
+    }
 });
 
 
@@ -228,7 +249,6 @@ event_bind('mw.frontend.404', function ($content) {
 event_bind('app.content.get_by_url', function ($url) {
 
     if (!empty($url)) {
-
         $detect = detect_lang_from_url($url);
         $targetUrl = $detect['target_url'];
         $targetLang = $detect['target_lang'];
