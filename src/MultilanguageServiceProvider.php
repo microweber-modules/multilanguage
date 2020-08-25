@@ -25,7 +25,6 @@ class MultilanguageServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        Customer::observe(MultilanguageObserver::class);
         Page::observe(MultilanguageObserver::class);
 
         $this->loadMigrationsFrom(__DIR__ . '/migrations/');
