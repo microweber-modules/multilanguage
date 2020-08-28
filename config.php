@@ -6,7 +6,10 @@ $config['ui'] = true; //if set to true, module will be visible in the toolbar
 $config['ui_admin'] = true; //if set to true, module will be visible in the admin panel
 $config['categories'] = "content";
 $config['position'] = 99;
-$config['version'] = 2.4;
+$config['version'] = 2.5;
+$config['require'] = [
+    'microweber/microweber'=>'1.2'    
+];
 
 $config['service_provider'] = \MicroweberPackages\Multilanguage\MultilanguageServiceProvider::class;
 
