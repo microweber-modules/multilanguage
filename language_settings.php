@@ -189,14 +189,14 @@ $langs = mw()->lang_helper->get_all_lang_codes();
                 <label class="control-label d-block"><?php _e('Add new language'); ?></label>
 
                 <?php if ($langs) : ?>
-                    <select class="js-dropdown-text-language selectpicker" id="add_language_ul" data-size="5" data-live-search="true" data-style="btn-sm">
+                    <select class="js-dropdown-text-language selectpicker" id="add_language_ul" data-size="5" data-live-search="true">
                         <?php foreach ($langs as $key => $lang): ?>
                             <option data-key="<?php print $key ?>" data-value="<?php print $lang ?>" style="color:#000;"><span class="flag-icon flag-icon-<?php echo get_flag_icon($key); ?> m-r-10"></span> <?php echo $lang; ?></option>
                         <?php endforeach; ?>
                     </select>
                 <?php endif; ?>
 
-                <button class="btn btn-primary btn-sm js-add-language"><?php _e('Add'); ?></button>
+                <button class="btn btn-primary js-add-language"><?php _e('Add'); ?></button>
             </div>
         </div>
 
