@@ -3,9 +3,6 @@
  * Author: Bozhidar Slaveykov
  */
 
-if (isset($_REQUEST['mw_payment_success']) or isset($_REQUEST['mw_payment_failure'])) {
-return;
-}
 
 require_once 'src/MultilanguagePermalinkManager.php';
 require_once 'src/MultilanguageApi.php';
