@@ -4,6 +4,10 @@
  */
 
 
+if(is_cli()){
+    return;
+}
+
 require_once 'src/MultilanguagePermalinkManager.php';
 require_once 'src/MultilanguageApi.php';
 require_once 'src/TranslateManager.php';
