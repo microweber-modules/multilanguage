@@ -14,7 +14,9 @@
     }
     ?>
     <li class="mx-1 language-selector">
-        <button type="button" class="btn btn-outline-secondary btn-rounded btn-icon" data-toggle="dropdown"><i class="flag-icon flag-icon-<?php print $current_language['icon']; ?>"></i></button>
+        <button type="button" class="btn btn-outline-secondary btn-rounded btn-icon" data-toggle="dropdown" style="padding: 10px 0px;">
+            <i class="flag-icon flag-icon-<?php print $current_language['icon']; ?>" style="font-size: 30px"></i>
+        </button>
         <div class="dropdown-menu dropdown-languages">
             <?php foreach ($supported_languages as $language): ?>
                 <button onclick='mw.admin.language("<?php print $language['locale'] ?>");' class="dropdown-item <?php if ($current_language['locale'] == get_short_abr($language['locale'])): ?>active<?php endif; ?>">
