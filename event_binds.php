@@ -360,15 +360,18 @@ event_bind('app.category.get_by_url', function ($url) {
             $get['single'] = true;
             $content = mw()->category_manager->get($get);
 
-            if ($content['url'] == $findTranslate['field_value']) {
+            if (is_array($content) and is_array($findTranslate) and $content['url'] == $findTranslate['field_value']) {
                 return $content;
             } else {
                 /**
                  * When you visit url with prefix with diffrent language it redirects you to url with correct lang
                  * Example /bg-lang/english-post-name > /bg-lang/imeto-na-posta-na-bg
                  */
-                mw_var('should_redirect', category_link($content['id']));
-                return $content;
+                if(is_array($content) and isset($content['id'])){
+                    mw_var('should_redirect', category_link($content['id']));
+                    return $content;
+                }
+
             }
         } else {
             $get = array();
