@@ -74,7 +74,7 @@ $langs = mw()->lang_helper->get_all_lang_codes();
 
         $.post(mw.settings.api_url + "multilanguage/sort_language", {ids: languages})
             .done(function (data) {
-                // Done
+                mw.reload_module('multilanguage/list')
             });
     }
 
