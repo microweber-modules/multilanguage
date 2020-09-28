@@ -24,12 +24,12 @@ only_admin_access();
     <table class="table table-striped">
         <thead>
             <tr>
+                <th style="min-width: 25px;"></th>
                 <th style="min-width: 50px;">Active</th>
                 <th><?php echo _e('Language'); ?></th>
                 <th><?php echo _e('Dispaly as'); ?></th>
                 <th></th>
                 <th></th>
-                <th style="min-width: 25px;"></th>
             </tr>
         </thead>
         <tbody class="js-tbody-supported-locales">
@@ -40,8 +40,10 @@ only_admin_access();
                 $isl = 1;
                 foreach ($supportedLanguages as $language):
                     ?>
-                    <tr class="js-browser-redirect-tr-<?php echo $language['locale']; ?> show-on-hover-root">                        
-                        <td class="text-center" style="vertical-align: middle;">
+                    <tr class="js-browser-redirect-tr-<?php echo $language['locale']; ?> show-on-hover-root">
+                        <td class="text-center px-0" style="vertical-align: middle;"><span class="mdi mdi-cursor-move mdi-20px show-on-hover text-opacity-5"></span></td>
+
+                        <td class="text-center px-0" style="vertical-align: middle; width: 25px;">
                             <div class="custom-control custom-switch">
                                 <input class="mw_option_field js-option-field-change-is-active custom-control-input" type="checkbox" supported_language_id="<?php echo $language['id']; ?>" id="<?php echo $language['id']; ?>" autocomplete="off" value="y" name="is_active" <?php if ($language['is_active'] == 'y'): ?>checked<?php endif;
                                 ?> data-value-checked="y" data-value-unchecked="n">
@@ -70,7 +72,7 @@ only_admin_access();
                             <?php endif; ?>
                         </td>
 
-                        <td style="vertical-align: middle;">
+                        <td class="text-right" style="vertical-align: middle;">
                             <div class="show-on-hover">
                                 <input class="js-supported-language-order-numbers js-supported-language-order-number-<?php echo $language['id']; ?>" name="<?php echo $language['id']; ?>" data-initial-value="<?php echo $isl; ?>" value="<?php echo $isl; ?>" type="number" style="display:none;font-size:22px;border: 0px;width: 35px;" min="1">
                                 <a href="javascript:;" onclick="updateOrderNumber(<?php echo $language['id']; ?>, 'down')"><span class="mw-icon-arrow-up-a js-update-order-number text-muted"></span></a>
@@ -78,16 +80,14 @@ only_admin_access();
                             </div>
                         </td>
 
-                        <td class="text-center" style="vertical-align: middle;">
+                        <td class="text-right" style="vertical-align: middle;">
                             <div class="show-on-hover">
-                                <a href="javascript:;" onClick="editSuportedLanguage('<?php echo $language['id']; ?>')" class="btn btn-link p-1"><?php echo _e('Edit'); ?></a>
+                                <a href="javascript:;" onClick="editSuportedLanguage('<?php echo $language['id']; ?>')" class="btn btn-outline-primary btn-sm p-1"><?php echo _e('Edit'); ?></a>
                                 <?php if ($defaultLang !== $language['locale']): ?>
-                                    <a href="javascript:;" onClick="deleteSuportedLanguage('<?php echo $language['id']; ?>')" class="btn btn-link text-danger p-1"><?php echo _e('Delete'); ?></a>
+                                    <a href="javascript:;" onClick="deleteSuportedLanguage('<?php echo $language['id']; ?>')" class="btn btn-outline-danger btn-sm p-1"><?php echo _e('Delete'); ?></a>
                                 <?php endif; ?>
                             </div>
                         </td>
-                        
-                        <td class="text-center" style="vertical-align: middle;"><span class="mdi mdi-cursor-move mdi-20px show-on-hover"></span></td>
                     </tr>
                     <?php $isl++;   endforeach; ?>
             <?php else: ?>
