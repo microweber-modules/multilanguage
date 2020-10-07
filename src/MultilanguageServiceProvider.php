@@ -12,9 +12,8 @@
 namespace MicroweberPackages\Multilanguage;
 
 use Illuminate\Support\ServiceProvider;
-use MicroweberPackages\Customer\Customer;
 use MicroweberPackages\Multilanguage\Observers\MultilanguageObserver;
-use MicroweberPackages\Page\Page;
+use MicroweberPackages\Page\Models\Page;
 
 class MultilanguageServiceProvider extends ServiceProvider
 {

@@ -40,6 +40,14 @@ class TranslateManager
 
     public function run()
     {
+
+        $translatableModuleOptions = [];
+        foreach (get_modules_from_db() as $module) {
+            if (isset($module['settings']['translatable_options'])) {
+                $translatableModuleOptions[$module['module']] = $module['settings']['translatable_options'];
+            }
+        }
+
         if (!empty($this->translateProviders)) {
             foreach ($this->translateProviders as $provider) {
 
@@ -96,7 +104,7 @@ class TranslateManager
                     return $params;
                 });
 
-                event_bind('mw.database.' . $providerTable . '.get', function ($get) use ($providerTable, $providerInstance) {
+                event_bind('mw.database.' . $providerTable . '.get', function ($get) use ($providerTable, $providerInstance, $translatableModuleOptions) {
                     if (is_array($get) && !empty($get)) {
 
                         $currentLocale = mw()->lang_helper->current_lang();
@@ -109,17 +117,16 @@ class TranslateManager
 
                         foreach ($get as &$item) {
 
-                            // Exclude for language option
-                            if (isset($item['option_key']) && $item['option_key'] == 'language') {
-                                continue;
-                            }
-
-                            if (isset($item['option_key']) && $item['option_key'] == 'permalink_structure') {
-                                continue;
-                            }
-
-                            if (isset($item['option_group']) && $item['option_group'] == 'multilanguage_settings') {
-                                continue;
+                            if ($providerTable == 'options') {
+                                $saveModuleOption = false;
+                                if (isset($item['module']) && isset($item['option_key'])) {
+                                    if (isset($translatableModuleOptions[$item['module']]) && in_array($item['option_key'], $translatableModuleOptions[$item['module']])) {
+                                        $saveModuleOption = true;
+                                    }
+                                }
+                                if ($saveModuleOption == false) {
+                                    continue;
+                                }
                             }
 
                             $item = $providerInstance->getTranslate($item);
@@ -131,19 +138,18 @@ class TranslateManager
                 });
 
                 // BIND SAVE TABLES
-                event_bind('mw.database.' . $providerTable . '.save.params', function ($saveData) use ($providerTable, $currentLocale, $defaultLocale, $providerInstance) {
+                event_bind('mw.database.' . $providerTable . '.save.params', function ($saveData) use ($providerTable, $currentLocale, $defaultLocale, $providerInstance, $translatableModuleOptions) {
 
-                    // Exclude for language option
-                    if (isset($saveData['option_key']) && $saveData['option_key'] == 'language') {
-                        return false;
-                    }
-
-                    if (isset($saveData['option_key']) && $saveData['option_key'] == 'permalink_structure') {
-                        return false;
-                    }
-
-                    if (isset($saveData['option_group']) && $saveData['option_group'] == 'multilanguage_settings') {
-                        return false;
+                    if ($providerTable == 'options') {
+                        $saveModuleOption = false;
+                        if (isset($saveData['module']) && isset($saveData['option_key'])) {
+                            if (isset($translatableModuleOptions[$saveData['module']]) && in_array($saveData['option_key'], $translatableModuleOptions[$saveData['module']])) {
+                                $saveModuleOption = true;
+                            }
+                        }
+                        if ($saveModuleOption == false) {
+                            return false;
+                        }
                     }
 
                     if ($currentLocale != $defaultLocale) {
