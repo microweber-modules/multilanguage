@@ -183,8 +183,10 @@ class TranslateManager
                             }
                         }
 
-                        if (!empty($dataForTranslate) && isset($dataForTranslate['id']) && intval($dataForTranslate['id']) !== 0) {
-                            $providerInstance->saveOrUpdate($dataForTranslate);
+                        if ($currentLocale != $defaultLocale) {
+                            if (!empty($dataForTranslate) && isset($dataForTranslate['id']) && intval($dataForTranslate['id']) !== 0) {
+                                $providerInstance->saveOrUpdate($dataForTranslate);
+                            }
                         }
                     }
 
