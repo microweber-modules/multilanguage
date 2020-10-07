@@ -8,6 +8,8 @@ if(is_cli()){
     return;
 }
 
+autoload_add_namespace(__DIR__.'/src/', 'MicroweberPackages\\Multilanguage\\');
+
 require_once 'src/MultilanguagePermalinkManager.php';
 require_once 'src/MultilanguageApi.php';
 require_once 'src/TranslateManager.php';

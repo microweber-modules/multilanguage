@@ -10,7 +10,7 @@ namespace MicroweberPackages\Multilanguage\Observers;
 
 
 use Illuminate\Database\Eloquent\Model;
-use MicroweberPackages\Multilanguage\MultilanguageTranslations;
+use MicroweberPackages\Multilanguage\Models\MultilanguageTranslations;
 
 class MultilanguageObserver
 {

@@ -14,6 +14,7 @@ namespace MicroweberPackages\Multilanguage;
 use Illuminate\Support\ServiceProvider;
 use MicroweberPackages\Multilanguage\Observers\MultilanguageObserver;
 use MicroweberPackages\Page\Models\Page;
+use MicroweberPackages\Product\Product;
 
 class MultilanguageServiceProvider extends ServiceProvider
 {
@@ -24,6 +25,7 @@ class MultilanguageServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        Product::observe(MultilanguageObserver::class);
         Page::observe(MultilanguageObserver::class);
 
         $this->loadMigrationsFrom(__DIR__ . '/migrations/');

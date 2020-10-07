@@ -10,8 +10,9 @@ $config['version'] = 2.5;
 $config['require'] = [
     'microweber/microweber'=>'1.2'    
 ];
-
-$config['service_provider'] = \MicroweberPackages\Multilanguage\MultilanguageServiceProvider::class;
+$config['service_provider'] = [
+    \MicroweberPackages\Multilanguage\MultilanguageServiceProvider::class
+];
 
 $config['tables'] = array(
     'multilanguage_translations' => array(
