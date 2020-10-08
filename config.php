@@ -10,7 +10,7 @@ $config['version'] = 2.5;
 $config['require'] = [
     'microweber/microweber'=>'1.2'    
 ];
-$config['service_provider'] = [
+$config['settings']['service_provider'] = [
     \MicroweberPackages\Multilanguage\MultilanguageServiceProvider::class
 ];
 
