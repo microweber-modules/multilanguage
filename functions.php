@@ -150,14 +150,11 @@ function get_flag_icon($locale)
 
 function change_language_by_locale($locale)
 {
-    // $locale = get_short_abr($locale);
+    $locale = get_short_abr($locale);
     if (!is_cli()) {
-     //   setcookie('lang', $locale, time() + (86400 * 30), "/");
-        //$_COOKIE['lang'] = $locale;
-
-
-        \Cookie::queue('lang', $locale, 60);
-
+       setcookie('lang', $locale, time() + (86400 * 30), "/");
+        $_COOKIE['lang'] = $locale;
+       // \Cookie::queue('lang', $locale, 60); //pecata
     }
 
    // mw()->permalink_manager->setLocale($locale);
