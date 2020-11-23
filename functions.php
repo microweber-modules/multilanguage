@@ -153,7 +153,7 @@ function change_language_by_locale($locale)
     if (!is_cli()) {
        setcookie('lang', $locale, time() + (86400 * 30), "/");
         $_COOKIE['lang'] = $locale;
-       // \Cookie::queue('lang', $locale, 60); //pecata
+        \Cookie::queue('lang', $locale, 86400 * 30); //pecata
     }
 
    // mw()->permalink_manager->setLocale($locale);
