@@ -15,7 +15,7 @@ use Illuminate\Support\ServiceProvider;
 use MicroweberPackages\Multilanguage\Observers\MultilanguageObserver;
 use MicroweberPackages\Page\Models\Page;
 use MicroweberPackages\Post\Models\Post;
-use MicroweberPackages\Product\Product;
+use MicroweberPackages\Product\Models\Product;
 
 class MultilanguageServiceProvider extends ServiceProvider
 {
