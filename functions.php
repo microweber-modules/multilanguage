@@ -3,8 +3,7 @@
  * Author: Bozhidar Slaveykov
  */
 
-
-if(is_cli()){
+if (defined('MW_DISABLE_MULTILANGUAGE')) {
     return;
 }
 
