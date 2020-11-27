@@ -54,9 +54,11 @@ class TranslateManager
                 $providerInstance = new $provider();
                 $providerTable = $providerInstance->getRelType();
 
+                $langHelper = new \MicroweberPackages\App\Managers\Helpers\Lang();
+
                 // BIND GET TABLES
-                $currentLocale = mw()->lang_helper->current_lang();
-                $defaultLocale = mw()->lang_helper->default_lang();
+                $currentLocale = $langHelper->current_lang();
+                $defaultLocale = $langHelper->default_lang();
 
                 event_bind('mw.database.' . $providerTable . '.get.query_filter', function ($params) use ($providerTable, $providerInstance) {
 
@@ -107,7 +109,9 @@ class TranslateManager
                 event_bind('mw.database.' . $providerTable . '.get', function ($get) use ($providerTable, $providerInstance, $translatableModuleOptions) {
                     if (is_array($get) && !empty($get)) {
 
-                        $currentLocale = mw()->lang_helper->current_lang();
+                        $langHelper = new \MicroweberPackages\App\Managers\Helpers\Lang();
+
+                        $currentLocale = $langHelper->current_lang();
 
                         $getHash = md5(serialize($get) . '_' . $currentLocale);
                         $cacheGet = cache_get($getHash, 'global');
@@ -195,8 +199,10 @@ class TranslateManager
 
                 event_bind('mw.database.' . $providerTable . '.save.after', function ($saveData) use ($providerInstance) {
 
-                    $currentLocale = mw()->lang_helper->current_lang();
-                    $defaultLocale = mw()->lang_helper->default_lang();
+                    $langHelper = new \MicroweberPackages\App\Managers\Helpers\Lang();
+
+                    $currentLocale = $langHelper->current_lang();
+                    $defaultLocale = $langHelper->default_lang();
 
                     if ($currentLocale != $defaultLocale) {
                         if (!empty($providerInstance->getColumns())) {
