@@ -6,6 +6,8 @@
  * Time: 2:29 PM
  */
 
+namespace MicroweberPackages\Multilanguage;
+
 class MultilanguageApi
 {
     public function deleteLanguage($params)
