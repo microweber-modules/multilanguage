@@ -184,7 +184,7 @@ class MultilanguageTest extends \Microweber\tests\TestCase
     public function testMultilanguageApi()
     {
         // Ad Greek
-        $api = new \MicroweberPackages\Multilanguage\MultilanguageApi();
+        $api = new MultilanguageApi();
         $output = $api->addLanguage([
             'locale' => 'gr',
             'language' => 'Greek'
@@ -218,7 +218,7 @@ class MultilanguageTest extends \Microweber\tests\TestCase
 
     public function testChangeLanguageApi()
     {
-        $api = new \MicroweberPackages\Multilanguage\MultilanguageApi();
+        $api = new MultilanguageApi();
         $output = $api->changeLanguage([
             'locale'=> 'bobi-money'
         ]);
