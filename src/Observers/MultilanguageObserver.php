@@ -51,7 +51,10 @@ class MultilanguageObserver
         if (isset($model->translatable) && is_array($model->translatable)) {
             foreach ($model->translatable as $fieldName) {
                 self::$fieldsToSave[$fieldName] = $model->$fieldName;
-                $model->$fieldName = $model->getOriginal($fieldName);
+                $fieldValue = $model->getOriginal($fieldName);
+                if (!empty($fieldValue)) {
+                    $model->$fieldName = $fieldValue;
+                }
             }
         }
     }
@@ -78,16 +81,22 @@ class MultilanguageObserver
                     ->first();
 
                 if ($findTranslate) {
-                    $findTranslate->field_value = self::$fieldsToSave[$fieldName];
-                    $findTranslate->save();
+                    $fieldValue = self::$fieldsToSave[$fieldName];
+                    if (!is_null($fieldValue)) {
+                        $findTranslate->field_value = $fieldValue;
+                        $findTranslate->save();
+                    }
                 } else {
-                    MultilanguageTranslations::create([
-                        'field_name' => $fieldName,
-                        'field_value' => self::$fieldsToSave[$fieldName],
-                        'rel_type' => $model->getTable(),
-                        'rel_id' => $model->id,
-                        'locale' => $this->getLocale()
-                    ]);
+                    $fieldValue = self::$fieldsToSave[$fieldName];
+                    if (!is_null($fieldValue)) {
+                        MultilanguageTranslations::create([
+                            'field_name' => $fieldName,
+                            'field_value' => $fieldValue,
+                            'rel_type' => $model->getTable(),
+                            'rel_id' => $model->id,
+                            'locale' => $this->getLocale()
+                        ]);
+                    }
                 }
             }
             self::$fieldsToSave = [];
