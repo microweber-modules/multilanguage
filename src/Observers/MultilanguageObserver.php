@@ -51,7 +51,7 @@ class MultilanguageObserver
         if (isset($model->translatable) && is_array($model->translatable)) {
             foreach ($model->translatable as $fieldName) {
                 self::$fieldsToSave[$fieldName] = $model->$fieldName;
-                unset($model->$fieldName);
+                $model->$fieldName = $model->getOriginal($fieldName);
             }
         }
     }
