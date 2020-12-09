@@ -275,6 +275,12 @@ class MultilanguageTest extends \Microweber\tests\TestCase
 //        die();*/
 //    }
 
+    private function getAllCоntentLinks()
+    {
+
+    }
+
+
 
     private function _generateCategory($url, $title, $pageId)
     {
