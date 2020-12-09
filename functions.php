@@ -11,6 +11,7 @@ autoload_add_namespace(__DIR__.'/src/', 'MicroweberPackages\\Multilanguage\\');
 
 require_once 'src/MultilanguagePermalinkManager.php';
 require_once 'src/MultilanguageApi.php';
+require_once 'src/MultilanguageLinksGenerator.php';
 require_once 'src/TranslateManager.php';
 require_once 'api_exposes.php';
 require_once 'event_binds_general.php';
@@ -655,4 +656,25 @@ function get_geolocation()
     }
 
     return false;
+}
+
+function multilanguage_get_all_links()
+{
+    $generator = new MultilanguageLinksGenerator();
+
+    return $generator->links();
+}
+
+function multilanguage_get_all_content_links()
+{
+    $generator = new MultilanguageLinksGenerator();
+
+    return $generator->contentLinks();
+}
+
+function multilanguage_get_all_category_links()
+{
+    $generator = new MultilanguageLinksGenerator();
+
+    return $generator->categoryLinks();
 }
