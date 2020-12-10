@@ -10,7 +10,7 @@ class MultilanguageLinksGenerator
 {
     private $_fetched_ml_content;
 
-    public function links($type = 'all')
+    public function links($type = 'all', $id = false)
     {
         $links = [];
 
@@ -19,7 +19,7 @@ class MultilanguageLinksGenerator
 
         foreach($allActiveLangs as $lang) {
             change_language_by_locale($lang['locale']);
-            $this->generate($type, $lang);
+            $this->generate($type, $id, $lang);
         }
 
         foreach ($this->_fetched_ml_content as $langLocale=>$fetched_contents) {
@@ -48,18 +48,28 @@ class MultilanguageLinksGenerator
         return $links;
     }
 
-    public function contentLinks()
+    public function contentLinks($contentId = false)
     {
-        return $this->links('content');
+        return $this->links('content', $contentId);
     }
 
-    public function categoryLinks()
+    public function productLinks($productId = false)
     {
-
-        return $this->links('category');
+        return $this->links('product', $productId);
     }
 
-    private function generate($type ='all', $lang = false)
+    public function postLinks($postId = false)
+    {
+        return $this->links('post', $postId);
+    }
+
+    public function categoryLinks($categoryId = false)
+    {
+
+        return $this->links('category', $categoryId);
+    }
+
+    private function generate($type ='all', $id = false, $lang = false)
     {
         $generateContent = true;
         $generateCategories = true;
@@ -69,23 +79,36 @@ class MultilanguageLinksGenerator
             $generateCategories = true;
         }
 
-        if ($type == 'content') {
+        if ($type == 'content' || $type == 'product' || $type == 'post') {
             $generateContent = true;
             $generateCategories = false;
         }
 
        if ($generateCategories) {
-           $categories = get_categories('no_limit=1');
+           $categoryQuery = 'no_limit=1';
+           if ($id) {
+               $categoryQuery .='&id='.$id;
+           }
+           $categories = get_categories($categoryQuery);
            foreach ($categories as $category) {
                if (!empty($lang)) {
                    $this->_fetch_link_multilang($category, 'category', $lang);
                }
-
            }
        }
 
         if ($generateContent) {
-            $cont = get_content('is_active=1&is_deleted=0&limit=2500&fields=id,content_type,url,updated_at&orderby=updated_at desc');
+            $contentQuery = 'is_active=1&is_deleted=0&limit=2500&fields=id,content_type,url,updated_at&orderby=updated_at desc';
+            if ($id) {
+                $contentQuery .='&id='.$id;
+            }
+            if ($type == 'product') {
+                $contentQuery .='&content_type=product';
+            }
+             if ($type == 'post') {
+                $contentQuery .='&content_type=post';
+            }
+            $cont = get_content($contentQuery);
             if (!empty($cont)) {
                 foreach ($cont as $item) {
                     if (!empty($item['content_type']) && !empty($item['url']) && in_array($item['content_type'], ['page', 'product', 'post'])) {
@@ -103,7 +126,7 @@ class MultilanguageLinksGenerator
     {
         if($type === 'category') {
             $link = category_link($item['id']);
-        } else if($type === 'content') {
+        } else if($type === 'content' || $type == 'product' || $type == 'post') {
             $link = app()->content_manager->link($item['id']);
         }
 

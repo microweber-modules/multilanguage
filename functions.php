@@ -665,16 +665,30 @@ function multilanguage_get_all_links()
     return $generator->links();
 }
 
-function multilanguage_get_all_content_links()
+function multilanguage_get_all_content_links($contentId = false)
 {
     $generator = new MultilanguageLinksGenerator();
 
-    return $generator->contentLinks();
+    return $generator->contentLinks($contentId);
 }
 
-function multilanguage_get_all_category_links()
+function multilanguage_get_all_post_links($postId = false)
 {
     $generator = new MultilanguageLinksGenerator();
 
-    return $generator->categoryLinks();
+    return $generator->postLinks($postId);
+}
+
+function multilanguage_get_all_product_links($productId = false)
+{
+    $generator = new MultilanguageLinksGenerator();
+
+    return $generator->productLinks($productId);
+}
+
+function multilanguage_get_all_category_links($categoryId = false)
+{
+    $generator = new MultilanguageLinksGenerator();
+
+    return $generator->categoryLinks($categoryId);
 }
