@@ -2,7 +2,7 @@
 /**
  * Author: Bozhidar Slaveykov
  */
-
+ 
 if (defined('MW_DISABLE_MULTILANGUAGE')) {
     return;
 }
