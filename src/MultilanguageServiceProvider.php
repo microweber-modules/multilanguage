@@ -12,6 +12,7 @@
 namespace MicroweberPackages\Multilanguage;
 
 use Illuminate\Support\ServiceProvider;
+use MicroweberPackages\Content\Content;
 use MicroweberPackages\Multilanguage\Observers\MultilanguageObserver;
 use MicroweberPackages\Page\Models\Page;
 use MicroweberPackages\Post\Models\Post;
@@ -26,6 +27,8 @@ class MultilanguageServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+
+        Content::observe(MultilanguageObserver::class);
         Post::observe(MultilanguageObserver::class);
         Product::observe(MultilanguageObserver::class);
         Page::observe(MultilanguageObserver::class);

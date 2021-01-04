@@ -25,12 +25,22 @@ App::bind('permalink_manager', function() {
     return new MultilanguagePermalinkManager();
 });
 
+/*
+\Illuminate\Support\Facades\Route::get('fwa', function () {
+
+    $pm = new MultilanguagePermalinkManager('en');
+
+    $link = $pm->link(20, 'content');
+
+    var_dump($link);
+
+});*/
+
 
 event_bind('mw.after.boot', function () {
+
     $autodetected_lang = \Cookie::get('autodetected_lang');
     $lang_is_set = \Cookie::get('lang');
-
-
 
    // if (!isset($_COOKIE['autodetected_lang']) and !isset($_COOKIE['lang'])) {
     if (!$autodetected_lang and !$lang_is_set) {

@@ -5,7 +5,11 @@
 
 template_head(function () {
 
+    return '';
 
+
+
+    die();
     $currentLang = mw()->lang_helper->default_lang();
 
     $content_link = content_link(CONTENT_ID);
@@ -88,7 +92,6 @@ event_bind('app.permalink.link.after', function(){
 
 
 event_bind('app.permalink.slug.before', function ($params) {
-
 
     $relType = 'content';
     if ($params['type'] == 'category') {

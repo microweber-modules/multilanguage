@@ -18,10 +18,34 @@ class MultilanguageObserver
 
     public function retrieved(Model $model)
     {
+        if (isset($model->translatable) && is_array($model->translatable)) {
+            $multilanguage = [];
+            foreach ($model->translatable as $fieldName) {
+
+                if (empty($model->$fieldName)) {
+                    continue;
+                }
+
+                $findTranslations = MultilanguageTranslations::where('field_name', $fieldName)
+                    ->where('rel_type', $model->getTable())
+                    ->where('rel_id', $model->id)
+                    ->get();
+
+                if ($findTranslations) {
+                    foreach ($findTranslations as $findTranslate) {
+                        $multilanguage[$findTranslate->locale][$fieldName] = $findTranslate->field_value;
+                    }
+                }
+            }
+
+            $model->multilanguage = $multilanguage;
+        }
+
         if ($this->getLocale() == $this->getDefaultLocale()) {
             return;
         }
 
+        // Replace fields
         if (isset($model->translatable) && is_array($model->translatable)) {
             foreach ($model->translatable as $fieldName) {
 
