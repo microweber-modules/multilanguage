@@ -9,6 +9,12 @@ class MultilanguagePermalinkManager extends \Microweber\Providers\PermalinkManag
     {
         parent::__construct();
 
+        if ($this->language) {
+            $language = $this->language;
+        } else {
+            $language = mw()->lang_helper->current_lang();
+        }
+
         $this->language = $language;
         $this->structureMapPrefix[] = 'locale';
 
@@ -21,8 +27,6 @@ class MultilanguagePermalinkManager extends \Microweber\Providers\PermalinkManag
     public function linkContent($contentId)
     {
         $link = [];
-
-       // clearcache();
 
         $content = \MicroweberPackages\Content\Content::find($contentId);
         if ($content) {
@@ -85,17 +89,13 @@ class MultilanguagePermalinkManager extends \Microweber\Providers\PermalinkManag
         $rewriteUrl = false;
         $defaultLang = get_option('language', 'website');
 
-        if ($this->language) {
-            $currentLang = $this->language;
-        } else {
-            $currentLang = mw()->lang_helper->current_lang();
-        }
+        $currentLang = $this->language;
 
         if ($defaultLang !== $currentLang) {
             $rewriteUrl = true;
         }
 
-        $prefixForAll = get_option('add_prefix_for_all_languages','multilanguage_settings');
+       //$prefixForAll = get_option('add_prefix_for_all_languages','multilanguage_settings');
 
         // needs fix
         $prefixForAll = 'y';
