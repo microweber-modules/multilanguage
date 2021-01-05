@@ -5,11 +5,6 @@
 
 template_head(function () {
 
-    return '';
-
-
-
-    die();
     $currentLang = mw()->lang_helper->default_lang();
 
     $content_link = content_link(CONTENT_ID);
@@ -18,15 +13,9 @@ template_head(function () {
     $supportedLanguages = get_supported_languages();
     foreach ($supportedLanguages as $locale) {
 
-        $localeAbr = $locale['locale'];
+        $pm = new MultilanguagePermalinkManager($locale['locale']);
+        $content_link = $pm->link(CONTENT_ID, 'content');
 
-        /*if (mb_strlen($hrefLang) > 2) {
-            $hrefLang = mb_substr($hrefLang, 0, 2);
-        }*/
-
-        if (isset($locale['display_locale']) and $locale['display_locale']) {
-            $localeAbr = $locale['display_locale'];
-        }
 
         if ($currentLang == $locale['locale']) {
             $locale['locale'] = 'x-default';
@@ -34,11 +23,7 @@ template_head(function () {
 
         $locale['locale'] = str_replace('_', '-', $locale['locale']);
 
-        if (!is_home()) {
-            $localeAbr = '';
-        }
-
-        $link .= '<link rel="alternate" href="' . $content_link . $localeAbr . '" hreflang="' . $locale['locale'] . '" />' . "\n";
+        $link .= '<link rel="alternate" href="' . $content_link . '" hreflang="' . $locale['locale'] . '" />' . "\n";
     }
 
     return $link;

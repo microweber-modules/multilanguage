@@ -22,7 +22,7 @@ class MultilanguagePermalinkManager extends \Microweber\Providers\PermalinkManag
     {
         $link = [];
 
-        clearcache();
+       // clearcache();
 
         $content = \MicroweberPackages\Content\Content::find($contentId);
         if ($content) {

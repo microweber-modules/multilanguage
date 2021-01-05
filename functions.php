@@ -25,7 +25,7 @@ App::bind('permalink_manager', function() {
     return new MultilanguagePermalinkManager();
 });
 
-/*
+
 \Illuminate\Support\Facades\Route::get('fwa', function () {
 
     $pm = new MultilanguagePermalinkManager('en');
@@ -34,7 +34,7 @@ App::bind('permalink_manager', function() {
 
     var_dump($link);
 
-});*/
+});
 
 
 event_bind('mw.after.boot', function () {
