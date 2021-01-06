@@ -25,17 +25,17 @@ App::bind('permalink_manager', function() {
     return new MultilanguagePermalinkManager();
 });
 
-
+/*
 \Illuminate\Support\Facades\Route::get('fwa', function () {
 
-    $pm = new MultilanguagePermalinkManager('en');
+    $pm = new MultilanguagePermalinkManager('ar');
 
     $link = $pm->link(20, 'content');
 
     var_dump($link);
 
 });
-
+*/
 
 event_bind('mw.after.boot', function () {
 

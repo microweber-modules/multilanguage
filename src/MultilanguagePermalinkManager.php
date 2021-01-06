@@ -9,13 +9,12 @@ class MultilanguagePermalinkManager extends \Microweber\Providers\PermalinkManag
     {
         parent::__construct();
 
-        if ($this->language) {
-            $language = $this->language;
+        if ($language) {
+            $this->language = $language;
         } else {
-            $language = mw()->lang_helper->current_lang();
+            $this->language = mw()->lang_helper->current_lang();
         }
 
-        $this->language = $language;
         $this->structureMapPrefix[] = 'locale';
 
         $getLinkAfter = $this->__getLinkAfter();
