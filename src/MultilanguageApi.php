@@ -71,6 +71,8 @@ class MultilanguageApi
             return array('error' => _e('Locale is not supported', true));
         }
 
+        $mlPermalink = new MultilanguagePermalinkManager($locale);
+
         change_language_by_locale($locale);
         run_translate_manager();
 
@@ -94,21 +96,21 @@ class MultilanguageApi
 
             if ($contentCheck && isset($contentCheck['content_type'])) {
                 if ($categoryId && $contentCheck['content_type'] == 'page') {
-                    $location = category_link($categoryId);
+                    $location = $mlPermalink->link($categoryId, 'category');
                 }
                 if ($categoryId && $contentCheck['content_type'] != 'page') {
-                    $location = content_link($contentId);
+                    $location = $mlPermalink->link($contentId, 'content');
                 }
                 if (($categoryId == false || $categoryId == 0) && $contentCheck['content_type'] == 'page') {
-                    $location = content_link($contentId);
+                    $location = $mlPermalink->link($contentId, 'content');
                 }
                 if (($categoryId == false || $categoryId == 0) && $contentCheck['content_type'] != 'page') {
-                    $location = content_link($contentId);
+                    $location = $mlPermalink->link($contentId, 'content');
                 }
             }
 
             if ($contentCheck == false && $categoryId > 0) {
-                $location = category_link($categoryId);
+                $location = $mlPermalink->link($categoryId, 'category');
             }
 
             if  ($location){
