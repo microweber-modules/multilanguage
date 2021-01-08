@@ -38,7 +38,7 @@ class MultilanguageObserver
                 }
             }
 
-            $model->multilanguage = $multilanguage;
+            //$model->multilanguage = $multilanguage; TODO to fix; results in message: "SQLSTATE[42S22]: Column not found: 1054 Unknown column 'multilanguage' in 'field list' ...
         }
 
         if ($this->getLocale() == $this->getDefaultLocale()) {
