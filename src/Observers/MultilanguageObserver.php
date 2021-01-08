@@ -68,6 +68,10 @@ class MultilanguageObserver
 
     public function saving(Model $model)
     {
+        if (isset($model->multilanguage)) {
+            unset($model->multilanguage);
+        }
+
         if ($this->getLocale() == $this->getDefaultLocale()) {
             return;
         }
