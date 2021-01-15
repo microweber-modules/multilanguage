@@ -15,6 +15,7 @@ use Illuminate\Support\ServiceProvider;
 use MicroweberPackages\Category\Models\Category;
 use MicroweberPackages\Content\Content;
 use MicroweberPackages\Multilanguage\Observers\MultilanguageObserver;
+use MicroweberPackages\Option\Models\Option;
 use MicroweberPackages\Page\Models\Page;
 use MicroweberPackages\Post\Models\Post;
 use MicroweberPackages\Product\Models\Product;
@@ -34,6 +35,7 @@ class MultilanguageServiceProvider extends ServiceProvider
         Post::observe(MultilanguageObserver::class);
         Product::observe(MultilanguageObserver::class);
         Page::observe(MultilanguageObserver::class);
+       // Option::observe(MultilanguageObserver::class);
 
         $this->loadMigrationsFrom(__DIR__ . '/migrations/');
     }

@@ -45,6 +45,36 @@ class MultilanguageObserver
             return;
         }
 
+        // Module option translate
+        if ($model->getTable() == 'options') {
+            if (!empty($model->module)) {
+
+                $translatableModuleOptions = [];
+                foreach (get_modules_from_db() as $module) {
+                    if (isset($module['settings']['translatable_options'])) {
+                        $translatableModuleOptions[$module['module']] = $module['settings']['translatable_options'];
+                    }
+                }
+
+                $translateModuleOption = false;
+                if (isset($translatableModuleOptions[$model->module]) && in_array($model->option_key, $translatableModuleOptions[$model->module])) {
+                    $translateModuleOption = true;
+                }
+
+                if ($translateModuleOption) {
+                    $findTranslate = MultilanguageTranslations::where('field_name', 'option_value')
+                        ->where('rel_type', $model->getTable())
+                        ->where('rel_id', $model->id)
+                        ->where('locale', $this->getLocale())
+                        ->first();
+
+                    if ($findTranslate) {
+                        $model->option_value = $findTranslate->field_value;
+                    }
+                }
+            }
+        }
+
         // Replace fields
         if (isset($model->translatable) && is_array($model->translatable)) {
             foreach ($model->translatable as $fieldName) {
