@@ -45,27 +45,12 @@ class MultilanguageObserver
             return;
         }
 
-        // Module option translate
-        if ($model->getTable() == 'options') {
+        // Translatable module options
+        if (strpos($model->getMorphClass(), 'ModuleOption') !== false) {
             if (!empty($model->module)) {
-
-               $translatableModuleOptions = $this->getTranslatableModuleOptions();
-
-                $translateModuleOption = false;
+                $translatableModuleOptions = $this->getTranslatableModuleOptions();
                 if (isset($translatableModuleOptions[$model->module]) && in_array($model->option_key, $translatableModuleOptions[$model->module])) {
-                    $translateModuleOption = true;
-                }
-
-                if ($translateModuleOption) {
-                    $findTranslate = MultilanguageTranslations::where('field_name', 'option_value')
-                        ->where('rel_type', $model->getTable())
-                        ->where('rel_id', $model->id)
-                        ->where('locale', $this->getLocale())
-                        ->first();
-
-                    if ($findTranslate) {
-                        $model->option_value = $findTranslate->field_value;
-                    }
+                    $model->translatable = ['option_value'];
                 }
             }
         }
@@ -99,6 +84,16 @@ class MultilanguageObserver
 
         if ($this->getLocale() == $this->getDefaultLocale()) {
             return;
+        }
+
+        // Translatable module options
+        if (strpos($model->getMorphClass(), 'ModuleOption') !== false) {
+            if (!empty($model->module)) {
+                $translatableModuleOptions = $this->getTranslatableModuleOptions();
+                if (isset($translatableModuleOptions[$model->module]) && in_array($model->option_key, $translatableModuleOptions[$model->module])) {
+                    $model->translatable = ['option_value'];
+                }
+            }
         }
 
         if (!empty($model->translatable)) {
