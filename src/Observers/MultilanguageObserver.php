@@ -18,7 +18,7 @@ class MultilanguageObserver
 
     public function retrieved(Model $model)
     {
-        if (isset($model->translatable) && is_array($model->translatable)) {
+        if (!empty($model->translatable)) {
             $multilanguage = [];
             foreach ($model->translatable as $fieldName) {
 
@@ -49,12 +49,7 @@ class MultilanguageObserver
         if ($model->getTable() == 'options') {
             if (!empty($model->module)) {
 
-                $translatableModuleOptions = [];
-                foreach (get_modules_from_db() as $module) {
-                    if (isset($module['settings']['translatable_options'])) {
-                        $translatableModuleOptions[$module['module']] = $module['settings']['translatable_options'];
-                    }
-                }
+               $translatableModuleOptions = $this->getTranslatableModuleOptions();
 
                 $translateModuleOption = false;
                 if (isset($translatableModuleOptions[$model->module]) && in_array($model->option_key, $translatableModuleOptions[$model->module])) {
@@ -76,7 +71,7 @@ class MultilanguageObserver
         }
 
         // Replace fields
-        if (isset($model->translatable) && is_array($model->translatable)) {
+        if (!empty($model->translatable)) {
             foreach ($model->translatable as $fieldName) {
 
                 if (empty($model->$fieldName)) {
@@ -106,7 +101,7 @@ class MultilanguageObserver
             return;
         }
 
-        if (isset($model->translatable) && is_array($model->translatable)) {
+        if (!empty($model->translatable)) {
             foreach ($model->translatable as $fieldName) {
                 self::$fieldsToSave[$fieldName] = $model->$fieldName;
                 $fieldValue = $model->getOriginal($fieldName);
@@ -129,7 +124,7 @@ class MultilanguageObserver
             return;
         }
 
-        if (isset($model->translatable) && is_array($model->translatable)) {
+        if (!empty($model->translatable)) {
             foreach ($model->translatable as $fieldName) {
 
                 $findTranslate = MultilanguageTranslations::where('field_name', $fieldName)
@@ -160,6 +155,17 @@ class MultilanguageObserver
             self::$fieldsToSave = [];
         }
     }
+
+    private function getTranslatableModuleOptions() {
+        $translatableModuleOptions = [];
+        foreach (get_modules_from_db() as $module) {
+            if (isset($module['settings']['translatable_options'])) {
+                $translatableModuleOptions[$module['module']] = $module['settings']['translatable_options'];
+            }
+        }
+        return $translatableModuleOptions;
+    }
+
 
     protected function getDefaultLocale()
     {
