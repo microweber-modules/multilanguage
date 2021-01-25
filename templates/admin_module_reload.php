@@ -24,7 +24,6 @@ function changeAdminModuleLanguage(language) {
         $current_language_flag = 'gb';
     }
     ?>
-
     <li class="mx-1 language-selector">
         <button type="button" class="btn btn-outline-secondary btn-rounded btn-icon" data-toggle="dropdown" style="padding: 10px 0px;">
             <i class="flag-icon flag-icon-<?php print $current_language['icon']; ?>" style="font-size: 30px"></i>
