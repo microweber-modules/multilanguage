@@ -16,3 +16,7 @@ if (MW_VERSION >= '1.2.0') {
 event_bind('live_edit_toolbar_action_buttons', function () {
     echo '<module type="multilanguage/change_language"></module>';
 });
+
+event_bind('admin_mail_templates_message', function () {
+    echo '<module type="multilanguage" template="admin_module_reload" reload_module="admin/mail_templates/edit" class="float-right"></module>';
+});
