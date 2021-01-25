@@ -12,6 +12,7 @@
 namespace MicroweberPackages\Multilanguage;
 
 use Illuminate\Support\ServiceProvider;
+use MicroweberPackages\Admin\MailTemplates\MailTemplate;
 use MicroweberPackages\Category\Models\Category;
 use MicroweberPackages\Content\Content;
 use MicroweberPackages\Multilanguage\Observers\MultilanguageObserver;
@@ -36,6 +37,7 @@ class MultilanguageServiceProvider extends ServiceProvider
         Product::observe(MultilanguageObserver::class);
         Page::observe(MultilanguageObserver::class);
         ModuleOption::observe(MultilanguageObserver::class);
+        MailTemplate::observe(MultilanguageObserver::class);
 
         $this->loadMigrationsFrom(__DIR__ . '/migrations/');
     }
