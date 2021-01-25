@@ -12,7 +12,7 @@
 namespace MicroweberPackages\Multilanguage;
 
 use Illuminate\Support\ServiceProvider;
-use MicroweberPackages\Admin\MailTemplates\MailTemplate;
+use MicroweberPackages\Admin\MailTemplates\Models\MailTemplate;
 use MicroweberPackages\Category\Models\Category;
 use MicroweberPackages\Content\Content;
 use MicroweberPackages\Multilanguage\Observers\MultilanguageObserver;
