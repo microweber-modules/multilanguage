@@ -66,8 +66,9 @@ class TranslateManager
 
                         $keyword = $params['params']['data-keyword'];
                        // $searchInFields = $params['params']['search_in_fields'];
+                        $params['query']->where(function ($query) use ($params,$providerTable,$keyword) {
 
-                        $params['query']->orWhereIn($providerTable.'.id', function ($subQuery) use ($providerTable, $keyword) {
+                            $query->orWhereIn($providerTable.'.id', function ($subQuery) use ($providerTable, $keyword) {
                             $subQuery->select('multilanguage_translations.rel_id');
                             $subQuery->from('multilanguage_translations');
                             $subQuery->where('multilanguage_translations.rel_type', '=', $providerTable);
@@ -80,7 +81,7 @@ class TranslateManager
                             $subQuery->where('multilanguage_translations.field_value', 'LIKE', '%' . $keyword . '%');
                         });
 
-
+                        });
 
                     }
 
