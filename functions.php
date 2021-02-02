@@ -331,13 +331,13 @@ function get_supported_languages($only_active = false)
         if (!in_array($default_lang['locale'], $locales)) {
             $insert = insert_default_language();
             if ($insert) {
-                $languages = get_supported_languages();
+                $languages = get_supported_languages($only_active);
             }
         }
     } else {
         $insert = insert_default_language();
         if ($insert) {
-            $languages = get_supported_languages();
+            $languages = get_supported_languages($only_active);
         }
     }
 
