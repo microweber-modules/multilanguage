@@ -312,12 +312,13 @@ function detect_lang_from_url($targetUrl)
 
 function get_supported_languages($only_active = false)
 {
-    $get_filter = 'order_by=position asc';
+    $getSupportedLocalesQuery = \MicroweberPackages\Multilanguage\Models\MultilanguageSupportedLocales::query();
     if ($only_active) {
-        $get_filter .= '&is_active=y';
+        $getSupportedLocalesQuery->where('is_active', 'y');
     }
+    $getSupportedLocalesQuery->orderBy('position', 'asc');
 
-    $languages = db_get('multilanguage_supported_locales', $get_filter);
+    $languages = $getSupportedLocalesQuery->get()->toArray();
 
     if ($languages) {
         $locales = array();
