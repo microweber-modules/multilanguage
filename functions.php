@@ -173,29 +173,24 @@ function change_language_by_locale($locale)
 
 function add_supported_language($locale, $language)
 {
-
-    $get = array();
-    $get['locale'] = $locale;
-    $get['single'] = true;
-    $get['no_cache'] = true;
-    $find = db_get('multilanguage_supported_locales', $get);
-
-    if (!$find) {
+    $findSupportedLocales = \MicroweberPackages\Multilanguage\Models\MultilanguageSupportedLocales::where('locale', $locale)->first();
+    if ($findSupportedLocales == null) {
+        $findSupportedLocales = new \MicroweberPackages\Multilanguage\Models\MultilanguageSupportedLocales();
+        $findSupportedLocales->locale = $locale;
+        $findSupportedLocales->language = $language;
 
         $position = 1;
-        $last_language = db_get('multilanguage_supported_locales', 'no_cache=true&order_by=position desc&single=1');
-        if ($last_language) {
-            $position = $last_language['position'] + 1;
+        $getLastLagnuage = \MicroweberPackages\Multilanguage\Models\MultilanguageSupportedLocales::orderBy('position','desc')->firsts();
+        if ($getLastLagnuage != null) {
+            $position = $getLastLagnuage->position + 1;
         }
 
-        $save = array();
-        $save['position'] = $position;
-        $save['locale'] = $locale;
-        $save['language'] = $language;
-        return db_save('multilanguage_supported_locales', $save);
+        $findSupportedLocales->position = $position;
     }
 
-    return $find['id'];
+    $findSupportedLocales->save();
+
+    return $findSupportedLocales->id;
 }
 
 function get_default_language()
@@ -318,27 +313,16 @@ function get_supported_languages($only_active = false)
     }
     $getSupportedLocalesQuery->orderBy('position', 'asc');
 
-    $languages = $getSupportedLocalesQuery->get()->toArray();
+    $executeQuery = $getSupportedLocalesQuery->get();
 
-    if ($languages) {
-        $locales = array();
+    $languages = [];
+    if ($executeQuery !== null) {
+        $languages = $executeQuery->toArray();
+    }
+
+    if (!empty($languages)) {
         foreach ($languages as &$language) {
             $language['icon'] = get_flag_icon($language['locale']);
-            $locales[] = strtolower($language['locale']);
-        }
-
-        // Check default language exists on supported locales
-        $default_lang = get_default_language();
-        if (!in_array($default_lang['locale'], $locales)) {
-            $insert = insert_default_language();
-            if ($insert) {
-                $languages = get_supported_languages($only_active);
-            }
-        }
-    } else {
-        $insert = insert_default_language();
-        if ($insert) {
-            $languages = get_supported_languages($only_active);
         }
     }
 
