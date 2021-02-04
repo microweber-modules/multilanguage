@@ -6,6 +6,9 @@ use MicroweberPackages\Database\Traits\CacheableQueryBuilderTrait;
 
 class MultilanguageSupportedLocales extends Model
 {
+
+    public $timestamps = false;
+
     use CacheableQueryBuilderTrait;
 
 }

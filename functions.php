@@ -180,7 +180,7 @@ function add_supported_language($locale, $language)
         $findSupportedLocales->language = $language;
 
         $position = 1;
-        $getLastLagnuage = \MicroweberPackages\Multilanguage\Models\MultilanguageSupportedLocales::orderBy('position','desc')->firsts();
+        $getLastLagnuage = \MicroweberPackages\Multilanguage\Models\MultilanguageSupportedLocales::orderBy('position','desc')->first();
         if ($getLastLagnuage != null) {
             $position = $getLastLagnuage->position + 1;
         }
