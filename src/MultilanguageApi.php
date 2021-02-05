@@ -120,8 +120,6 @@ class MultilanguageApi
 
         $json['refresh'] = true;
 
-       // clearcache();
-
         return $json;
     }
 }
