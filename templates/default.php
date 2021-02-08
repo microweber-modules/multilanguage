@@ -64,7 +64,7 @@ description: MW Default
         <?php if (!empty($current_language['display_name'])): ?>
             <?php echo $current_language['display_name']; ?>
         <?php else: ?>
-            <?php echo strtoupper($current_language['locale']); ?>
+            <?php echo \Symfony\Component\Intl\Languages::getName($current_language['locale']); ?>
         <?php endif; ?>
 
     </span>
@@ -86,7 +86,7 @@ description: MW Default
                         <?php if (!empty($language['display_name'])): ?>
                             <?php echo $language['display_name']; ?>
                         <?php else: ?>
-                            <?php echo strtoupper($language['locale']); ?>
+                            <?php echo \Symfony\Component\Intl\Languages::getName($language['locale']); ?>
                         <?php endif; ?>
                         <!--- end of display name -->
 

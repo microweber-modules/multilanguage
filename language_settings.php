@@ -171,6 +171,7 @@ $langs = mw()->lang_helper->get_all_lang_codes();
     }
 </script>
 
+
 <script>mw.lib.require('flag_icons');</script>
 
 <div class="mw-module-language-settings">
@@ -191,7 +192,9 @@ $langs = mw()->lang_helper->get_all_lang_codes();
                 <?php if ($langs) : ?>
                     <select class="js-dropdown-text-language selectpicker" id="add_language_ul" data-size="5" data-live-search="true">
                         <?php foreach ($langs as $key => $lang): ?>
-                            <option data-key="<?php print $key ?>" data-value="<?php print $lang ?>" style="color:#000;"><span class="flag-icon flag-icon-<?php echo get_flag_icon($key); ?> m-r-10"></span> <?php echo $lang; ?></option>
+                            <option data-key="<?php print $key ?>" data-value="<?php print $lang ?>" style="color:#000;">
+                                <span class="flag-icon flag-icon-<?php echo $key; ?> m-r-10"></span> <?php echo $lang; ?>
+                            </option>
                         <?php endforeach; ?>
                     </select>
                 <?php endif; ?>

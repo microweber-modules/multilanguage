@@ -34,7 +34,7 @@ description: Clean
             <?php if (!empty($language['display_name'])): ?>
                 <?php echo $language['display_name']; ?>
             <?php else: ?>
-                <?php echo strtoupper($language['locale']); ?>
+                <?php echo \Symfony\Component\Intl\Languages::getName($language['locale']); ?>
             <?php endif; ?>
 
         </option>

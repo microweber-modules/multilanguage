@@ -130,32 +130,31 @@ function get_short_abr($locale)
 
 function get_flag_icon($locale)
 {
-    if ($locale == 'el') {
-        return 'gr';
+    $region = \Symfony\Component\Intl\Locale::getDisplayRegion($locale);
+
+    $countries = \Symfony\Component\Intl\Countries::getNames();
+
+
+    foreach ($countries as $countryAbr=>$countryName) {
+        if ($region == $countryName) {
+            return strtolower($countryAbr);
+        }
     }
 
-    if ($locale == 'da') {
-        return 'dk';
-    }
-
-    if ($locale == 'en') {
-        return 'us';
-    }
-
-    if ($locale == 'ar') {
-        return 'sa';
-    }
-
-    if ($locale == 'en_uk') {
+    if(empty($region) && str_contains($locale, 'en_')) {
         return 'gb';
     }
 
-    if (strpos($locale, "_")) {
-        $exp = explode("_", $locale);
-        return strtolower($exp[1]);
-    } else {
-        return $locale;
+    if(empty($region) && $locale == 'en') {
+        return 'gb';
     }
+
+    if(str_contains($locale, 'zh_')) { //$locale == 'zh_Hant'
+        return 'cn';
+    }
+
+
+    return $locale;
 }
 
 function change_language_by_locale($locale)
