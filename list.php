@@ -21,8 +21,6 @@ only_admin_access();
 <script>mw.lib.require('mwui_init');</script>
 
 
-<i class="flag-icon flag-icon-us mr-2"></i>
-
 <div class="table-responsive">
     <table class="table table-striped">
         <thead>
@@ -56,8 +54,6 @@ only_admin_access();
                         
                         <td style="vertical-align: middle;">
                             <div data-toggle="tooltip" title="<?php echo $language['language']; ?>">
-
-                                <?php echo get_flag_icon($language['locale']); ?>
 
                                 <i class="flag-icon flag-icon-<?php echo get_flag_icon($language['locale']); ?> mr-2"></i>
                                 <?php echo \Symfony\Component\Intl\Languages::getName($language['locale']); ?> [<?php echo $language['locale']; ?>]
