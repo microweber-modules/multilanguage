@@ -132,7 +132,6 @@ function get_flag_icon($locale)
 {
 
     $flagIcon = \MicroweberPackages\Translation\Locale\IntlLocale::getDisplayFlag($locale);
-
     if ($flagIcon) {
         return $flagIcon;
     }

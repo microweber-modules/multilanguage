@@ -8,7 +8,7 @@
 ?>
 
 <?php
-$langs = mw()->lang_helper->get_all_lang_codes();
+$languages = \MicroweberPackages\Translation\LanguageHelper::getLanguagesWithDefaultLocale();
 ?>
 
 <script type="text/javascript">
@@ -189,11 +189,11 @@ $langs = mw()->lang_helper->get_all_lang_codes();
             <div class="form-group">
                 <label class="control-label d-block"><?php _e('Add new language'); ?></label>
 
-                <?php if ($langs) : ?>
+                <?php if ($languages) : ?>
                     <select class="js-dropdown-text-language selectpicker" id="add_language_ul" data-size="5" data-live-search="true">
-                        <?php foreach ($langs as $key => $lang): ?>
-                            <option data-key="<?php print $key ?>" data-value="<?php print $lang ?>" style="color:#000;">
-                                <span class="flag-icon flag-icon-<?php echo $key; ?> m-r-10"></span> <?php echo $lang; ?>
+                        <?php foreach ($languages as $languageName => $languageDetails): ?>
+                            <option data-key="<?php print $languageDetails['locale'] ?>" data-value="<?php print $languageName ?>" style="color:#000;">
+                                <span class="flag-icon flag-icon-fr m-r-10"></span> <?php echo $languageName; ?>
                             </option>
                         <?php endforeach; ?>
                     </select>
