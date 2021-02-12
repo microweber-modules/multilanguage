@@ -18,12 +18,18 @@ $languages = \MicroweberPackages\Translation\LanguageHelper::getLanguagesWithDef
         add_language_value = false;
 
         $('.js-add-language').on('click', function () {
+
+            $('.js-add-language').html('<?php _e('Importing the language..'); ?>');
+
             if (add_language_key == false || add_language_value == false) {
                 mw.notification.error('<?php _ejs('Please, select language.'); ?>');
                 return;
             }
 
             $.post(mw.settings.api_url + "multilanguage/add_language", {locale: add_language_key, language: add_language_value}).done(function (data) {
+
+                $('.js-add-language').html('<?php _e('Add'); ?>');
+
                 mw.reload_module_everywhere('multilanguage/language_settings', function () {
                 });
             });
