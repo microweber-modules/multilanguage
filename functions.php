@@ -130,6 +130,13 @@ function get_short_abr($locale)
 
 function get_flag_icon($locale)
 {
+
+    $flagIcon = \MicroweberPackages\Translation\IntlLocale::getDisplayFlag($locale);
+
+    if ($flagIcon) {
+        return $flagIcon;
+    }
+
     $region = \MicroweberPackages\Translation\IntlLocale::getDisplayRegion($locale);
     $countries = \Symfony\Component\Intl\Countries::getNames();
 
