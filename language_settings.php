@@ -192,7 +192,7 @@ $languages = \MicroweberPackages\Translation\LanguageHelper::getLanguagesWithDef
                 <?php if ($languages) : ?>
                     <select class="js-dropdown-text-language selectpicker" id="add_language_ul" data-size="5" data-live-search="true">
                         <?php foreach ($languages as $languageName => $languageDetails): ?>
-                            <option data-key="<?php print $languageDetails['locale'] ?>" data-value="<?php print $languageName ?>" style="color:#000;">
+                            <option data-key="<?php echo $languageDetails['locale'] ?>" data-value="<?php echo $languageName ?>" style="color:#000;">
                                 <span class="flag-icon flag-icon-fr m-r-10"></span> <?php echo $languageName; ?>
                             </option>
                         <?php endforeach; ?>

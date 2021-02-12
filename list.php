@@ -56,7 +56,7 @@ only_admin_access();
                             <div data-toggle="tooltip" title="<?php echo $language['language']; ?>">
 
                                 <i class="flag-icon flag-icon-<?php echo get_flag_icon($language['locale']); ?> mr-2"></i>
-                                <?php echo \Symfony\Component\Intl\Languages::getName($language['locale']); ?> [<?php echo $language['locale']; ?>]
+                                <?php echo  \MicroweberPackages\Translation\Locale\IntlLocale::getDisplayLanguage($language['locale']); ?> [<?php echo $language['locale']; ?>]
                                 <?php if (strtolower($defaultLang) == strtolower($language['locale'])): ?>
                                     <small class="text-muted">(<?php _e('Default'); ?>)</small>
                                 <?php endif; ?>

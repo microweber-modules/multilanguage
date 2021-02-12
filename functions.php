@@ -188,6 +188,13 @@ function add_supported_language($locale, $language)
 
     $findSupportedLocales->save();
 
+    // Try To Install The Language Package by this locale
+    try {
+        \MicroweberPackages\Translation\TranslationHelper::installLanguage($locale);
+    } catch (Exception $e) {
+        // Can't install
+    }
+
     return $findSupportedLocales->id;
 }
 
