@@ -133,25 +133,21 @@ function get_flag_icon($locale)
     $region = \MicroweberPackages\Translation\IntlLocale::getDisplayRegion($locale);
     $countries = \Symfony\Component\Intl\Countries::getNames();
 
-    foreach ($countries as $countryAbr=>$countryName) {
-        if ($region == $countryName) {
-            return strtolower($countryAbr);
+    if ($region) {
+        foreach ($countries as $countryAbr => $countryName) {
+            if ($region == $countryName) {
+                return strtolower($countryAbr);
+            }
         }
     }
 
-    if(empty($region) && str_contains($locale, 'en_')) {
-        return 'gb';
+    $icon = explode('_', $locale);
+    if (isset($icon[1])) {
+        $icon = strtolower($icon[1]);
+    } else {
+        $icon = $icon[0];
     }
-
-    if(empty($region) && $locale == 'en') {
-        return 'gb';
-    }
-
-    if(str_contains($locale, 'zh_')) { //$locale == 'zh_Hant'
-        return 'cn';
-    }
-
-    return $locale;
+    return $icon;
 }
 
 function change_language_by_locale($locale)
