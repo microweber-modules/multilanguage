@@ -131,13 +131,13 @@ function get_short_abr($locale)
 function get_flag_icon($locale)
 {
 
-    $flagIcon = \MicroweberPackages\Translation\IntlLocale::getDisplayFlag($locale);
+    $flagIcon = \MicroweberPackages\Translation\Locale\IntlLocale::getDisplayFlag($locale);
 
     if ($flagIcon) {
         return $flagIcon;
     }
 
-    $region = \MicroweberPackages\Translation\IntlLocale::getDisplayRegion($locale);
+    $region = \MicroweberPackages\Translation\Locale\IntlLocale::getDisplayRegion($locale);
     $countries = \Symfony\Component\Intl\Countries::getNames();
 
     if ($region) {
