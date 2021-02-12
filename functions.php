@@ -130,10 +130,8 @@ function get_short_abr($locale)
 
 function get_flag_icon($locale)
 {
-    $region = \Symfony\Component\Intl\Locale::getDisplayRegion($locale);
-
+    $region = \MicroweberPackages\Translation\IntlLocale::getDisplayRegion($locale);
     $countries = \Symfony\Component\Intl\Countries::getNames();
-
 
     foreach ($countries as $countryAbr=>$countryName) {
         if ($region == $countryName) {
@@ -152,7 +150,6 @@ function get_flag_icon($locale)
     if(str_contains($locale, 'zh_')) { //$locale == 'zh_Hant'
         return 'cn';
     }
-
 
     return $locale;
 }
