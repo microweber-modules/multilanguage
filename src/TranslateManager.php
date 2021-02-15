@@ -55,12 +55,15 @@ class TranslateManager
                 $providerTable = $providerInstance->getRelType();
 
 
-
                 // BIND GET TABLES
                 $currentLocale = app()->lang_helper->current_lang();
                 $defaultLocale = app()->lang_helper->default_lang();
 
                 event_bind('mw.database.' . $providerTable . '.get.query_filter', function ($params) use ($providerTable, $providerInstance) {
+
+                    if (defined('MW_DISABLE_MULTILANGUAGE')) {
+                        return;
+                    }
 
                     if (isset($params['params']['data-keyword'])) {
 
@@ -108,9 +111,12 @@ class TranslateManager
                 });
 
                 event_bind('mw.database.' . $providerTable . '.get', function ($get) use ($providerTable, $providerInstance, $translatableModuleOptions) {
+
+                    if (defined('MW_DISABLE_MULTILANGUAGE')) {
+                        return;
+                    }
+
                     if (is_array($get) && !empty($get)) {
-
-
 
                         $currentLocale = app()->lang_helper->current_lang();
 
@@ -144,6 +150,10 @@ class TranslateManager
 
                 // BIND SAVE TABLES
                 event_bind('mw.database.' . $providerTable . '.save.params', function ($saveData) use ($providerTable, $currentLocale, $defaultLocale, $providerInstance, $translatableModuleOptions) {
+
+                    if (defined('MW_DISABLE_MULTILANGUAGE')) {
+                        return;
+                    }
 
                     if ($providerTable == 'options') {
                         $saveModuleOption = false;
@@ -200,6 +210,9 @@ class TranslateManager
 
                 event_bind('mw.database.' . $providerTable . '.save.after', function ($saveData) use ($providerInstance) {
 
+                    if (defined('MW_DISABLE_MULTILANGUAGE')) {
+                        return;
+                    }
 
                     $currentLocale = app()->lang_helper->current_lang();
                     $defaultLocale = app()->lang_helper->default_lang();

@@ -30,6 +30,9 @@ class MultilanguageServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        if (defined('MW_DISABLE_MULTILANGUAGE')) {
+            return;
+        }
 
         Content::observe(MultilanguageObserver::class);
         Category::observe(MultilanguageObserver::class);
