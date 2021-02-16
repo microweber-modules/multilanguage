@@ -692,3 +692,38 @@ function multilanguage_get_all_category_links($categoryId = false)
 
     return $generator->categoryLinks($categoryId);
 }
+
+function is_active_lang($url)
+{
+    $res = false;
+
+    $activeLangs = get_supported_languages(true);
+
+    if(is_array($activeLangs)) {
+        foreach($activeLangs as $activeLang) {
+            if($activeLang['display_locale'] == $url) {
+                $res = true;
+                break;
+            }
+        }
+    }
+
+    return $res;
+}
+
+//Transform en_uk to en
+function get_display_locale_by_locale($locale)
+{
+    $res = '';
+    $activeLangs = get_supported_languages(true);
+
+    if(is_array($activeLangs)) {
+        foreach($activeLangs as $activeLang) {
+            if($activeLang['locale'] == $locale) {
+                $res = $activeLang['display_locale'];
+            }
+        }
+    }
+
+    return $res;
+}
