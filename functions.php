@@ -2,12 +2,12 @@
 /**
  * Author: Bozhidar Slaveykov
  */
- 
+
 if (defined('MW_DISABLE_MULTILANGUAGE')) {
     return;
 }
 
-autoload_add_namespace(__DIR__.'/src/', 'MicroweberPackages\\Multilanguage\\');
+autoload_add_namespace(__DIR__ . '/src/', 'MicroweberPackages\\Multilanguage\\');
 
 require_once 'src/MultilanguagePermalinkManager.php';
 require_once 'src/MultilanguageApi.php';
@@ -21,7 +21,7 @@ if (is_module('multilanguage') && get_option('is_active', 'multilanguage_setting
     return;
 }
 
-App::bind('permalink_manager', function() {
+App::bind('permalink_manager', function () {
     return new MultilanguagePermalinkManager();
 });
 
@@ -42,7 +42,7 @@ event_bind('mw.after.boot', function () {
     $autodetected_lang = \Cookie::get('autodetected_lang');
     $lang_is_set = \Cookie::get('lang');
 
-   // if (!isset($_COOKIE['autodetected_lang']) and !isset($_COOKIE['lang'])) {
+    // if (!isset($_COOKIE['autodetected_lang']) and !isset($_COOKIE['lang'])) {
     if (!$autodetected_lang and !$lang_is_set) {
         $homepageLanguage = get_option('homepage_language', 'website');
         if ($homepageLanguage) {
@@ -51,7 +51,7 @@ event_bind('mw.after.boot', function () {
                 \Cookie::queue('autodetected_lang', 1, 60);
 
                 //setcookie('autodetected_lang', 1, false, '/');
-               // $_COOKIE['autodetected_lang'] = 1;
+                // $_COOKIE['autodetected_lang'] = 1;
             }
         }
     }
@@ -72,7 +72,8 @@ function run_translate_manager()
     }
 }
 
-function get_rel_id_by_multilanguage_url($url, $relType = false) {
+function get_rel_id_by_multilanguage_url($url, $relType = false)
+{
 
     if (!$url) {
         return false;
@@ -131,7 +132,7 @@ function get_short_abr($locale)
 function get_flag_icon($locale)
 {
 
-    $flagIcon =\MicroweberPackages\Translation\LanguageHelper::getLanguageFlag($locale);
+    $flagIcon = \MicroweberPackages\Translation\LanguageHelper::getLanguageFlag($locale);
     if ($flagIcon) {
         return $flagIcon;
     }
@@ -141,12 +142,12 @@ function get_flag_icon($locale)
 function change_language_by_locale($locale)
 {
     if (!is_cli()) {
-       setcookie('lang', $locale, time() + (86400 * 30), "/");
+        setcookie('lang', $locale, time() + (86400 * 30), "/");
         $_COOKIE['lang'] = $locale;
         \Cookie::queue('lang', $locale, 86400 * 30); //pecata
     }
 
-   // mw()->permalink_manager->setLocale($locale);
+    // mw()->permalink_manager->setLocale($locale);
 
     return mw()->lang_helper->set_current_lang($locale);
 }
@@ -160,7 +161,7 @@ function add_supported_language($locale, $language)
         $findSupportedLocales->language = $language;
 
         $position = 1;
-        $getLastLagnuage = \MicroweberPackages\Multilanguage\Models\MultilanguageSupportedLocales::orderBy('position','desc')->first();
+        $getLastLagnuage = \MicroweberPackages\Multilanguage\Models\MultilanguageSupportedLocales::orderBy('position', 'desc')->first();
         if ($getLastLagnuage != null) {
             $position = $getLastLagnuage->position + 1;
         }
@@ -170,11 +171,18 @@ function add_supported_language($locale, $language)
 
     $findSupportedLocales->save();
 
-    // Try To Install The Language Package by this locale
-    try {
-        \MicroweberPackages\Translation\TranslationPackageInstallHelper::installLanguage($locale);
-    } catch (Exception $e) {
-        // Can't install
+
+    $insertTranslationText = new \MicroweberPackages\Translation\Models\TranslationText();
+    $insertTranslationTextCount = $insertTranslationText->where('translation_locale', $locale)->count();
+
+    if (!$insertTranslationTextCount) {
+        // only insert if there are no records
+        // Try To Install The Language Package by this locale
+        try {
+            \MicroweberPackages\Translation\TranslationPackageInstallHelper::installLanguage($locale);
+        } catch (Exception $e) {
+            // Can't install
+        }
     }
 
     return $findSupportedLocales->id;
@@ -681,9 +689,9 @@ function is_active_lang($url)
 
     $activeLangs = get_supported_languages(true);
 
-    if(is_array($activeLangs)) {
-        foreach($activeLangs as $activeLang) {
-            if($activeLang['display_locale'] == $url) {
+    if (is_array($activeLangs)) {
+        foreach ($activeLangs as $activeLang) {
+            if ($activeLang['display_locale'] == $url) {
                 $res = true;
                 break;
             }
@@ -699,9 +707,9 @@ function get_display_locale_by_locale($locale)
     $res = '';
     $activeLangs = get_supported_languages(true);
 
-    if(is_array($activeLangs)) {
-        foreach($activeLangs as $activeLang) {
-            if($activeLang['locale'] == $locale) {
+    if (is_array($activeLangs)) {
+        foreach ($activeLangs as $activeLang) {
+            if ($activeLang['locale'] == $locale) {
                 $res = $activeLang['display_locale'];
             }
         }

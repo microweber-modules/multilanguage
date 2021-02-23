@@ -61,7 +61,6 @@ class MultilanguageApi
 
         $json = array();
         $locale = $params['locale'];
-
         $localeSettings = get_supported_locale_by_locale($locale);
 
         /*
@@ -80,6 +79,11 @@ class MultilanguageApi
 
         if (isset($params['is_admin']) && $params['is_admin'] == 1) {
             mw()->event_manager->trigger('mw.admin.change_language');
+
+            $json['refresh'] = true;
+
+            return $json;
+
         } else {
             
             $url = url_current(true);
