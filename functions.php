@@ -131,29 +131,11 @@ function get_short_abr($locale)
 function get_flag_icon($locale)
 {
 
-    $flagIcon = \MicroweberPackages\Translation\Locale\IntlLocale::getDisplayFlag($locale);
+    $flagIcon =\MicroweberPackages\Translation\LanguageHelper::getLanguageFlag($locale);
     if ($flagIcon) {
         return $flagIcon;
     }
 
-    $region = \MicroweberPackages\Translation\Locale\IntlLocale::getDisplayRegion($locale);
-    $countries = \Symfony\Component\Intl\Countries::getNames();
-
-    if ($region) {
-        foreach ($countries as $countryAbr => $countryName) {
-            if ($region == $countryName) {
-                return strtolower($countryAbr);
-            }
-        }
-    }
-
-    $icon = explode('_', $locale);
-    if (isset($icon[1])) {
-        $icon = strtolower($icon[1]);
-    } else {
-        $icon = $icon[0];
-    }
-    return $icon;
 }
 
 function change_language_by_locale($locale)

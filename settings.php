@@ -37,7 +37,7 @@
                     ?>
                     <?php if ($langs) : ?>
                         <select id="user_lang" name="language" class="mw_option_field selectpicker" data-width="100%" data-size="5" data-live-search="true" option-group="website">
-                            <option disabled="disabled"><?php _e('Select Language...'); ?></option>
+                            <option disabled="disabled"><?php _e('Select Language'); ?></option>
                             <?php foreach ($langs as $key => $lang): ?>
                                 <option <?php if ($def_language == $key): ?> selected="" <?php endif; ?> value="<?php print $key ?>"><?php print $lang ?></option>
                             <?php endforeach; ?>
@@ -59,7 +59,7 @@
                     ?>
                     <?php if ($langs) : ?>
                         <select id="user_homepage_lang" name="homepage_language" class="mw_option_field selectpicker" data-width="100%" data-size="5" data-live-search="true" option-group="website">
-                            <option disabled="disabled"><?php _e('Select Language...'); ?></option>
+                            <option disabled="disabled"><?php _e('Select Language'); ?></option>
                             <option value="none">None</option>
                             <?php foreach ($langs as $key => $lang): ?>
                                 <option <?php if ($def_language == $key): ?> selected="" <?php endif; ?> value="<?php print $key ?>"><?php print $lang ?></option>
