@@ -26,9 +26,9 @@ only_admin_access();
         <thead>
             <tr>
                 <th style="min-width: 25px;"></th>
-                <th style="min-width: 50px;">Active</th>
+                <th style="min-width: 50px;"><?php echo _e('Active'); ?></th>
                 <th><?php echo _e('Language'); ?></th>
-                <th><?php echo _e('Dispaly as'); ?></th>
+                <th><?php echo _e('Display as'); ?></th>
                 <th></th>
                 <th></th>
             </tr>
