@@ -190,7 +190,7 @@ function add_supported_language($locale, $language)
 
     // Try To Install The Language Package by this locale
     try {
-        \MicroweberPackages\Translation\TranslationHelper::installLanguage($locale);
+        \MicroweberPackages\Translation\TranslationPackageInstallHelper::installLanguage($locale);
     } catch (Exception $e) {
         // Can't install
     }
