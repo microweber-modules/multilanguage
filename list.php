@@ -13,6 +13,12 @@ only_admin_access();
                 } else {
                     mw.notification.error('<?php _e('Language is disabled!'); ?>');
                 }
+
+
+                mw.reload_module_everywhere('multilanguage');
+
+
+
             });
         });
     });

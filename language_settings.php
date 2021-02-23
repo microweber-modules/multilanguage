@@ -21,6 +21,10 @@ $languages = \MicroweberPackages\Translation\LanguageHelper::getLanguagesWithDef
 
             $('.js-add-language').html('<?php _e('Importing the language..'); ?>');
 
+            if (typeof(mw.notification) != 'undefined') {
+                mw.notification.success('Adding language...',10000);
+            }
+
             if (add_language_key == false || add_language_value == false) {
                 mw.notification.error('<?php _ejs('Please, select language.'); ?>');
                 return;
@@ -30,6 +34,14 @@ $languages = \MicroweberPackages\Translation\LanguageHelper::getLanguagesWithDef
 
                 $('.js-add-language').html('<?php _e('Add'); ?>');
 
+                if (typeof(mw.notification) != 'undefined') {
+                    mw.notification.success('Language added...',10000);
+
+                }
+
+
+
+                mw.reload_module_everywhere('multilanguage');
                 mw.reload_module_everywhere('multilanguage/language_settings', function () {
                 });
             });
@@ -80,7 +92,8 @@ $languages = \MicroweberPackages\Translation\LanguageHelper::getLanguagesWithDef
 
         $.post(mw.settings.api_url + "multilanguage/sort_language", {ids: languages})
             .done(function (data) {
-                mw.reload_module('multilanguage/list')
+                mw.reload_module_everywhere('multilanguage/list')
+                mw.reload_module_everywhere('multilanguage')
             });
     }
 
@@ -196,7 +209,11 @@ $languages = \MicroweberPackages\Translation\LanguageHelper::getLanguagesWithDef
                 <label class="control-label d-block"><?php _e('Add new language'); ?></label>
 
                 <?php if ($languages) : ?>
-                    <select class="js-dropdown-text-language selectpicker" id="add_language_ul" data-size="5" data-live-search="true">
+                    <select autocomplete="off" class="js-dropdown-text-language selectpicker" id="add_language_ul" data-size="5" data-live-search="true">
+                        <option>
+                            <?php _e('Select language'); ?>
+                        </option>
+
                         <?php foreach ($languages as $languageName => $languageDetails): ?>
                             <option data-key="<?php echo $languageDetails['locale'] ?>" data-value="<?php echo $languageName ?>" style="color:#000;">
                                 <span class="flag-icon flag-icon-fr m-r-10"></span> <?php echo $languageName; ?>
