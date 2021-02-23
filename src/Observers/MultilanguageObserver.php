@@ -39,6 +39,8 @@ class MultilanguageObserver
             }
 
             $model->multilanguage = $multilanguage;
+            $model->makeHidden(['multilanguage']);
+
         }
 
         if ($this->getLocale() == $this->getDefaultLocale()) {

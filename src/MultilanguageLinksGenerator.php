@@ -37,6 +37,7 @@ class MultilanguageLinksGenerator
             foreach ($contentData as $contentDataLocale=>$contentDataFull) {
                 $links[] = [
                     'original_link'=>$contentDataFull['link'],
+                    'item'=>$contentDataFull['item'],
                     'updated_at'=>$contentDataFull['item']['updated_at'],
                     'multilanguage_links'=>$multiCatLangUrls
                 ];
