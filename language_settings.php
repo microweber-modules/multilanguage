@@ -211,11 +211,11 @@ $languages = \MicroweberPackages\Translation\LanguageHelper::getLanguagesWithDef
 
         <div class="col-auto text-right">
             <div class="form-group module-switch-active-form">
-                <label class="control-label">Multilanguage is active?</label>
+                <label class="control-label"><?php _e('Multilanguage is active'); ?>?</label>
                 <div class="custom-control custom-switch pl-0">
-                    <label class="d-inline-block mr-5" for="is_active_quick">No</label>
+                    <label class="d-inline-block mr-5" for="is_active_quick"><?php _e('No'); ?></label>
                     <input class="mw_option_field custom-control-input" id="is_active_quick" type="checkbox" autocomplete="off" name="is_active" <?php if (get_option('is_active', 'multilanguage_settings') == 'y'): ?>checked<?php endif; ?> option-group="multilanguage_settings" data-value-checked="y" data-value-unchecked="n">
-                    <label class="custom-control-label" for="is_active_quick">Yes</label>
+                    <label class="custom-control-label" for="is_active_quick"><?php _e('Yes'); ?></label>
                 </div>
             </div>
         </div>

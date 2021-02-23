@@ -16,11 +16,11 @@
     <div class="row">
         <div class="col-md-6">
             <div class="form-group">
-                <label class="control-label">Multilanguage is active?</label>
+                <label class="control-label"><?php _e('Multilanguage is active'); ?>?</label>
                 <div class="custom-control custom-switch pl-0">
-                    <label class="d-inline-block mr-5" for="is_active">No</label>
+                    <label class="d-inline-block mr-5" for="is_active"><?php _e('No'); ?></label>
                     <input class="mw_option_field custom-control-input" id="is_active" type="checkbox" autocomplete="off" name="is_active" <?php if (get_option('is_active', 'multilanguage_settings') == 'y'): ?>checked<?php endif; ?> option-group="multilanguage_settings" data-value-checked="y" data-value-unchecked="n">
-                    <label class="custom-control-label" for="is_active">Yes</label>
+                    <label class="custom-control-label" for="is_active"><?php _e('Yes'); ?></label>
                 </div>
             </div>
 
@@ -70,37 +70,37 @@
             <?php endif; ?>
 
             <div class="form-group">
-                <label class="control-label">Add prefix for all languages</label>
+                <label class="control-label"><?php _e("Add prefix for all languages"); ?></label>
                 <div class="custom-control custom-switch pl-0">
-                    <label class="d-inline-block mr-5" for="add_prefix_for_all_languages">No</label>
+                    <label class="d-inline-block mr-5" for="add_prefix_for_all_languages"><?php _e("No"); ?></label>
                     <input class="mw_option_field custom-control-input" id="add_prefix_for_all_languages" type="checkbox" autocomplete="off" name="add_prefix_for_all_languages" <?php if (get_option('add_prefix_for_all_languages', 'multilanguage_settings') == 'y'): ?>checked<?php endif; ?> option-group="multilanguage_settings" data-value-checked="y" data-value-unchecked="n">
-                    <label class="custom-control-label" for="add_prefix_for_all_languages">Yes</label>
+                    <label class="custom-control-label" for="add_prefix_for_all_languages"><?php _e("Yes"); ?></label>
                 </div>
             </div>
         </div>
 
         <div class="col-md-6">
             <div class="form-group">
-                <label class="control-label">Switch language by IP Geolocation</label>
+                <label class="control-label"><?php _e("Switch language by IP Geolocation"); ?></label>
                 <div class="custom-control custom-switch pl-0">
-                    <label class="d-inline-block mr-5" for="use_geolocation">No</label>
+                    <label class="d-inline-block mr-5" for="use_geolocation"><?php _e("No"); ?></label>
                     <input class="mw_option_field custom-control-input" type="checkbox" id="use_geolocation" autocomplete="off" name="use_geolocation" <?php if (get_option('use_geolocation', 'multilanguage_settings') == 'y'): ?>checked="checked"<?php endif; ?> option-group="multilanguage_settings" data-value-checked="y" data-value-unchecked="n">
-                    <label class="custom-control-label" for="use_geolocation">Yes</label>
+                    <label class="custom-control-label" for="use_geolocation"><?php _e("Yes"); ?></label>
                 </div>
             </div>
 
             <div class="form-group">
                 <label class="control-label"><?php _e("Geolocation Provider"); ?></label>
-                <small class="text-muted d-block mb-2">Choose your preferred geolocation IP detector</small>
+                <small class="text-muted d-block mb-2"><?php _e("Choose your preferred geolocation IP detector"); ?></small>
                 <select name="geolocation_provider" class="mw_option_field js-geolocation-provider selectpicker" data-size="5" option-group="multilanguage_settings">
-                    <option value="browser_detection">Browser Detection</option>
-                    <option value="domain_detection">Domain Detection</option>
-                    <option value="geoip_browser_detection">GEO-IP + Browser Detection</option>
-                    <option value="microweber">Microweber Geo Api</option>
-                    <option value="ipstack_com">IpStack.com</option>
+                    <option value="browser_detection"><?php _e("Browser Detection"); ?></option>
+                    <option value="domain_detection"><?php _e("Domain Detection"); ?></option>
+                    <option value="geoip_browser_detection"><?php _e("GEO-IP + Browser Detection"); ?></option>
+                    <option value="microweber"><?php _e("Microweber Geo Api"); ?></option>
+                    <option value="ipstack_com"><?php _e("IpStack.com"); ?></option>
                 </select>
 
-                <a href="javascript:;" class="btn btn-outline-primary" onclick="testGeoApi();"><span class="mw-icon-beaker"></span> Test Geo Api</a>
+                <a href="javascript:;" class="btn btn-outline-primary" onclick="testGeoApi();"><span class="mw-icon-beaker"></span> <?php _e("Test Geo Api"); ?></a>
             </div>
 
             <script>
@@ -136,7 +136,7 @@
 
             <div class="js-ipstack-com mt-3" style="<?php echo $displayIstack; ?>">
                 <div class="form-group">
-                    <label class="control-label">IpStack.com API Access Key</label>
+                    <label class="control-label"><?php _e("IpStack.com API Access Key"); ?></label>
                     <input name="ipstack_api_access_key" option-group="multilanguage_settings" value="<?php echo get_option('ipstack_api_access_key', 'multilanguage_settings'); ?>" class="mw_option_field form-control mw-options-form-binded" type="text">
                 </div>
             </div>
