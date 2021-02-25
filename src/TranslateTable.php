@@ -81,13 +81,25 @@ class TranslateTable
             return $data;
         }
 
-        $filter = array();
-        $filter['no_limit'] = 1;
-        $filter['locale'] = $this->getCurrentLocale();
-        $filter['rel_type'] = $this->relType;
-        $filter['enable_triggers'] = false;
+//        $filter = array();
+//        $filter['no_limit'] = 1;
+//        $filter['locale'] = $this->getCurrentLocale();
+//        $filter['rel_type'] = $this->relType;
+//        $filter['enable_triggers'] = false;
+//
+//        $translates = db_get('multilanguage_translations', $filter);
+        $translates = null;
 
-        $translates = db_get('multilanguage_translations', $filter);
+        $getMultilangTranslatesQuery = \MicroweberPackages\Multilanguage\Models\MultilanguageTranslations::query();
+
+        $getMultilangTranslatesQuery->where('locale', $this->getCurrentLocale());
+        $getMultilangTranslatesQuery->where('rel_type', $this->relType);
+
+
+        $executeQuery = $getMultilangTranslatesQuery->get();
+        if ($executeQuery !== null) {
+            $translates = $executeQuery->toArray();
+        }
         if ($translates) {
             foreach ($translates as $translate_item) {
                 if (isset($translate_item['rel_type']) and $translate_item['rel_type'] == $this->relType) {
@@ -101,7 +113,7 @@ class TranslateTable
                         }
                     }
                 }
-                $data['item_lang'] = $filter['locale'];
+                $data['item_lang'] = $this->getCurrentLocale();
             }
         }
 
@@ -143,6 +155,7 @@ class TranslateTable
 
     public function getCurrentLocale()
     {
-        return mw()->lang_helper->current_lang();
+        //return mw()->lang_helper->current_lang();
+        return   app()->getLocale();;
     }
 }

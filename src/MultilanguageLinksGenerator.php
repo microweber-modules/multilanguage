@@ -18,7 +18,7 @@ class MultilanguageLinksGenerator
         $defaultLang = current_lang();
 
         foreach($allActiveLangs as $lang) {
-            change_language_by_locale($lang['locale']);
+            change_language_by_locale($lang['locale'],false);
             $this->generate($type, $id, $lang);
         }
 
@@ -44,7 +44,7 @@ class MultilanguageLinksGenerator
             }
         }
 
-        change_language_by_locale($defaultLang);
+        change_language_by_locale($defaultLang,false);
 
         return $links;
     }

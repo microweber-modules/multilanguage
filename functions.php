@@ -139,12 +139,21 @@ function get_flag_icon($locale)
 
 }
 
-function change_language_by_locale($locale)
+function change_language_by_locale($locale, $set_cookie = true)
 {
-    if (!is_cli()) {
-        setcookie('lang', $locale, time() + (86400 * 30), "/");
-        $_COOKIE['lang'] = $locale;
-        \Cookie::queue('lang', $locale, 86400 * 30); //pecata
+    if (!is_cli() and $set_cookie) {
+        $skip = false;
+
+
+         $cookie = \Cookie::get('lang');
+        if ($cookie and $cookie == $locale) {
+            $skip = true;
+        }
+        if (!$skip) {
+          // setcookie('lang', $locale, time() + (86400 * 30), "/");
+            //$_COOKIE['lang'] = $locale;
+            \Cookie::queue('lang', $locale, 86400 * 30);
+        }
     }
 
     // mw()->permalink_manager->setLocale($locale);
@@ -261,9 +270,9 @@ function is_lang_correct_by_display_locale($locale)
         $localeSettings = $localeSettings_get->toArray();
     }
 
-     if ($localeSettings) {
-        foreach ($localeSettings as $localeSetting){
-            if($localeSetting and $locale == $localeSetting){
+    if ($localeSettings) {
+        foreach ($localeSettings as $localeSetting) {
+            if ($localeSetting and $locale == $localeSetting) {
                 return true;
             }
         }
