@@ -251,9 +251,23 @@ function is_lang_correct($lang)
 
 function is_lang_correct_by_display_locale($locale)
 {
-    $localeSettings = db_get('multilanguage_supported_locales', 'display_locale=' . $locale . '&single=1');
-    if ($localeSettings) {
-        return true;
+
+
+    //$localeSettings = db_get('multilanguage_supported_locales', 'display_locale=' . $locale . '&single=1');
+    $localeSettings = false;
+
+    $localeSettings_get = \MicroweberPackages\Multilanguage\Models\MultilanguageSupportedLocales::select('display_locale')->whereNotNull('display_locale')->get();
+    if ($localeSettings_get) {
+        $localeSettings = $localeSettings_get->toArray();
+    }
+
+     if ($localeSettings) {
+        foreach ($localeSettings as $localeSetting){
+            if($localeSetting and $locale == $localeSetting){
+                return true;
+            }
+        }
+
     }
 
     return false;

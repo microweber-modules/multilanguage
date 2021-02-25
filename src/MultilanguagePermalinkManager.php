@@ -104,7 +104,12 @@ class MultilanguagePermalinkManager extends \Microweber\Providers\PermalinkManag
 
         if ($rewriteUrl) {
             // display locale
-            $localeSettings = db_get('multilanguage_supported_locales', 'locale=' . $currentLang . '&single=1');
+            //$localeSettings = db_get('multilanguage_supported_locales', 'locale=' . $currentLang . '&single=1');
+            $localeSettings = false;
+            $localeSettings_get = \MicroweberPackages\Multilanguage\Models\MultilanguageSupportedLocales::where('locale',$currentLang)->limit(1)->get();
+            if($localeSettings_get){
+                $localeSettings = $localeSettings_get->toArray();
+            }
             if ($localeSettings && !empty($localeSettings['display_locale'])) {
                 $currentLang = $localeSettings['display_locale'];
             }
