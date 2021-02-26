@@ -150,12 +150,12 @@ function change_language_by_locale($locale, $set_cookie = true)
             $skip = true;
         }
         if (!$skip) {
-           setcookie('lang', $locale, time() + (86400 * 30), "/");
-            $_COOKIE['lang'] = $locale;
-            \Cookie::queue('lang', $locale, 86400 * 30);
+
         }
     }
-
+    setcookie('lang', $locale, time() + (86400 * 30), "/");
+    $_COOKIE['lang'] = $locale;
+    \Cookie::queue('lang', $locale, 86400 * 30);
     // mw()->permalink_manager->setLocale($locale);
 
     return mw()->lang_helper->set_current_lang($locale);
