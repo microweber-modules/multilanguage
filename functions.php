@@ -150,8 +150,8 @@ function change_language_by_locale($locale, $set_cookie = true)
             $skip = true;
         }
         if (!$skip) {
-          // setcookie('lang', $locale, time() + (86400 * 30), "/");
-            //$_COOKIE['lang'] = $locale;
+           setcookie('lang', $locale, time() + (86400 * 30), "/");
+            $_COOKIE['lang'] = $locale;
             \Cookie::queue('lang', $locale, 86400 * 30);
         }
     }
