@@ -33,7 +33,7 @@ class MultilanguageObserver
 
                 if ($findTranslations) {
                     foreach ($findTranslations as $findTranslate) {
-                        $multilanguage[$findTranslate->locale][$fieldName] = $findTranslate->field_value;
+                        $multilanguage[$findTranslate->locale][$fieldName] = $this->_decodeCastValue($model, $fieldName, $findTranslate->field_value);
                     }
                 }
             }
@@ -72,7 +72,7 @@ class MultilanguageObserver
                     ->first();
 
                 if ($findTranslate) {
-                    $model->$fieldName = $findTranslate->field_value;
+                    $model->$fieldName = $this->_decodeCastValue($model, $fieldName, $findTranslate->field_value);
                 }
             }
         }
@@ -131,15 +131,7 @@ class MultilanguageObserver
                     ->first();
 
                 $fieldValue = self::$fieldsToSave[$fieldName];
-
-                if (is_array($fieldValue)) {
-                    if (isset($model->casts[$fieldName])) {
-                        $castType = $model->casts[$fieldName];
-                        if ($castType == 'json') {
-                            $fieldValue = json_encode($fieldValue);
-                        }
-                    }
-                }
+                $fieldValue = $this->_encodeCastValue($model, $fieldName, $fieldValue);
 
                 if ($findTranslate) {
                     if (!is_null($fieldValue)) {
@@ -181,5 +173,29 @@ class MultilanguageObserver
     protected function getLocale()
     {
         return strtolower(mw()->lang_helper->current_lang());
+    }
+
+    private function _catValue($model, $fieldName, $fieldValue, $type = 'encode')
+    {
+        if (isset($model->casts[$fieldName])) {
+            $castType = $model->casts[$fieldName];
+            if ($castType == 'json') {
+                if ($type == 'encode') {
+                    $fieldValue = json_encode($fieldValue );
+                } else {
+                    $fieldValue = json_decode($fieldValue, true);
+                }
+            }
+        }
+
+        return $fieldValue;
+    }
+
+    private function _encodeCastValue($model, $fieldName, $fieldValue) {
+        return $this->_catValue($model, $fieldName, $fieldValue, 'encode');
+    }
+
+    private function _decodeCastValue($model, $fieldName, $fieldValue) {
+        return $this->_catValue($model, $fieldName, $fieldValue, 'decode');
     }
 }
