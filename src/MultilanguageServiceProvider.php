@@ -15,6 +15,8 @@ use Illuminate\Support\ServiceProvider;
 use MicroweberPackages\Admin\MailTemplates\Models\MailTemplate;
 use MicroweberPackages\Category\Models\Category;
 use MicroweberPackages\Content\Content;
+use MicroweberPackages\CustomField\Models\CustomField;
+use MicroweberPackages\CustomField\Models\CustomFieldValue;
 use MicroweberPackages\Multilanguage\Observers\MultilanguageObserver;
 use MicroweberPackages\Option\Models\ModuleOption;
 use MicroweberPackages\Page\Models\Page;
@@ -41,6 +43,8 @@ class MultilanguageServiceProvider extends ServiceProvider
         Page::observe(MultilanguageObserver::class);
         ModuleOption::observe(MultilanguageObserver::class);
         MailTemplate::observe(MultilanguageObserver::class);
+        CustomField::observe(MultilanguageObserver::class);
+        CustomFieldValue::observe(MultilanguageObserver::class);
 
         $this->loadMigrationsFrom(__DIR__ . '/migrations/');
     }

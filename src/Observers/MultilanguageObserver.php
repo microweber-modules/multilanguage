@@ -130,14 +130,23 @@ class MultilanguageObserver
                     ->where('locale', $this->getLocale())
                     ->first();
 
+                $fieldValue = self::$fieldsToSave[$fieldName];
+
+                if (is_array($fieldValue)) {
+                    if (isset($model->casts[$fieldName])) {
+                        $castType = $model->casts[$fieldName];
+                        if ($castType == 'json') {
+                            $fieldValue = json_encode($fieldValue);
+                        }
+                    }
+                }
+
                 if ($findTranslate) {
-                    $fieldValue = self::$fieldsToSave[$fieldName];
                     if (!is_null($fieldValue)) {
                         $findTranslate->field_value = $fieldValue;
                         $findTranslate->save();
                     }
                 } else {
-                    $fieldValue = self::$fieldsToSave[$fieldName];
                     if (!is_null($fieldValue)) {
                         MultilanguageTranslations::create([
                             'field_name' => $fieldName,
