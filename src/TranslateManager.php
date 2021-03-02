@@ -68,44 +68,44 @@ class TranslateManager
                     if (isset($params['params']['data-keyword'])) {
 
                         $keyword = $params['params']['data-keyword'];
-                       // $searchInFields = $params['params']['search_in_fields'];
-                        $params['query']->where(function ($query) use ($params,$providerTable,$keyword) {
+                        // $searchInFields = $params['params']['search_in_fields'];
+                        $params['query']->where(function ($query) use ($params, $providerTable, $keyword) {
 
-                            $query->orWhereIn($providerTable.'.id', function ($subQuery) use ($providerTable, $keyword) {
-                            $subQuery->select('multilanguage_translations.rel_id');
-                            $subQuery->from('multilanguage_translations');
-                            $subQuery->where('multilanguage_translations.rel_type', '=', $providerTable);
-                            /*foreach ($searchInFields as $field) {
-                                 $subQuery->orWhere(function($query) use ($field, $keyword) {
-                                     $query->where('field_name', $field);
-                                     $query->where('field_value', 'LIKE', '%'.$keyword.'%');
-                                 });
-                             }*/
-                            $subQuery->where('multilanguage_translations.field_value', 'LIKE', '%' . $keyword . '%');
-                        });
+                            $query->orWhereIn($providerTable . '.id', function ($subQuery) use ($providerTable, $keyword) {
+                                $subQuery->select('multilanguage_translations.rel_id');
+                                $subQuery->from('multilanguage_translations');
+                                $subQuery->where('multilanguage_translations.rel_type', '=', $providerTable);
+                                /*foreach ($searchInFields as $field) {
+                                     $subQuery->orWhere(function($query) use ($field, $keyword) {
+                                         $query->where('field_name', $field);
+                                         $query->where('field_value', 'LIKE', '%'.$keyword.'%');
+                                     });
+                                 }*/
+                                $subQuery->where('multilanguage_translations.field_value', 'LIKE', '%' . $keyword . '%');
+                            });
 
                         });
 
                     }
 
-              /*     if (isset($params['params']['url'])) {
-                        $url = $params['params']['url'];
-                        if ($providerTable =='categories') {
+                    /*     if (isset($params['params']['url'])) {
+                              $url = $params['params']['url'];
+                              if ($providerTable =='categories') {
 
-                           var_dump($url);
+                                 var_dump($url);
 
-                            $params['query']->whereIn($providerTable.'.id', function ($subQuery) use ($providerTable, $url) {
-                                $subQuery->select('multilanguage_translations.rel_id');
-                                $subQuery->from('multilanguage_translations');
-                                $subQuery->where('multilanguage_translations.id', '2348');
-                                //$subQuery->where('multilanguage_translations.field_name', 'url');
-                               // $subQuery->where('multilanguage_translations.rel_type', '=', $providerTable);
-                               // $subQuery->where('multilanguage_translations.field_value', $url);
-                            });
+                                  $params['query']->whereIn($providerTable.'.id', function ($subQuery) use ($providerTable, $url) {
+                                      $subQuery->select('multilanguage_translations.rel_id');
+                                      $subQuery->from('multilanguage_translations');
+                                      $subQuery->where('multilanguage_translations.id', '2348');
+                                      //$subQuery->where('multilanguage_translations.field_name', 'url');
+                                     // $subQuery->where('multilanguage_translations.rel_type', '=', $providerTable);
+                                     // $subQuery->where('multilanguage_translations.field_value', $url);
+                                  });
 
-                            dd($params['query']);
-                        }
-                    }*/
+                                  dd($params['query']);
+                              }
+                          }*/
 
                     return $params;
                 });
@@ -115,16 +115,21 @@ class TranslateManager
                     if (defined('MW_DISABLE_MULTILANGUAGE')) {
                         return;
                     }
-
+                    $cache_exp = 3600;
                     if (is_array($get) && !empty($get)) {
 
                         $currentLocale = app()->lang_helper->current_lang();
 
-                        $getHash = md5(serialize($get) . '_' . $currentLocale);
-                        $cacheGet = cache_get($getHash, 'global');
-                        if ($cacheGet && is_array($cacheGet) && !empty($cacheGet)) {
-                            return $cacheGet;
-                        }
+
+                        //  $getHash = md5(serialize($get) . '_' . $currentLocale);
+
+//                        $getHash = $providerTable . crc32(json_encode($get) . '_' . $currentLocale);
+//
+//
+//                        $cacheGet = cache_get($getHash, 'global',$cache_exp);
+//                        if ($cacheGet && is_array($cacheGet) && !empty($cacheGet)) {
+//                            return $cacheGet;
+//                        }
 
                         foreach ($get as &$item) {
 
@@ -143,7 +148,7 @@ class TranslateManager
                             $item = $providerInstance->getTranslate($item);
                         }
 
-                        cache_save($get, $getHash, 'global', 5);
+                   //     cache_save($get, $getHash, 'global', $cache_exp);
                     }
                     return $get;
                 });

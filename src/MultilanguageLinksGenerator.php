@@ -127,7 +127,7 @@ class MultilanguageLinksGenerator
     {
         if($type === 'category') {
             $link = category_link($item['id']);
-        } else if($type === 'content' || $type == 'product' || $type == 'post') {
+        } else if($type === 'content' || $type == 'product' || $type == 'post' || $type == 'page') {
             $link = app()->content_manager->link($item['id']);
         }
 
