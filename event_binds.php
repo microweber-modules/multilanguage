@@ -87,15 +87,34 @@ event_bind('app.permalink.slug.before', function ($params) {
         $relType = 'content';
     }
 
-    $filter = array();
-    $filter['field_name'] = 'url';
-    $filter['field_value'] = $params['slug'];
-    $filter['single'] = 1;
+//    $filter = array();
+//    $filter['field_name'] = 'url';
+//    $filter['field_value'] = $params['slug'];
+//    $filter['single'] = 1;
+//    if ($relType) {
+//        $filter['rel_type'] = $relType;
+//    }
+
+    //$get = db_get('multilanguage_translations', $filter);
+
+
+    $get = null;
+
+    $getMultilangTranslatesQuery = \MicroweberPackages\Multilanguage\Models\MultilanguageTranslations::query();
+
+    $getMultilangTranslatesQuery->where('field_name', 'url');
+    $getMultilangTranslatesQuery->where('field_value', $params['slug']);
     if ($relType) {
-        $filter['rel_type'] = $relType;
+        $getMultilangTranslatesQuery->where('rel_type', $relType);
+    }
+    $getMultilangTranslatesQuery->limit(1);
+
+    $executeQuery = $getMultilangTranslatesQuery->first();
+    if ($executeQuery !== null) {
+        $get = $executeQuery->toArray();
     }
 
-    $get = db_get('multilanguage_translations', $filter);
+
     if ($get) {
         if ($relType == 'categories') {
             $category = get_categories('id=' . $get['rel_id'] . '&single=1');
@@ -148,21 +167,17 @@ event_bind('app.permalink.slug.before', function ($params) {
 event_bind('mw.controller.index', function ($content) {
 
 
-
     $autodetected_lang = \Cookie::get('autodetected_lang');
     $lang_is_set = \Cookie::get('lang');
 
-    if($autodetected_lang and $lang_is_set){
+    if ($autodetected_lang and $lang_is_set) {
         return;
     }
 
     $targetUrl = mw()->url_manager->string();
 
 
-
-
     $detect = detect_lang_from_url($targetUrl);
-
 
 
     $useGeolocation = get_option('use_geolocation', 'multilanguage_settings');
@@ -186,13 +201,12 @@ event_bind('mw.controller.index', function ($content) {
     }
 
 
-        if (!is_lang_supported($detect['target_lang'])) {
+    if (!is_lang_supported($detect['target_lang'])) {
         return;
     }
 
 
-
-        if ($detect['target_lang']) {
+    if ($detect['target_lang']) {
         // display locale
         $localeSettings = db_get('multilanguage_supported_locales', 'display_locale=' . $detect['target_lang'] . '&single=1');
         if ($localeSettings) {
@@ -206,14 +220,14 @@ event_bind('mw.controller.index', function ($content) {
 
 event_bind('mw.front.content_data', function ($content) {
 
-    if(isset($content['id']) and $content['id']){
+    if (isset($content['id']) and $content['id']) {
 
-    $redirect = mw_var('should_redirect');
-     if ($redirect) {
-        $content['original_link'] = $redirect;
-    }
+        $redirect = mw_var('should_redirect');
+        if ($redirect) {
+            $content['original_link'] = $redirect;
+        }
 
-    return $content;
+        return $content;
     }
 });
 
@@ -228,7 +242,7 @@ event_bind('mw.frontend.404', function ($content) {
                 return $content;
                 //$redirect = mw_var('should_redirect',$link);
             }
-         //   return $content;
+            //   return $content;
         }
     }
 
@@ -255,14 +269,40 @@ event_bind('app.content.get_by_url', function ($url) {
 
         $targetUrl = urldecode($targetUrl);
 
-        $filter = array();
+     /*   $filter = array();
         $filter['single'] = 1;
         $filter['rel_type'] = 'content';
         $filter['field_name'] = 'url';
         $filter['enable_triggers'] = false;
         $filter['field_value'] = $targetUrl;
 
-        $findTranslate = db_get('multilanguage_translations', $filter);
+        $findTranslate = db_get('multilanguage_translations', $filter);*/
+
+
+
+
+        $findTranslate = null;
+
+        $getMultilangTranslatesQuery = \MicroweberPackages\Multilanguage\Models\MultilanguageTranslations::query();
+
+        $getMultilangTranslatesQuery->where('field_name', 'url');
+        $getMultilangTranslatesQuery->where('rel_type', 'content');
+        $getMultilangTranslatesQuery->where('field_value',$targetUrl);
+        $getMultilangTranslatesQuery->select(['field_value','rel_id']);
+
+        $getMultilangTranslatesQuery->limit(1);
+
+        $executeQuery = $getMultilangTranslatesQuery->first();
+        if ($executeQuery !== null) {
+            $findTranslate = $executeQuery->toArray();
+        }
+
+
+
+
+
+
+
         if ($findTranslate && intval($findTranslate['rel_id']) !== 0) {
 
             $get = array();
@@ -270,7 +310,7 @@ event_bind('app.content.get_by_url', function ($url) {
             $get['single'] = true;
             $content = mw()->content_manager->get($get);
 
-            if(!$content){
+            if (!$content) {
                 return;
             }
 
@@ -290,7 +330,7 @@ event_bind('app.content.get_by_url', function ($url) {
             $get['single'] = true;
 
             $content = mw()->content_manager->get($get);
-            if(!$content){
+            if (!$content) {
                 return;
             }
             if ($content) {
@@ -333,7 +373,7 @@ event_bind('app.category.get_by_url', function ($url) {
 
         $targetUrl = urldecode($targetUrl);
 
-        $filter = array();
+/*        $filter = array();
         $filter['single'] = 1;
         $filter['rel_type'] = 'categories';
         $filter['field_name'] = 'url';
@@ -341,6 +381,29 @@ event_bind('app.category.get_by_url', function ($url) {
         $filter['field_value'] = $targetUrl;
 
         $findTranslate = db_get('multilanguage_translations', $filter);
+
+*/
+
+
+        $findTranslate = null;
+
+        $getMultilangTranslatesQuery = \MicroweberPackages\Multilanguage\Models\MultilanguageTranslations::query();
+
+        $getMultilangTranslatesQuery->where('field_name', 'url');
+        $getMultilangTranslatesQuery->where('rel_type', 'categories');
+        $getMultilangTranslatesQuery->where('field_value',$targetUrl);
+        $getMultilangTranslatesQuery->select(['field_value','rel_id']);
+
+        $getMultilangTranslatesQuery->limit(1);
+
+        $executeQuery = $getMultilangTranslatesQuery->first();
+        if ($executeQuery !== null) {
+            $findTranslate = $executeQuery->toArray();
+        }
+
+
+
+
         if ($findTranslate && intval($findTranslate['rel_id']) !== 0) {
 
             $get = array();
@@ -355,7 +418,7 @@ event_bind('app.category.get_by_url', function ($url) {
                  * When you visit url with prefix with diffrent language it redirects you to url with correct lang
                  * Example /bg-lang/english-post-name > /bg-lang/imeto-na-posta-na-bg
                  */
-                if(is_array($content) and isset($content['id'])){
+                if (is_array($content) and isset($content['id'])) {
                     mw_var('should_redirect', category_link($content['id']));
                     return $content;
                 }

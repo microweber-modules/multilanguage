@@ -56,7 +56,7 @@ description: MW Default
             <?php if (!empty($current_language['display_icon'])): ?>
                 <img src="<?php echo $current_language['display_icon']; ?>" class="multilanguage-display-icon-custom" style="margin-top:3px;"/>
             <?php else: ?>
-                <span class="flag-icon flag-icon-<?php echo $current_language['icon']; ?> m-r-10"></span>
+                <span class="flag-icon flag-icon-<?php echo $current_language['icon']; ?> mr-2"></span>
             <?php endif; ?>
 
             <?php if (!empty($current_language['display_name'])): ?>

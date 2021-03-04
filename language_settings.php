@@ -38,9 +38,6 @@ $languages = \MicroweberPackages\Translation\LanguageHelper::getLanguagesWithDef
                     mw.notification.success('Language added...',10000);
 
                 }
-
-
-
                 mw.reload_module_everywhere('multilanguage');
                 mw.reload_module_everywhere('multilanguage/language_settings', function () {
                 });
@@ -164,21 +161,20 @@ $languages = \MicroweberPackages\Translation\LanguageHelper::getLanguagesWithDef
                 }
             });
         }
-
         submitNewOrderNumbers();
     }
 
     function editSuportedLanguage(id) {
-        mw.dialog({
+        mw.top().dialog({
             content: '<div id="mw_admin_preview_module_multilanguage_edit"></div>',
-            title: '<?php _e('Edit langauge'); ?>',
+            title: '<?php _e('Edit language'); ?>',
             width: 600,
             id: 'mw_admin_preview_module_mutlilanguage_modal'
         });
 
         var params = {};
         params.locale_id = id;
-        mw.load_module('multilanguage/edit', '#mw_admin_preview_module_multilanguage_edit', null, params);
+        mw.top().load_module('multilanguage/edit', '#mw_admin_preview_module_multilanguage_edit', null, params);
     }
 
     function deleteSuportedLanguage(language_id) {
@@ -204,7 +200,7 @@ $languages = \MicroweberPackages\Translation\LanguageHelper::getLanguagesWithDef
     </script>
 
     <div class="row d-flex justify-content-between">
-        <div class="col-auto">
+        <div class="col-8">
             <div class="form-group">
                 <label class="control-label d-block"><?php _e('Add new language'); ?></label>
 
@@ -226,7 +222,7 @@ $languages = \MicroweberPackages\Translation\LanguageHelper::getLanguagesWithDef
             </div>
         </div>
 
-        <div class="col-auto text-right">
+        <div class="col-4 text-right">
             <div class="form-group module-switch-active-form">
                 <label class="control-label"><?php _e('Multilanguage is active'); ?>?</label>
                 <div class="custom-control custom-switch pl-0">
