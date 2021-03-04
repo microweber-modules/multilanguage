@@ -82,17 +82,20 @@ if (empty($displayName)) {
     <div class="js-admin-supported-locale-edit-messages mt-3"></div>
 
     <div class="form-group">
-        <label class="control-label">Display Locale:</label>
+        <label class="control-label"><?php _e("Display Locale"); ?>:</label>
+        <small class="text-muted d-block mb-2"><?php _e("Define how the slug in the url will be shown"); ?></small>
         <input type="text" name="display_locale" value="<?php echo $displayLocale; ?>" class="form-control"/>
     </div>
 
     <div class="form-group">
-        <label class="control-label">Display Name:</label>
+        <label class="control-label"><?php _e("Display Name"); ?>:</label>
+        <small class="text-muted d-block mb-2"><?php _e("Translation name in the website switcher"); ?></small>
         <input type="text" name="display_name" value="<?php echo $displayName; ?>" class="form-control"/>
     </div>
 
     <div class="form-group">
-        <label class="control-label">Display Icon:</label>
+        <label class="control-label"><?php _e("Display Icon"); ?>:</label>
+        <small class="text-muted d-block mb-2"><?php _e("Change the flag with your own image"); ?></small>
 
         <div class="row">
             <div class="col-auto">
@@ -101,8 +104,8 @@ if (empty($displayName)) {
                         <div class="holder">
                             <div class="dropable-zone-img img-media mb-2"></div>
 
-                            <button type="button" class="btn btn-link py-1" id="upload_info">Add media</button>
-                            <p>or drop file</p>
+                            <button type="button" class="btn btn-link py-1" id="upload_info"><?php _e("Add media"); ?></button>
+                            <p><?php _e("or drop a file"); ?></p>
                         </div>
                     </div>
                 </div>
@@ -113,12 +116,12 @@ if (empty($displayName)) {
             </div>
         </div>
 
-        <button type="button" class="btn btn-link px-0 text-danger js-display-icon-remove" <?php if (empty($displayIcon)): ?>style="display: none;"<?php endif; ?>>Remove</button>
+        <button type="button" class="btn btn-link px-0 text-danger js-display-icon-remove" <?php if (empty($displayIcon)): ?>style="display: none;"<?php endif; ?>><?php _e("Remove"); ?></button>
         <input type="hidden" name="display_icon" value="<?php echo $displayIcon; ?>" class="form-control js-display-icon-url"/>
     </div>
 
     <div class="form-group">
         <input type="hidden" name="locale_id" value="<?php echo $localeId; ?>">
-        <button type="submit" class="btn btn-success btn-sm">Save</button>
+        <button type="submit" class="btn btn-success btn-sm"><?php _e("Save"); ?></button>
     </div>
 </form>

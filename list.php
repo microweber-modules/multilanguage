@@ -13,12 +13,7 @@ only_admin_access();
                 } else {
                     mw.notification.error('<?php _e('Language is disabled!'); ?>');
                 }
-
-
                 mw.reload_module_everywhere('multilanguage');
-
-
-
             });
         });
     });
@@ -81,16 +76,16 @@ only_admin_access();
                         </td>
 
                         <td class="text-right" style="vertical-align: middle;">
-                            <div class="show-on-hover">
+                            <div class="show-on-hover d-flex justify-content-end">
                                 <input class="js-supported-language-order-numbers js-supported-language-order-number-<?php echo $language['id']; ?>" name="<?php echo $language['id']; ?>" data-initial-value="<?php echo $isl; ?>" value="<?php echo $isl; ?>" type="number" style="display:none;font-size:22px;border: 0px;width: 35px;" min="1">
-                                <a href="javascript:;" onclick="updateOrderNumber(<?php echo $language['id']; ?>, 'down')"><span class="mw-icon-arrow-up-a js-update-order-number text-muted"></span></a>
+                                <a href="javascript:;" onclick="updateOrderNumber(<?php echo $language['id']; ?>, 'down')"><span class="mw-icon-arrow-up-a js-update-order-number text-muted mx-1"></span></a>
                                 <a href="javascript:;" onclick="updateOrderNumber(<?php echo $language['id']; ?>, 'up')"><span class="mw-icon-arrow-down-a js-update-order-number text-muted"></span></a>
                             </div>
                         </td>
 
                         <td class="text-right" style="vertical-align: middle;">
-                            <div class="show-on-hover">
-                                <a href="javascript:;" onClick="editSuportedLanguage('<?php echo $language['id']; ?>')" class="btn btn-outline-primary btn-sm p-1"><?php echo _e('Edit'); ?></a>
+                            <div class="show-on-hover d-flex justify-content-end">
+                                <a href="javascript:;" onClick="editSuportedLanguage('<?php echo $language['id']; ?>')" class="btn btn-outline-primary btn-sm p-1 mx-1"><?php echo _e('Edit'); ?></a>
                                 <?php if ($defaultLang !== $language['locale']): ?>
                                     <a href="javascript:;" onClick="deleteSuportedLanguage('<?php echo $language['id']; ?>')" class="btn btn-outline-danger btn-sm p-1"><?php echo _e('Delete'); ?></a>
                                 <?php endif; ?>
