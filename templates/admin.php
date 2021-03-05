@@ -33,7 +33,7 @@ description: MW Default
                     echo 0;
                 } else {
                     echo 1;
-                } ?>;mw.lang("Allow users to receive Thank you emails after subscription")
+                } ?>;
                 $.post(mw.settings.api_url + "multilanguage/change_language", {locale: selected, is_admin: is_admin})
                     .done(function (data) {
                         if (data.refresh) {
