@@ -1,7 +1,11 @@
 <?php only_admin_access(); ?>
 
 <?php if (MW_VERSION < '1.2.0'): ?>
-    <script>mw.lib.require('bootstrap4');</script>
+    <script>
+        mw.lib.require('bootstrap4');
+
+
+    </script>
 <?php endif; ?>
 <?php
 $from_live_edit = false;
@@ -13,7 +17,6 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
 <?php if (isset($params['backend'])): ?>
     <module type="admin/modules/info"/>
 <?php endif; ?>
-
 <div class="card style-1 mb-3 <?php if ($from_live_edit): ?>card-in-live-edit<?php endif; ?>">
     <div class="card-header">
         <?php $module_info = module_info($params['module']); ?>
@@ -23,7 +26,6 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
     </div>
 
     <div class="card-body pt-3">
-
         <nav class="nav nav-pills nav-justified btn-group btn-group-toggle btn-hover-style-3">
             <a class="btn btn-outline-secondary justify-content-center active" data-toggle="tab" href="#list"><i class="mdi mdi-format-list-bulleted-square mr-1"></i> <?php print _e('Languages'); ?></a>
             <a class="btn btn-outline-secondary justify-content-center" data-toggle="tab" href="#settings"><i class="mdi mdi-cog-outline mr-1"></i> <?php print _e('Settings'); ?></a>
@@ -42,8 +44,3 @@ if (isset($params["live_edit"]) and $params["live_edit"]) {
         <module type="help/modal_with_button" for_module="multilanguage"/>
     </div>
 </div>
-
-
-
-
-
