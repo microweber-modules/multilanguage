@@ -15,8 +15,8 @@ class AddIndexToMultilanguageTable extends Migration
         try {
             Schema::table('multilanguage_translations', function (Blueprint $table) {
                 $table->index('rel_id');
-                $table->string('rel_type')->unique()->change();
-                $table->string('field_name')->unique()->change();
+                $table->index('rel_type');
+                $table->index('field_name');
             });
         } catch (Exception $e) {
 
@@ -24,9 +24,9 @@ class AddIndexToMultilanguageTable extends Migration
 
         try {
             Schema::table('multilanguage_supported_locales', function (Blueprint $table) {
-                $table->string('locale')->unique()->change();
-                $table->string('language')->unique()->change();
-                $table->string('is_active')->unique()->change();
+                $table->index('locale');
+                $table->index('language');
+                $table->index('is_active');
             });
         } catch (Exception $e) {
 
