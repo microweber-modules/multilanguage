@@ -14,12 +14,14 @@ require_once 'src/MultilanguageApi.php';
 require_once 'src/MultilanguageLinksGenerator.php';
 require_once 'src/TranslateManager.php';
 require_once 'api_exposes.php';
-require_once 'event_binds_general.php';
 
 // Check multilanguage is active
 if (is_module('multilanguage') && get_option('is_active', 'multilanguage_settings') !== 'y') {
     return;
 }
+
+// Event binds must be only when multilanguage is active
+require_once 'event_binds_general.php';
 
 App::bind('permalink_manager', function () {
     return new MultilanguagePermalinkManager();
