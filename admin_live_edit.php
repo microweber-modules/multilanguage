@@ -27,7 +27,7 @@ only_admin_access();
             tabs: '#mw-language-settings .mw-ui-box-content'
         });
 
-        thismodal.resize(700);
+        thismodal.resize(750, "auto");
     });
 </script>
 <div id="mw-language-settings">
@@ -51,5 +51,3 @@ only_admin_access();
         </div>
     </div>
 </div>
-
-
