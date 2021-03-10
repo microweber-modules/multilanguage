@@ -14,6 +14,8 @@ only_admin_access();
                     mw.notification.error('<?php _e('Language is disabled!'); ?>');
                 }
                 mw.reload_module_everywhere('multilanguage');
+
+
             });
         });
     });
@@ -26,12 +28,12 @@ only_admin_access();
     <table class="table table-striped">
         <thead>
             <tr>
-                <th style="min-width: 25px;"></th>
+<!--                <th style="min-width: 25px;"></th>-->
                 <th style="min-width: 50px;"><?php echo _e('Active'); ?></th>
                 <th><?php echo _e('Language'); ?></th>
                 <th><?php echo _e('Display as'); ?></th>
-                <th></th>
-                <th></th>
+                <th class="text-center"><?php echo _e('Reorder'); ?></th>
+                <th class="text-center"><?php echo _e('Actions'); ?></th>
             </tr>
         </thead>
         <tbody class="js-tbody-supported-locales">
@@ -43,7 +45,7 @@ only_admin_access();
                 foreach ($supportedLanguages as $language):
                     ?>
                     <tr class="js-browser-redirect-tr-<?php echo $language['locale']; ?> show-on-hover-root">
-                        <td class="text-center px-0" style="vertical-align: middle;"><span class="mdi mdi-cursor-move mdi-20px show-on-hover text-opacity-5"></span></td>
+<!--                        <td class="text-center px-0" style="vertical-align: middle;"><span class="mdi mdi-cursor-move mdi-20px show-on-hover text-opacity-5"></span></td>-->
 
                         <td class="text-center px-0" style="vertical-align: middle; width: 25px;">
                             <div class="custom-control custom-switch">
@@ -52,7 +54,7 @@ only_admin_access();
                                 <label class="custom-control-label" for="<?php echo $language['id']; ?>"></label>
                             </div>
                         </td>
-                        
+
                         <td style="vertical-align: middle;">
                             <div data-toggle="tooltip" title="<?php echo $language['language']; ?>">
                                 <i class="flag-icon flag-icon-<?php echo get_flag_icon($language['locale']); ?> mr-2"></i>
@@ -75,8 +77,8 @@ only_admin_access();
                             <?php endif; ?>
                         </td>
 
-                        <td class="text-right" style="vertical-align: middle;">
-                            <div class="show-on-hover d-flex justify-content-end">
+                        <td style="vertical-align: middle;">
+                            <div class="show-on-hover d-flex justify-content-center">
                                 <input class="js-supported-language-order-numbers js-supported-language-order-number-<?php echo $language['id']; ?>" name="<?php echo $language['id']; ?>" data-initial-value="<?php echo $isl; ?>" value="<?php echo $isl; ?>" type="number" style="display:none;font-size:22px;border: 0px;width: 35px;" min="1">
                                 <a href="javascript:;" onclick="updateOrderNumber(<?php echo $language['id']; ?>, 'down')"><span class="mw-icon-arrow-up-a js-update-order-number text-muted mx-1"></span></a>
                                 <a href="javascript:;" onclick="updateOrderNumber(<?php echo $language['id']; ?>, 'up')"><span class="mw-icon-arrow-down-a js-update-order-number text-muted"></span></a>
