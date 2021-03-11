@@ -131,16 +131,6 @@ function get_short_abr($locale)
     return strtolower($exp[0]);
 }
 
-function get_flag_icon($locale)
-{
-
-    $flagIcon = \MicroweberPackages\Translation\LanguageHelper::getLanguageFlag($locale);
-    if ($flagIcon) {
-        return $flagIcon;
-    }
-
-}
-
 function change_language_by_locale($locale, $set_cookie = true)
 {
     if (!is_cli() and $set_cookie) {
