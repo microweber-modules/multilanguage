@@ -18,8 +18,22 @@ class MultilanguageObserver
 
     public function retrieved(Model $model)
     {
+        $multilanguage = [];
+
+        /**
+         * Translatable module options
+         *  This will append translatable fields in model option
+         **/
+        if (strpos($model->getMorphClass(), 'ModuleOption') !== false) {
+            if (!empty($model->module)) {
+                $translatableModuleOptions = $this->getTranslatableModuleOptions();
+                if (isset($translatableModuleOptions[$model->module]) && in_array($model->option_key, $translatableModuleOptions[$model->module])) {
+                    $model->translatable = ['option_value'];
+                }
+            }
+        }
+
         if (!empty($model->translatable)) {
-            $multilanguage = [];
             foreach ($model->translatable as $fieldName) {
 
                 if (empty($model->$fieldName)) {
@@ -35,47 +49,18 @@ class MultilanguageObserver
                     foreach ($findTranslations as $findTranslate) {
                         $multilanguage[$findTranslate->locale][$fieldName] = $this->_decodeCastValue($model, $fieldName, $findTranslate->field_value);
                     }
-                }
-            }
-
-            $model->multilanguage = $multilanguage;
-            $model->makeHidden(['multilanguage']);
-
-        }
-
-        if ($this->getLocale() == $this->getDefaultLocale()) {
-            return;
-        }
-
-        // Translatable module options
-        if (strpos($model->getMorphClass(), 'ModuleOption') !== false) {
-            if (!empty($model->module)) {
-                $translatableModuleOptions = $this->getTranslatableModuleOptions();
-                if (isset($translatableModuleOptions[$model->module]) && in_array($model->option_key, $translatableModuleOptions[$model->module])) {
-                    $model->translatable = ['option_value'];
+                    // Replace model fields if the default lang is different from current lang
+                    if ($this->getLocale() !== $this->getDefaultLocale()) {
+                        if (isset($multilanguage[$this->getLocale()][$fieldName])) {
+                            $model->$fieldName = $multilanguage[$this->getLocale()][$fieldName];
+                        }
+                    }
                 }
             }
         }
 
-        // Replace fields
-        if (!empty($model->translatable)) {
-            foreach ($model->translatable as $fieldName) {
-
-                if (empty($model->$fieldName)) {
-                    continue;
-                }
-
-                $findTranslate = MultilanguageTranslations::where('field_name', $fieldName)
-                    ->where('rel_type', $model->getTable())
-                    ->where('rel_id', $model->id)
-                    ->where('locale', $this->getLocale())
-                    ->first();
-
-                if ($findTranslate) {
-                    $model->$fieldName = $this->_decodeCastValue($model, $fieldName, $findTranslate->field_value);
-                }
-            }
-        }
+        $model->multilanguage = $multilanguage;
+        $model->makeHidden(['multilanguage', 'translatable']);
     }
 
     public function saving(Model $model)

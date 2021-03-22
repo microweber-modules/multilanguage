@@ -22,6 +22,7 @@ use MicroweberPackages\Option\Models\ModuleOption;
 use MicroweberPackages\Page\Models\Page;
 use MicroweberPackages\Post\Models\Post;
 use MicroweberPackages\Product\Models\Product;
+use MicroweberPackages\Form\FormElementBuilder;
 
 class MultilanguageServiceProvider extends ServiceProvider
 {
@@ -36,6 +37,11 @@ class MultilanguageServiceProvider extends ServiceProvider
             return;
         }
 
+        // Check multilanguage is active
+        if (is_module('multilanguage') && get_option('is_active', 'multilanguage_settings') !== 'y') {
+            return;
+        }
+
         Content::observe(MultilanguageObserver::class);
         Category::observe(MultilanguageObserver::class);
         Post::observe(MultilanguageObserver::class);
@@ -45,6 +51,10 @@ class MultilanguageServiceProvider extends ServiceProvider
         MailTemplate::observe(MultilanguageObserver::class);
         CustomField::observe(MultilanguageObserver::class);
         CustomFieldValue::observe(MultilanguageObserver::class);
+
+        $this->app->bind(FormElementBuilder::class, function ($app) {
+            return new MultilanguageFormElementBuilder();
+        });
 
         $this->loadMigrationsFrom(__DIR__ . '/migrations/');
     }
