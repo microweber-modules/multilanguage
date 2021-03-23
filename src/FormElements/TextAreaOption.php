@@ -47,8 +47,6 @@ class TextAreaOption extends \MicroweberPackages\Form\Elements\TextAreaOption
                             $showTab = 'show active';
                         }
 
-                        dd($modelAttributes['multilanguage']);
-
                         $textareaValue = '';
 
                         if (isset($modelAttributes['multilanguage'])) {

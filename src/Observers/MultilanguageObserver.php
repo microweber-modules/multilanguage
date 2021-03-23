@@ -41,6 +41,8 @@ class MultilanguageObserver
                     continue;
                 }
 
+                $multilanguage[$this->getDefaultLocale()][$fieldName] = $model->$fieldName;
+
                 $findTranslations = MultilanguageTranslations::where('field_name', $fieldName)
                     ->where('rel_type', $model->getTable())
                     ->where('rel_id', $model->id)
