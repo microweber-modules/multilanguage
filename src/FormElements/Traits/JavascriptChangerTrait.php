@@ -8,6 +8,7 @@ trait JavascriptChangerTrait
     {
         $html = '  <script>
                     function runMlField' . $this->randId . '() {
+                        var defaultLang = "'.$this->defaultLanguage.'";
                         var selectLang = document.getElementById("js-multilanguage-select-lang-' . $this->randId . '");
                         selectLang.value = "'.$this->defaultLanguage.'";
                         selectLang.addEventListener("change", (event) => {
@@ -15,7 +16,9 @@ trait JavascriptChangerTrait
                           var currentLangSelected = selectLang.value;
                           var currentTextLang =  document.querySelector(".js-multilanguage-value-lang-' . $this->randId . '[lang="+currentLangSelected+"]");
 
-                          inputText.setAttribute("lang", currentLangSelected);
+                          if (defaultLang !== currentLangSelected) {
+                            inputText.setAttribute("lang", currentLangSelected);
+                          }
                           inputText.value = currentTextLang.value;
                         });
                         var inputText = document.getElementById("js-multilanguage-text-' . $this->randId . '");

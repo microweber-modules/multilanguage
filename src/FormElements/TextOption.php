@@ -5,6 +5,11 @@ use MicroweberPackages\Multilanguage\FormElements\Traits\JavascriptChangerTrait;
 
 class TextOption extends \MicroweberPackages\Form\Elements\TextOption
 {
+    protected $attributes = [
+        'type' => 'text',
+        'class'=>'form-control mw_option_field '
+    ];
+
     public $randId;
     public $defaultLanguage;
 
@@ -18,10 +23,9 @@ class TextOption extends \MicroweberPackages\Form\Elements\TextOption
         $supportedLanguages = get_supported_languages(true);
 
         $modelAttributes = [];
-        $model = \MicroweberPackages\Option\Models\ModuleOption::where('option_key', $this->optionKey)->where('option_group', $this->optionGroup)->first();
-        if ($model) {
-            $modelAttributes = $model->getAttributes();
-            $inputValue = $model->option_value;
+        if ($this->model) {
+            $modelAttributes = $this->model->getAttributes();
+            $inputValue = $this->model->option_value;
             $this->setValue($inputValue);
         }
 
@@ -32,11 +36,11 @@ class TextOption extends \MicroweberPackages\Form\Elements\TextOption
         $html .= '<div class="input-group mb-3 append-transparent"><input type="text" '.$this->renderAttributes().' id="js-multilanguage-text-' . $this->randId . '">';
 
         foreach($supportedLanguages as $language) {
-            $value = $inputValue;
+            $value = '';
             if (isset($modelAttributes['multilanguage'])) {
                 foreach ($modelAttributes['multilanguage'] as $locale => $multilanguageFields) {
                     if ($locale == $language['locale']) {
-                        $value = $multilanguageFields[key($multilanguageFields)];
+                        $value = $multilanguageFields['option_value'];
                         break;
                     }
                 }

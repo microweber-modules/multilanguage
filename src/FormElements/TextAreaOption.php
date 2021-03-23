@@ -13,6 +13,11 @@ class TextAreaOption extends \MicroweberPackages\Form\Elements\TextAreaOption
 
         $supportedLanguages = get_supported_languages(true);
 
+        $modelAttributes = [];
+        if ($this->model) {
+            $modelAttributes = $this->model->getAttributes();
+        }
+
         $html = ' <div class="bs-component">
                 <nav class="nav nav-pills nav-justified btn-group btn-group-toggle btn-hover-style-1">
                 ';
@@ -37,8 +42,22 @@ class TextAreaOption extends \MicroweberPackages\Form\Elements\TextAreaOption
                         if ($this->defaultLanguage == $language['locale']) {
                             $showTab = 'show active';
                         }
+
+                        $textareaValue = '';
+                        if ($this->model) {
+                            $textareaValue = $this->model->option_value;
+                        }
+
+                        if (isset($modelAttributes['multilanguage'])) {
+                            foreach ($modelAttributes['multilanguage'] as $locale => $multilanguageFields) {
+                                if ($locale == $language['locale']) {
+                                    $textareaValue = $multilanguageFields['option_value'];
+                                }
+                            }
+                        }
+
                         $html .= '<div class="tab-pane fade '.$showTab.'" id="' . $this->randId . $language['locale'] . '">
-                                   <textarea onchange="applyMlFieldChanges(this)" lang="'.$language['locale'] . '" class="form-control">'.$language['locale'] . '</textarea>
+                                   <textarea onchange="applyMlFieldChanges(this)" lang="'.$language['locale'] . '" class="form-control">'.$textareaValue . '</textarea>
                                    </div>';
                     }
 
