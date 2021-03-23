@@ -24,7 +24,7 @@ trait JavascriptChangerTrait
                             var currentTextLang =  document.querySelector(".js-multilanguage-value-lang-' . $this->randId . '[lang="+currentLangSelected+"]");
                             currentTextLang.value = inputText.value;
                         });
-                        
+
                         var changeEvent = new Event("change");
                         selectLang.dispatchEvent(changeEvent);
                     }
