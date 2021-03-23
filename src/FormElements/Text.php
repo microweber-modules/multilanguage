@@ -8,6 +8,7 @@ class Text extends \MicroweberPackages\Form\Elements\Text
 
         $inputName = $this->getAttribute('name');
 
+        $defaultLanguage = mw()->lang_helper->default_lang();
         $supportedLanguages = get_supported_languages(true);
 
         $attributes = [];
@@ -46,8 +47,13 @@ class Text extends \MicroweberPackages\Form\Elements\Text
                     $this->setAttribute('lang', $language['locale']);
                     $this->setAttribute('name', $inputName);
 
-                    $html .= '<input type="text" '.$this->renderAttributes().'
-                            id="js-multilanguage-text-' . $randId . '" value="">';
+                    if ($language['locale'] != $defaultLanguage) {
+                        $this->setAttribute('style', 'display:none');
+                    } else {
+                        $this->setAttribute('style', 'display:block');
+                    }
+
+                    $html .= '<input type="text" '.$this->renderAttributes().' id="js-multilanguage-text-' . $randId . '" value="">';
                 }
 
                 $html .= '

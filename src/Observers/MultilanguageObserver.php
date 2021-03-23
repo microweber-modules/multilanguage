@@ -14,6 +14,7 @@ use MicroweberPackages\Multilanguage\Models\MultilanguageTranslations;
 
 class MultilanguageObserver
 {
+    protected static $langToSave = false;
     protected static $fieldsToSave = [];
 
     public function retrieved(Model $model)
@@ -69,7 +70,14 @@ class MultilanguageObserver
             unset($model->multilanguage);
         }
 
-        if ($this->getLocale() == $this->getDefaultLocale()) {
+        $langToSave = $this->getLocale();
+        if (isset($model->lang)) {
+            self::$langToSave = $model->lang;
+            $langToSave = $model->lang;
+            unset($model->lang);
+        }
+
+        if ($langToSave == $this->getDefaultLocale()) {
             return;
         }
 
@@ -102,7 +110,12 @@ class MultilanguageObserver
      */
     public function saved(Model $model)
     {
-        if ($this->getLocale() == $this->getDefaultLocale()) {
+        $langToSave = $this->getLocale();
+        if (self::$langToSave) {
+            $langToSave = self::$langToSave;
+        }
+
+        if ($langToSave == $this->getDefaultLocale()) {
             return;
         }
 
@@ -112,7 +125,7 @@ class MultilanguageObserver
                 $findTranslate = MultilanguageTranslations::where('field_name', $fieldName)
                     ->where('rel_type', $model->getTable())
                     ->where('rel_id', $model->id)
-                    ->where('locale', $this->getLocale())
+                    ->where('locale', $langToSave)
                     ->first();
 
                 $fieldValue = self::$fieldsToSave[$fieldName];
@@ -130,7 +143,7 @@ class MultilanguageObserver
                             'field_value' => $fieldValue,
                             'rel_type' => $model->getTable(),
                             'rel_id' => $model->id,
-                            'locale' => $this->getLocale()
+                            'locale' => $langToSave
                         ]);
                     }
                 }
@@ -152,12 +165,12 @@ class MultilanguageObserver
 
     protected function getDefaultLocale()
     {
-        return strtolower(mw()->lang_helper->default_lang());
+        return mw()->lang_helper->default_lang();
     }
 
     protected function getLocale()
     {
-        return strtolower(mw()->lang_helper->current_lang());
+        return mw()->lang_helper->current_lang();
     }
 
     private function _catValue($model, $fieldName, $fieldValue, $type = 'encode')
