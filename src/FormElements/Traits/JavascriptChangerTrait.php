@@ -16,9 +16,11 @@ trait JavascriptChangerTrait
                           var currentLangSelected = selectLang.value;
                           var currentTextLang =  document.querySelector(".js-multilanguage-value-lang-' . $this->randId . '[lang="+currentLangSelected+"]");
 
+                          /*
                           if (defaultLang !== currentLangSelected) {
                             inputText.setAttribute("lang", currentLangSelected);
-                          }
+                          }*/
+                          inputText.setAttribute("lang", currentLangSelected);
                           inputText.value = currentTextLang.value;
                         });
                         var inputText = document.getElementById("js-multilanguage-text-' . $this->randId . '");
