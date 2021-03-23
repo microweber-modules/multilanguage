@@ -10,7 +10,11 @@ class Text extends \MicroweberPackages\Form\Elements\Text
 
         $supportedLanguages = get_supported_languages(true);
 
-       $attributes = $this->getModel()->getAttributes();
+        $attributes = [];
+        $model = $this->getModel();
+        if ($model) {
+            $attributes = $model->getAttributes();
+        }
 
        $randId = random_int(111,999).time();
 
@@ -39,11 +43,8 @@ class Text extends \MicroweberPackages\Form\Elements\Text
 
                 foreach($supportedLanguages as $language) {
 
-                    $this->setAttribute('name', http_build_query([
-                        'multilanguageFields'=>1,
-                        'locale'=>$language['locale'],
-                        'fieldName'=>$inputName
-                    ]));
+                    $this->setAttribute('lang', $language['locale']);
+                    $this->setAttribute('name', $inputName);
 
                     $html .= '<input type="text" '.$this->renderAttributes().'
                             id="js-multilanguage-text-' . $randId . '" value="">';
