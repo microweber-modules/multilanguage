@@ -1,67 +1,125 @@
-# Microweber: Multilanguage Module
-![Screenshot](https://raw.githubusercontent.com/microweber-modules/multilanguage/master/screenshot.png)
+# Multilanguage Module
 
+[https://github.com/microweber-modules/multilanguage](https://github.com/microweber-modules/multilanguage)
 
-# What is multilanguage module?
-The module allows you to crate dynamic drag & drop multilanguage websites.
-You can create a admin options, settings, posts, categories and all content on a multiple languages.
+**What is multilanguage module?**
 
-# Features
-- Translate Pages
-- Translate Posts
-- Translate Categories
-- Custom Admin Settings For Diffrent Languages
-- Custom Post Images For Diffrent Languages
-- Custom Page Images For Diffrent Languages
-- Custom Module Settings For Diffrent Languages
-- Custom Sort Languages
-- Switch Language By GeoLocation
-- Detect Language By Browser  Client 
-- Detect Geo Location Language By Microweber Geo Api
-- Detect Geo Location Language By IpStack.com Integration
+The multilingual module allows you to create and maintain websites in more than one language. Moreover, you can use this module to manage the admin panel in one or more language versions.
 
-# How to install?
+You can use the Multilanguage module in order to support multilanguage website on few different languages.
 
-+ First method.
-1. Make sure you have installed "Microweber website", if you dont have just go to https://microweber.org/download and download the latest version.
-2. Open your "Microweber Website Admin".
-3. Go to "Settings(On the left sidebar tab) > Marketplace".
-4. Click on left bar to filter only modules.
-5. Find the "Multilanguage Module" & click to install it the latest version.
-![Screenshot](https://raw.githubusercontent.com/microweber/microweber-docs/master/assets/multilanguage/mw-marketplace.png)
-6. Go to "My Modules(On the left sidebar tab)" and find the "Multilanguage Module" and open it.
-![Screenshot](https://raw.githubusercontent.com/microweber/microweber-docs/master/assets/multilanguage/mw-modules-reload-modules.png)
-7. Click the settings tab and activate the module.
-![Screenshot](https://raw.githubusercontent.com/microweber/microweber-docs/master/assets/multilanguage/ml-activation.png)
+Or you can use the multilanguage module for the Admin Panel – to work in an exact language you want.
 
-+ Second method.
-1. Download the zip of this repository. https://github.com/microweber-modules/multilanguage/archive/master.zip
+**Features**
 
-![Screenshot](https://raw.githubusercontent.com/microweber/microweber-docs/master/assets/multilanguage/git-download.png)
+Automatic installation
 
-2. Open the FTP of your "Microweber website".
-3. Open the directory "userfiles/modules".
-4. Unzip the "Multilanguage module" on the directory "userfiles/modules".
-5. Open your "Microweber Website Admin"
-6. Go to "Modules" reload modules and find the "Multilanguage Module" and open it.
-![Screenshot](https://raw.githubusercontent.com/microweber/microweber-docs/master/assets/multilanguage/mw-modules-reload-modules.png)
-7. Click the "Settings tab" and activate the module.
-![Screenshot](https://raw.githubusercontent.com/microweber/microweber-docs/master/assets/multilanguage/ml-activation.png)
+35 languages support on 99%
 
+Admin Panel on different languages
 
-# How it works?
+ Dynamic content with:
 
-# Make website multilanguage from live edit
-![Screenshot](https://raw.githubusercontent.com/microweber/microweber-docs/master/assets/multilanguage/live-edit-multilanguage.gif)
+- Custom settings for different languages
+- Custom Post imagen for different language version
+- Custom Page images for different language version
+- Custom Moles settings for different languages
+- Reordering of the languages
+- Switch Language by GeoLocation
+- Detect Language by Browser Client
+- Detect Geo Location Language by Microweber Geo Api
+- Detect Geo Location Language by IpStack.com Integration
 
-# Edit custom page from live edit 
-![Screenshot](https://raw.githubusercontent.com/microweber/microweber-docs/master/assets/multilanguage/live-edit-page-multilanguage.gif)
+Multilanguage&#39;s dynamic websites and online stores
 
-# Make post multilanguage from admin
-![Screenshot](https://raw.githubusercontent.com/microweber/microweber-docs/master/assets/multilanguage/admin-post-edit.gif)
+ Display custom name and icon / flags
 
-# Edit custom fields from live edit
-![Screenshot](https://raw.githubusercontent.com/microweber/microweber-docs/master/assets/multilanguage/customfields-live-edit-multilanguage.gif)
+**How to Install?**
 
-# Display custom name and icon
-![Screenshot](https://raw.githubusercontent.com/microweber/microweber-docs/master/assets/multilanguage/dispaly-icon-multinaguage.gif)
+To install Multilanguage Module in your Microweber CMS installation is VERY EASY!
+
+We have prepared an automatic download and installation function in the admin panel.
+
+Follow the steps to make the easy install:
+
+Open your Admin panel (ex: [www.yourwebsite.com/admin](http://www.yourwebsite.com/admin))
+
+In the admin panel go to Website -\&gt; Settings -\&gt; Language
+
+![](RackMultipart20210323-4-5nrkna_html_4fccf4a236aa2cb8.png)
+
+If you don&#39;t have installed Multilanguage module, you will see the green button called &quot;Install Multilanguage Module&quot;
+
+![](RackMultipart20210323-4-5nrkna_html_4c77604bd17b59ef.png)
+
+Click on it and the CMS will download and install automatically the multilanguage modules for you!
+
+After the installation complete, you need to confirm in this modal window
+
+![](RackMultipart20210323-4-5nrkna_html_c8167399bd00cc1c.png)
+
+**VOILÀ**!
+
+You are admin panel and website support Multilanguage&#39;s
+
+You can add new language by clicking the &quot;Manage Multilanguage&quot; blue button
+
+![](RackMultipart20210323-4-5nrkna_html_3f4949f4f6c3c21.png)
+
+The modal screen will upear allowing you to add new language. Here is how to do that:
+ - Select the language you want to add (from **add new language** field) and click the **&quot;Add&quot;** button
+
+The selected language will upper with his flag and locale.
+
+You can add as many languages you want.
+
+![](RackMultipart20210323-4-5nrkna_html_68c8fdf03bdf7388.png)
+
+After finishing with adding languages, you can close this window.
+
+The same settings and adding languages is available in the Multilanguage modules.
+
+You can find it in the admin here: Modules -\&gt; Multilanguage
+
+![](RackMultipart20210323-4-5nrkna_html_55b9712b969a7a31.png)
+
+How to change the language of your admin panel?
+
+It&#39;s easy, just select the language on you want to switch from the flag button at the top of the Admin panel here:
+
+![](RackMultipart20210323-4-5nrkna_html_f9da0c78dbe55715.png)
+
+Here is for example I want to see the CMS on Bulgarian language and all I need to do it just to switch on it.
+
+![](RackMultipart20210323-4-5nrkna_html_4b014e8c39a67a4d.png)
+
+! Important
+ If you are not able to see the changes on the language that you add and select, this means simply
+
+That there is no translation available for this language.
+
+Here are the languages we support for now and they are available here:
+
+![](RackMultipart20210323-4-5nrkna_html_9c2b74bee1742db0.png)
+
+[https://crowdin.com/project/microweber-cms](https://crowdin.com/project/microweber-cms)
+
+So, guys, I you can see to work with Multilanguage in Microwber is easy as a child game.
+
+You should know that, once installed the Multilanguage module will start upper on different
+
+Other modules, which we think will be important for you also to be translatable and support Multilanguage.
+
+A good example is the Contact Us form (or each other form)
+
+If you have multilanguage installed and setup your contact form to send &quot;Auto-respond&quot; messages
+
+Then you probably will want the user that will receive the auto respond to be on
+
+The same language as when the form is submitted.
+
+Here is a short video of 3 min – How to install and work with Multilanguage Module.
+
+https://www.youtube.com/watch?v=TaPPeJHnt8E
+
+Cheers!
