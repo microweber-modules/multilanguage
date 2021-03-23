@@ -1,24 +1,8 @@
 <?php
 namespace MicroweberPackages\Multilanguage\FormElements;
 
-class TextOption extends \MicroweberPackages\Form\Elements\Text
+class TextOption extends \MicroweberPackages\Form\Elements\TextOption
 {
-    public $optionKey;
-    public $optionGroup;
-
-    public $attributes = [
-        'class'=>'form-control mw_option_field',
-    ];
-
-    public function __construct($optionKey, $optionGroup) {
-
-        $this->optionKey = $optionKey;
-        $this->optionGroup = $optionGroup;
-
-        $this->setName($optionKey);
-        $this->setAttribute('option-group', $optionGroup);
-    }
-
     public function render()
     {
         $inputValue = '';
@@ -31,14 +15,16 @@ class TextOption extends \MicroweberPackages\Form\Elements\Text
         if ($model) {
             $modelAttributes = $model->getAttributes();
             $inputValue = $model->option_value;
+            $this->setValue($inputValue);
         }
 
        $randId = random_int(111,999).time();
 
         $html = '
                 <script>
-                    function runMlField() {
+                    function runMlField' . $randId . '() {
                         var selectLang = document.getElementById("js-multilanguage-select-lang-' . $randId . '");
+                        selectLang.value = "'.$defaultLanguage.'";
                         selectLang.addEventListener("change", (event) => {
                           var inputText = document.getElementById("js-multilanguage-text-' . $randId . '");
                           var currentLangSelected = selectLang.value;
@@ -47,14 +33,20 @@ class TextOption extends \MicroweberPackages\Form\Elements\Text
                           inputText.setAttribute("lang", currentLangSelected);
                           inputText.value = currentTextLang.value;
                         });
+                        var inputText = document.getElementById("js-multilanguage-text-' . $randId . '");
+                        inputText.addEventListener("change", (event) => {
+                            var currentLangSelected = selectLang.value;
+                            var currentTextLang =  document.querySelector(".js-multilanguage-value-lang-' . $randId . '[lang="+currentLangSelected+"]");
+                            currentTextLang.value = inputText.value;
+                        });
                     }
-                    runMlField();
+                    runMlField' . $randId . '();
                 </script>
 
                 <div class="input-group mb-3 append-transparent">
                 ';
 
-                $html .= '<input type="text" '.$this->renderAttributes().' id="js-multilanguage-text-' . $randId . '" value="">';
+                $html .= '<input type="text" '.$this->renderAttributes().' id="js-multilanguage-text-' . $randId . '">';
 
                 foreach($supportedLanguages as $language) {
                     $value = $inputValue;
@@ -71,13 +63,14 @@ class TextOption extends \MicroweberPackages\Form\Elements\Text
 
                 $html .= '
                 <div class="input-group-append">
-                    <span style="width:70px;">
+                    <span>
                         <select class="selectpicker"  id="js-multilanguage-select-lang-'.$randId.'" data-width="100%">';
 
-                    foreach($supportedLanguages as $language) {
-                        $flagIcon = "<i class='flag-icon flag-icon-".$language['icon']."' style='font-size:18px'></i>";
-                        $html .= '<option data-content="'.$flagIcon.'" value="'.$language['locale'].'"></option>';
-                    }
+                            foreach($supportedLanguages as $language) {
+                                $langData = \MicroweberPackages\Translation\LanguageHelper::getLangData($language['locale']);
+                                $flagIcon = "<i class='flag-icon flag-icon-".$language['icon']."'></i> " . strtoupper($langData['language']);
+                                $html .= '<option data-content="'.$flagIcon.'" value="'.$language['locale'].'"></option>';
+                            }
 
        $html .= '</select>
                    </span>
