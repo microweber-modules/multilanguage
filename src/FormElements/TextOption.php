@@ -37,7 +37,7 @@ class TextOption extends \MicroweberPackages\Form\Elements\TextOption
 
         $html = $this->getJavaScript();
 
-        $html .= '<div class="input-group mb-3 prepend-transparent append-transparent">
+        $html .= '<div class="input-group mb-3">
 
         <div class="input-group-prepend">
             <span>
@@ -55,6 +55,8 @@ class TextOption extends \MicroweberPackages\Form\Elements\TextOption
 
         <input type="text" '.$this->renderAttributes().' id="js-multilanguage-text-' . $this->randId . '">';
 
+        $html .= '</div>';
+
         foreach($supportedLanguages as $language) {
             $value = '';
             if (isset($modelAttributes['multilanguage'])) {
@@ -67,10 +69,6 @@ class TextOption extends \MicroweberPackages\Form\Elements\TextOption
             }
             $html .= '<input type="hidden" class="js-multilanguage-value-lang-'.$this->randId.'"  lang="'.$language['locale'].'" value="'.$value.'">';
         }
-
-        $html .= '
-
-    </div>';
 
        return $html;
     }
