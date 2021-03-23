@@ -1,7 +1,7 @@
 <?php
 namespace MicroweberPackages\Multilanguage\FormElements;
 
-class TextAreaOption extends \MicroweberPackages\Form\Elements\TextAreaOption
+class TextArea extends \MicroweberPackages\Form\Elements\TextArea
 {
     public $randId;
 
@@ -10,6 +10,8 @@ class TextAreaOption extends \MicroweberPackages\Form\Elements\TextAreaOption
 
     public function render()
     {
+        $fieldName = $this->getAttribute('name');
+
         $this->currentLanguage = mw()->lang_helper->current_lang();
         $this->defaultLanguage = mw()->lang_helper->default_lang();
 
@@ -52,13 +54,15 @@ class TextAreaOption extends \MicroweberPackages\Form\Elements\TextAreaOption
                         if (isset($modelAttributes['multilanguage'])) {
                             foreach ($modelAttributes['multilanguage'] as $locale => $multilanguageFields) {
                                 if ($locale == $language['locale']) {
-                                    $textareaValue = $multilanguageFields['option_value'];
+                                    if (isset($multilanguageFields[$fieldName])) {
+                                        $textareaValue = $multilanguageFields[$fieldName];
+                                    }
                                 }
                             }
                         }
 
                         $html .= '<div class="tab-pane fade '.$showTab.'" id="' . $this->randId . $language['locale'] . '">
-                                   <textarea onchange="applyMlFieldChanges(this)" lang="'.$language['locale'] . '" class="form-control">'.$textareaValue . '</textarea>
+                                   <textarea name="multilanguage['.$fieldName.']['.$language['locale'].']" onchange="applyMlFieldChanges(this)" lang="'.$language['locale'] . '" class="form-control">'.$textareaValue . '</textarea>
                                    </div>';
                     }
 
