@@ -37,7 +37,23 @@ class TextOption extends \MicroweberPackages\Form\Elements\TextOption
 
         $html = $this->getJavaScript();
 
-        $html .= '<div class="input-group mb-3 append-transparent"><input type="text" '.$this->renderAttributes().' id="js-multilanguage-text-' . $this->randId . '">';
+        $html .= '<div class="input-group mb-3 prepend-transparent append-transparent">
+
+        <div class="input-group-prepend">
+            <span>
+                <select class="selectpicker"  id="js-multilanguage-select-lang-'.$this->randId.'" data-width="100%">';
+
+        foreach($supportedLanguages as $language) {
+            $langData = \MicroweberPackages\Translation\LanguageHelper::getLangData($language['locale']);
+            $flagIcon = "<i class='flag-icon flag-icon-".$language['icon']."'></i> " . strtoupper($langData['language']);
+            $html .= '<option data-content="'.$flagIcon.'" value="'.$language['locale'].'"></option>';
+        }
+
+        $html .= '</select>
+           </span>
+        </div>
+
+        <input type="text" '.$this->renderAttributes().' id="js-multilanguage-text-' . $this->randId . '">';
 
         foreach($supportedLanguages as $language) {
             $value = '';
@@ -53,19 +69,7 @@ class TextOption extends \MicroweberPackages\Form\Elements\TextOption
         }
 
         $html .= '
-        <div class="input-group-append">
-            <span>
-                <select class="selectpicker"  id="js-multilanguage-select-lang-'.$this->randId.'" data-width="100%">';
 
-                    foreach($supportedLanguages as $language) {
-                        $langData = \MicroweberPackages\Translation\LanguageHelper::getLangData($language['locale']);
-                        $flagIcon = "<i class='flag-icon flag-icon-".$language['icon']."'></i> " . strtoupper($langData['language']);
-                        $html .= '<option data-content="'.$flagIcon.'" value="'.$language['locale'].'"></option>';
-                    }
-
-            $html .= '</select>
-           </span>
-        </div>
     </div>';
 
        return $html;
