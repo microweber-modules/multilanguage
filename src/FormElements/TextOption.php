@@ -37,6 +37,11 @@ class TextOption extends \MicroweberPackages\Form\Elements\TextOption
 
         foreach($supportedLanguages as $language) {
             $value = '';
+            if ($this->defaultLanguage == $language['locale']) {
+                if ($this->model) {
+                    $value = $this->model->option_value;
+                }
+            }
             if (isset($modelAttributes['multilanguage'])) {
                 foreach ($modelAttributes['multilanguage'] as $locale => $multilanguageFields) {
                     if ($locale == $language['locale']) {
