@@ -11,6 +11,8 @@ class TextOption extends \MicroweberPackages\Form\Elements\TextOption
     ];
 
     public $randId;
+
+    public $currentLanguage;
     public $defaultLanguage;
 
     use JavascriptChangerTrait;
@@ -19,7 +21,9 @@ class TextOption extends \MicroweberPackages\Form\Elements\TextOption
     {
         $inputValue = '';
 
+        $this->currentLanguage = mw()->lang_helper->current_lang();
         $this->defaultLanguage = mw()->lang_helper->default_lang();
+
         $supportedLanguages = get_supported_languages(true);
 
         $modelAttributes = [];
@@ -37,11 +41,6 @@ class TextOption extends \MicroweberPackages\Form\Elements\TextOption
 
         foreach($supportedLanguages as $language) {
             $value = '';
-            if ($this->defaultLanguage == $language['locale']) {
-                if ($this->model) {
-                    $value = $this->model->option_value;
-                }
-            }
             if (isset($modelAttributes['multilanguage'])) {
                 foreach ($modelAttributes['multilanguage'] as $locale => $multilanguageFields) {
                     if ($locale == $language['locale']) {

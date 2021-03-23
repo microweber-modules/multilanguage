@@ -4,11 +4,15 @@ namespace MicroweberPackages\Multilanguage\FormElements;
 class TextAreaOption extends \MicroweberPackages\Form\Elements\TextAreaOption
 {
     public $randId;
+
+    public $currentLanguage;
     public $defaultLanguage;
 
     public function render()
     {
+        $this->currentLanguage = mw()->lang_helper->current_lang();
         $this->defaultLanguage = mw()->lang_helper->default_lang();
+
         $this->randId = random_int(111,999).time();
 
         $supportedLanguages = get_supported_languages(true);
@@ -25,7 +29,7 @@ class TextAreaOption extends \MicroweberPackages\Form\Elements\TextAreaOption
                 foreach($supportedLanguages as $language) {
 
                     $showTab= '';
-                    if ($this->defaultLanguage == $language['locale']) {
+                    if ($this->currentLanguage == $language['locale']) {
                         $showTab = 'active';
                     }
 
@@ -39,14 +43,13 @@ class TextAreaOption extends \MicroweberPackages\Form\Elements\TextAreaOption
                 ';
                     foreach($supportedLanguages as $language) {
                         $showTab= '';
-                        if ($this->defaultLanguage == $language['locale']) {
+                        if ($this->currentLanguage == $language['locale']) {
                             $showTab = 'show active';
                         }
 
+                        dd($modelAttributes['multilanguage']);
+
                         $textareaValue = '';
-                        if ($this->model) {
-                            $textareaValue = $this->model->option_value;
-                        }
 
                         if (isset($modelAttributes['multilanguage'])) {
                             foreach ($modelAttributes['multilanguage'] as $locale => $multilanguageFields) {
