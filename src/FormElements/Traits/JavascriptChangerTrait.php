@@ -36,7 +36,9 @@ trait JavascriptChangerTrait
                         var changeEvent = new Event("change");
                         selectLang.dispatchEvent(changeEvent);
                     }
-                    runMlField' . $this->randId . '();
+                    window.onload = function() {
+                         runMlField' . $this->randId . '();
+                    };
                 </script>';
 
         return $html;
