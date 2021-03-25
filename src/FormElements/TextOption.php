@@ -44,15 +44,21 @@ class TextOption extends \MicroweberPackages\Form\Elements\TextOption
                 <select class="selectpicker" id="js-multilanguage-select-lang-'.$this->randId.'" data-width="100%">';
 
         foreach($supportedLanguages as $language) {
+            $selected = '';
+            if ($this->currentLanguage == $language['locale']) {
+                $selected = 'selected="selected"';
+            }
+
             $langData = \MicroweberPackages\Translation\LanguageHelper::getLangData($language['locale']);
             $flagIcon = "<i class='flag-icon flag-icon-".$language['icon']."'></i> " . strtoupper($langData['language']);
-            $html .= '<option data-content="'.$flagIcon.'" value="'.$language['locale'].'"></option>';
+            $html .= '<option '.$selected.' data-content="'.$flagIcon.'" value="'.$language['locale'].'"></option>';
         }
+
+        $this->lang($this->currentLanguage);
 
         $html .= '</select>
            </span>
         </div>
-
         <input type="text" '.$this->renderAttributes().' id="js-multilanguage-text-' . $this->randId . '">';
 
         $html .= '</div>';
