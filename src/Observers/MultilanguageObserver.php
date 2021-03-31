@@ -95,7 +95,7 @@ class MultilanguageObserver
 
         if (!empty($model->translatable)) {
             foreach ($model->translatable as $fieldName) {
-                self::$fieldsToSave[$fieldName] = $model->$fieldName;
+                self::$fieldsToSave[$model->getTable()][$fieldName] = $model->$fieldName;
                 $fieldValue = $model->getOriginal($fieldName);
                 if (!empty($fieldValue)) {
                     $model->$fieldName = $fieldValue;
@@ -124,13 +124,17 @@ class MultilanguageObserver
         if (!empty($model->translatable)) {
             foreach ($model->translatable as $fieldName) {
 
+                if (!isset(self::$fieldsToSave[$model->getTable()][$fieldName])) {
+                    continue;
+                }
+
                 $findTranslate = MultilanguageTranslations::where('field_name', $fieldName)
                     ->where('rel_type', $model->getTable())
                     ->where('rel_id', $model->id)
                     ->where('locale', $langToSave)
                     ->first();
 
-                $fieldValue = self::$fieldsToSave[$fieldName];
+                $fieldValue = self::$fieldsToSave[$model->getTable()][$fieldName];
                 $fieldValue = $this->_encodeCastValue($model, $fieldName, $fieldValue);
 
                 if ($findTranslate) {
