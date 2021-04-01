@@ -72,6 +72,11 @@ class MultilanguageObserver
             unset($model->multilanguage);
         }
 
+        // Bug with custom field value
+        if (strpos($model->getMorphClass(), 'CustomFieldValue') !== false) {
+            return;
+        }
+
         $langToSave = $this->getLocale();
         if (isset($model->lang)) {
             self::$langToSave = $model->lang;
@@ -118,6 +123,11 @@ class MultilanguageObserver
         }
 
         if ($langToSave == $this->getDefaultLocale()) {
+            return;
+        }
+
+        // Bug with custom field value
+        if (strpos($model->getMorphClass(), 'CustomFieldValue') !== false) {
             return;
         }
 
