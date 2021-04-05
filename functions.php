@@ -170,9 +170,9 @@ function add_supported_language($locale, $language)
         $findSupportedLocales->position = $position;
     }
 
-    $findSupportedLocales->save();
+    $findSupportedLocales->save(); 
 
-
+/*
     $insertTranslationText = new \MicroweberPackages\Translation\Models\TranslationText();
     $insertTranslationTextCount = $insertTranslationText->where('translation_locale', $locale)->count();
 
@@ -184,7 +184,7 @@ function add_supported_language($locale, $language)
         } catch (Exception $e) {
             // Can't install
         }
-    }
+    }*/
 
     return $findSupportedLocales->id;
 }
