@@ -170,7 +170,7 @@ function add_supported_language($locale, $language)
         $findSupportedLocales->position = $position;
     }
 
-    $findSupportedLocales->save(); 
+    $findSupportedLocales->save();
 
 /*
     $insertTranslationText = new \MicroweberPackages\Translation\Models\TranslationText();
