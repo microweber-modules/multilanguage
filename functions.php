@@ -136,7 +136,6 @@ function change_language_by_locale($locale, $set_cookie = true)
     if (!is_cli() and $set_cookie) {
         $skip = false;
 
-
          $cookie = \Cookie::get('lang');
         if ($cookie and $cookie == $locale) {
             $skip = true;
@@ -145,6 +144,16 @@ function change_language_by_locale($locale, $set_cookie = true)
            setcookie('lang', $locale, time() + (86400 * 30), "/");
             $_COOKIE['lang'] = $locale;
             \Cookie::queue('lang', $locale, 86400 * 30);
+
+            $getSupportedLocalesQuery = \MicroweberPackages\Multilanguage\Models\MultilanguageSupportedLocales::query();
+            $getSupportedLocalesQuery->where('is_active', 'y');
+            $getSupportedLocalesQuery->where('locale', $locale);
+            $executeQuery = $getSupportedLocalesQuery->first();
+            if ($executeQuery != null) {
+                setcookie('lang_display', $executeQuery->display_locale, time() + (86400 * 30), "/");
+                $_COOKIE['lang_display'] = $executeQuery->display_locale;
+                \Cookie::queue('lang_display', $executeQuery->display_locale, 86400 * 30);
+            }
         }
     }
 
